@@ -1,0 +1,114 @@
+.profile-div{
+	width: 95%;
+	margin: 0 auto;
+}
+.profile-div h3 span{
+	font-size: 14px;
+	color: red;
+}
+.profile-div .default-pass{
+	display: block;
+	margin: 10px auto;
+	color: #777;
+}
+.profile-div .prof-ul{
+	width: 48%;
+	display: inline-block;
+	margin-right: 5px;
+	vertical-align: top;
+}
+.profile-div .prof-ul{
+	width: 48%;
+	display: inline-block;
+	margin-right: 5px;
+	vertical-align: top;
+}
+	.profile-div .prof-ul .title{
+		width: 120px;
+		display: inline-block;
+		vertical-align: top;
+	}
+	.profile-div .prof-ul .content, .profile-div .prof-ul .content-span, .profile-div .prof-ul .form-div{
+		width: 48%;
+		display: inline-block;
+	}
+	.profile-div .prof-ul .content, .profile-div .prof-ul .content-span{
+		height: 40px;
+	}
+	.profile-div .prof-ul .form-div input{
+		width: 360px;
+	}
+.profile-div .btn-div{
+	display: block;
+	width: 95%;
+	text-align: right;
+	padding: 5px;
+	margin: 0 auto;
+}
+.btn-div .btn-edit, .btn-div .btn-cancel, .btn-div .btn-submit, .btn-div .btn-warning{
+	padding: 5px 10px;
+	font-size: 24px;
+}
+.pass-ul .title{
+	width: 25%;
+	display: inline-block;
+}
+.pass-ul .form-div{
+	width: 70%;
+	display: inline-block;
+}
+	.pass-ul .form-div input{
+		width: 55%;
+	}
+	.pass-ul .form-div input[type=password]{
+		width: 40%;
+	}
+	
+/* AUDIT TABLE STYLE*/
+.audit-tbl .uname{
+	width: 200px;
+	font-size: 12px;
+}
+.audit-tbl .email{
+	width: 150px;
+	font-size: 12px;
+}
+.audit-tbl .utype{
+	width: 150px;
+	font-size: 12px;
+}
+.audit-tbl .module{
+	width: 100px;
+	font-size: 12px;
+}
+.audit-tbl .order{
+	width: 100px;
+	font-size: 12px;
+}
+.audit-tbl .action{
+	width: 75px;
+	font-size: 12px;
+}
+.audit-tbl .detail{
+	width: 350px;
+	font-size: 12px;
+}
+.audit-tbl .date{
+	width: 75px;
+	font-size: 12px;
+}
+	
+/* ACCESS TABLE STYLE*/
+.access-tbl{
+	width: 90%;
+	margin: 0 auto;
+}
+
+.btn-div{
+	padding: 10px;
+}
+
+/* STATUS TABLE STYLE*/
+.form-stat .form-control{
+	width: 55% !important;
+}

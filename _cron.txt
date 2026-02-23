@@ -1,0 +1,36 @@
+$BASE_URL = http://10.63.20.62/sdx_sr/;
+
+-----------------------------------------------------------------------------
+=============================================================================
+-----------------------------------------------------------------------------
+
+## COREPASS TO SR-MIDDLEWARE
+	** generate excel report from corepass_db to sr-middleware folder: to_upload/ :: client, service & agreement
+		->	$BASE_URL+syscore/gen_re
+		
+	** process generated report from sr-middleware folder: to_upload -> to_archive
+		->	$BASE_URL syscore/u_service
+		->	$BASE_URL syscore/u_agr
+		->	$BASE_URL syscore/u_client
+
+
+## SR-MIDDLEWARE TO COREPASS
+	** generate csv report from sr-middleware to corepass_db folder: to_upload/cp_order (for order submission to COREPASS)
+		->	$BASE_URL context/orders/cporder_submit
+
+
+-----------------------------------------------------------------------------
+=============================================================================
+-----------------------------------------------------------------------------
+
+## SAYREWARD TO SR-MIDDLEWARE
+	** update sayreward context_client - sr middleware client
+		->	$BASE_URL context/u_context
+
+	** record order from sayreward context_order -> sr middleware orders (all sayreward orders)
+		->	$BASE_URL context/orders/sr_order
+
+## SR-MIDDLEWARE TO SAYREWARD
+	** update sayreward catalogue & context order status - sayreward orders (orders submitted to COREPASS)
+		->	$BASE_URL context/orders/srorder_neworders
+

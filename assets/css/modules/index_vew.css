@@ -1,0 +1,92 @@
+@charset "utf-8";
+
+* {
+    padding:0;
+    margin:0;
+}
+@font-face {
+    font-family: 'sansaBold';
+    src: url('../../fonts/SansaPro-Bold.otf') format('opentype');
+}
+html, body {
+    min-width: 980px;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    color: #66676bs;
+    font-family: 'sansaBold';
+	background-color: #FFFFFF;
+	overflow-x: hidden; overflow-y: hidden;
+}
+.container-fluid{
+	padding: 0 !important;
+}
+ .view-div .row-div{
+	 height: 50%;
+	 margin:  0 !important;
+ }
+.sdx-video{
+	width: 65%;
+	margin: 0 auto;
+	background-color: #000000;
+}
+
+.index-video-wrapper {
+    height: 100%;
+    width: 100%;
+	background-color: #000000;
+}
+.page-title{
+	background-color: #2A295C;
+    text-align: center;
+    color: #fff;
+    padding: 5px;
+    font-size: 60px;
+	font-style: bold;
+	margin-bottom: 2px;
+}
+
+.window-serve{
+	/*
+	width: 45%;	
+	display: inline-block;
+	height: 200px;
+	*/ 
+	margin: 0 auto;
+	border-style: solid;
+	border-width: 0 0 6px 0;
+	border-color:#FFFFFF;
+	overflow: hidden;
+}
+	.window-serve .window{ 
+		font-size: 55px;
+		font-style: bold;
+		padding: 10px;
+		background-color: #2A295C;
+		color: #fff;
+		width: 100%;
+		display: block;
+	}
+	.window-serve .serve{
+		padding-top: 10px;
+		color: #ff0000;
+		display: block;
+		text-align: center;
+		/*max-height: 160px;*/
+		overflow: hidden;
+		margin: 0 auto;
+	}
+	.window-serve .serve p{
+		word-wrap: break-word;
+		white-space: normal !important; 
+		font-size: 60px;
+		width: 95%;
+		margin: 0 auto;
+	}
+.window-date{
+    padding: 5px;
+    bottom: 0;
+    position: absolute;
+    right: 0;
+    font-size: 24px;
+}

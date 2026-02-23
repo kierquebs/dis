@@ -1,0 +1,12 @@
+button.reset{
+	margin-left: 5px;
+}
+.search-txt-div .form-search {
+    width: 300px;
+}
+.search-txt-div .search-date {
+    width: 115px;
+}
+.search-txt-div select {
+    width: 190px;
+}

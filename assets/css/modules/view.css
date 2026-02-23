@@ -1,0 +1,92 @@
+@charset "utf-8";
+
+* {
+    padding:0;
+    margin:0;
+}
+@font-face {
+    font-family: 'sansaNormal';
+    src: url('../fonts/SansaPro-Normal.otf') format('opentype');
+}
+html, body {
+    min-width: 980px;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    color: #66676bs;
+    line-height: 1;
+    font-family: 'sansaNormal', sans-serif;
+	background-color: #FFFFFF;
+}
+
+.wrapper {
+    width: 100%;
+    margin: 0 auto;
+}
+.page-title{
+	background-color: #2A295C;
+    text-align: center;
+    color: #fff;
+    padding: 20px;
+    font-size: 50px;
+	margin-bottom: 1%;
+}
+.border{
+	border: 1px solid #000;
+}
+.window-serve{
+	/*
+	width: 45%;	
+	display: inline-block;
+	height: 200px;
+	*/ 
+	width: 100%;
+	display: block;
+	margin: 30px auto 60px auto;
+	border-style: solid;
+	border-width: 0 0 6px 0;
+	border-color:#FFFFFF;
+}
+	.window-serve .window{
+		font-size: 56px;
+		font-style: bold;
+		padding: 10px;
+		background-color: #2A295C;
+		color: #fff;
+		width: 100%;
+		display: block;
+	}
+	.window-serve .serve{
+		padding-top: 10px;
+		color: #ff0000;	
+		font-size: 100px;
+		width: 100%;
+		display: block;
+		text-align: center;
+	}
+.window-date{
+    padding: 5px;
+    bottom: 0;
+    position: absolute;
+    right: 0;
+    font-size: 30px;
+}
+.on-process{
+	width: 98%;
+	margin: 50px auto 0;
+}
+	.on-process .title{
+		padding: 5px 0;
+		font-size: 20px;
+		margin-bottom: 5px;
+	}
+.list-group{
+	margin-bottom: 0px;
+}
+/*.loading{
+	display: block;
+    background: url(../../images/load-ellipsis.gif);
+    background-size: 100px 60px;
+    background-repeat: no-repeat;
+	background-position: right; 
+}*/

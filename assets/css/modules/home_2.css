@@ -1,0 +1,197 @@
+.float-right{
+	float: right;
+}
+/** FORM **/
+.autocomplete-suggestions{
+	max-height: 350px !important;
+}
+.form-col{
+	padding-top:20px;
+}
+.form-wrapper{
+	width: 100%;
+    margin: 10px auto;
+    border-radius: 85px 0 85px;
+    border: 2px solid #2a295c;
+    padding: 15px;
+}
+.form-wrapper .form-header{
+	padding: 10px;
+    overflow: hidden;
+	background-color: #2a295c;
+	color: #fff !important;
+	text-align: center;
+	font-weight: bold;
+	font-size: 20px;
+    border-radius: 10px 10px 0 0;
+	border: 0px;
+	text-transform: uppercase;
+}
+.form-wrapper .form-div{
+	padding: 15px;
+    overflow: hidden;
+	color: #2a295c;
+}
+	.form-group{
+		margin-bottom:10px !important;
+		padding: 0 !important;
+	}
+	.form-group label{
+		display: block;
+		font-size: 16px;		
+		padding: 6px 0;
+	}
+		.form-group label span{
+			font-size: 16px;
+			font-style: italic;
+		}
+	.form-group .multi-div{
+		margin-bottom: 10px;
+		margin-right: 10px;
+		display: inline-block !important;
+	}
+	.form-div .form-group .form-control{
+		height: 46px;	
+		border-radius: 5px;	
+		display: inline-block !important;
+		font-size: 24px;
+	}
+	.form-div .form-group .form-control-half{
+		width: 48% !important;
+	}
+	.form-div .form-group .form-control.order-input{
+		width: 200px;
+		margin-right: -4px;
+		border-radius: 5px 0 0 5px;
+	}
+	.form-div .form-group .input-group-btn{
+		display: inline-block !important;
+		vertical-align: top;
+	 }
+	 .form-div .form-group .input-group-btn button{
+		height: 46px;
+		padding: 0 !important;
+		width: 42px;
+		margin: 0px !important;
+		font-size: 30px;
+	 }
+	.form-div .form-group .add-btn{
+		padding: 2px 5px;
+		background-color: #65676A;
+		color: #fff;
+		border: 0px !important;
+		border-radius: 5px;
+		font-size: 16px;
+	}
+	.submit-wrapper{
+		text-align: center;
+		margin-bottom: 0;
+	}
+		.submit-wrapper #clickSubmit {
+			width: 100%;
+			margin: 5px auto;
+			color: #fff;
+			cursor: pointer;
+			text-transform: uppercase;
+			border-radius: 5px;
+			background-color: #fe0000;
+			border: 0px;
+			font-size: 26px;
+			height: 70px;
+		}
+		span.important a {
+			color: #fe0000;
+			text-decoration: underline;
+		}
+		input.error {
+			border: 1px solid #fe0000;
+		}
+		span.error{
+			color: #fe0000;
+			padding-left: 5px;
+		}
+	
+.log-nav{
+	text-align: right;
+    padding: 10px;
+    font-size: 20px;
+}
+	.log-nav a:hover, .log-nav a:active{
+		text-decoration: none;
+	}
+label.custom-control{
+	display: block;
+    padding: 10px;
+	font-size: 16px;
+}
+	label.custom-control span{
+		font-size: 20px;
+	}
+
+	
+/* The container */
+label.custom-radio {
+	display: inline-block !important;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+	margin-right: 25px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.custom-control-description{
+}
+
+/* Hide the browser's default radio button */
+.custom-radio input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.custom-control-indicator {
+    position: absolute;
+    top: 7px;
+    left: 0;
+    height: 28px;
+    width: 28px;
+    background-color: #eee;
+    border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.custom-radio:hover input ~ .custom-control-indicator {
+    background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.custom-radio input:checked ~ .custom-control-indicator {
+    background-color: #2a295c;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.custom-control-indicator:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.custom-radio input:checked ~ .custom-control-indicator:after {
+    display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.custom-radio .custom-control-indicator:after {
+ 	top: 10px;
+	left: 10px;
+	width: 9px;
+	height: 9px;
+	border-radius: 50%;
+	background: white;
+}

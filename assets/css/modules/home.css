@@ -1,0 +1,118 @@
+.float-right{
+	float: right;
+}
+/** FORM **/
+.form-col{
+	padding-top:20px;
+}
+.form-wrapper{
+	width: 100%;
+    margin: 10px auto;
+    border-radius: 85px 0 85px;
+    border: 2px solid #2a295c;
+    padding: 15px;
+}
+.form-wrapper .form-header{
+	padding: 10px;
+    overflow: hidden;
+	background-color: #2a295c;
+	color: #fff !important;
+	text-align: center;
+	font-weight: bold;
+	font-size: 20px;
+    border-radius: 10px 10px 0 0;
+	border: 0px;
+	text-transform: uppercase;
+}
+.form-wrapper .form-div{
+	padding: 15px;
+    overflow: hidden;
+	color: #2a295c;
+}
+	.form-group{
+		margin-bottom:10px !important;
+		padding: 0 !important;
+	}
+	.form-group label{
+		display: block;
+	}
+		.form-group label span{
+			font-size: 12px;
+			font-style: italic;
+		}
+	.form-group .multi-div{
+		margin-bottom: 10px;
+		margin-right: 10px;
+		display: inline-block !important;
+	}
+	.form-div .form-group .form-control{
+		height: 40px;	
+		border-radius: 5px;	
+		display: inline-block !important;
+	}	
+	.form-div .form-group .form-control-half{
+		width: 48% !important;
+	}
+	.form-div .form-group .form-control.order-input{
+		width: 250px;
+		margin-right: -4px;
+		border-radius: 5px 0 0 5px;
+	}
+	.form-div .form-group .input-group-btn{
+		display: inline-block !important;
+		vertical-align: top;
+	 }
+	 .form-div .form-group .input-group-btn button{
+		 height: 40px;
+		 margin: 0px !important;
+	 }
+	.form-div .form-group .add-btn{
+		padding: 2px 5px;
+		background-color: #65676A;
+		color: #fff;
+		border: 0px !important;
+		border-radius: 5px;
+		font-size: 18px;
+	}
+	.submit-wrapper{
+		text-align: center;
+		margin-bottom: 0;
+	}
+		.submit-wrapper #clickSubmit {
+			width: 100%;
+			margin: 5px auto;
+			color: #fff;
+			cursor: pointer;
+			text-transform: uppercase;
+			border-radius: 5px;
+			background-color: #fe0000;
+			border: 0px;
+			font-size: 24px;
+			height: 70px;
+		}
+		span.important a {
+			color: #fe0000;
+			text-decoration: underline;
+		}
+		input.error {
+			border: 1px solid #fe0000;
+		}
+		span.error{
+			color: #fe0000;
+			padding-left: 5px;
+		}
+label.custom-control{
+	display: inline-block;
+    padding: 10px;
+}
+	label.custom-control span{
+		font-size: 14px;
+	}
+.log-nav{
+	text-align: right;
+    padding: 10px;
+    font-size: 20px;
+}
+	.log-nav a:hover, .log-nav a:active{
+		text-decoration: none;
+	}
