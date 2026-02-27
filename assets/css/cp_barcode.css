@@ -1,0 +1,204 @@
+::selection { background-color: #E13300; color: white; }
+	::-moz-selection { background-color: #E13300; color: white; }
+
+	body {
+		background-color: #fff;
+		margin: 40px;
+		font: 13px/20px normal Helvetica, Arial, sans-serif;
+		color: #4F5155;
+	}
+
+	a {
+		color: #003399;
+		background-color: transparent;
+		font-weight: normal;
+	}
+
+	h1 {
+		color: #444;
+		background-color: transparent;
+		border-bottom: 1px solid #D0D0D0;
+		font-size: 19px;
+		font-weight: normal;
+		margin: 0 0 14px 0;
+		padding: 14px 15px 10px 15px;
+	}
+
+	code {
+		font-family: Consolas, Monaco, Courier New, Courier, monospace;
+		font-size: 12px;
+		background-color: #f9f9f9;
+		border: 1px solid #D0D0D0;
+		color: #002166;
+		display: block;
+		margin: 14px 0 14px 0;
+		padding: 12px 10px 12px 10px;
+	}
+	#container {
+		margin: 10px;
+		border: 1px solid #D0D0D0;
+		box-shadow: 0 0 8px #D0D0D0;
+	}
+	.hide {
+		display: none;
+	}
+		
+	#body {
+		margin: 0 10px 0 10px;
+		width: 98%;
+		display: inline-block;
+		padding: 0 !important;
+	}
+		#body section h5{
+			font-size: 17px !important;
+			font-weight: bold;
+			padding: 10px 5px;
+			background-color: #e6e6e6;
+		}
+	
+	
+	
+	p.footer {
+		text-align: right;
+		font-size: 11px;
+		border-top: 1px solid #D0D0D0;
+		line-height: 32px;
+		padding: 0 10px 0 10px;
+		margin: 20px 0 0 0;
+	}
+
+	
+	/*FORM DIV*/
+	input.error {
+		border: 1px solid #fe0000;
+	}
+	span.error{
+		color: #fe0000;
+		display: block;
+	}
+
+	.form-wrapper {
+		font-size: 16px;
+	}
+	.form-wrapper .form-div {
+		padding: 10px 5px;
+	}
+		.form-div label {
+			width: 15%;
+			display: inline-block;
+			vertical-align: top;
+		}
+		.form-div .form-control , .label_div {
+			width: 60%;
+			display: inline-block;
+		}
+		.form-div .form-control {
+			font-size: 14px;
+		}
+	.vdiv{
+		width: 200px;
+		display: inline-block;
+		margin-right: 20px;
+	}
+	.vdiv .voucher {
+		width: 100% !important;
+		display: inline-block;
+		margin-bottom: 6px;
+	}
+	ol.recon_div_group {
+		display: block;
+		width: 100%;
+		margin: 0 auto;
+	}
+		.recon_div_group .recon_set {
+			margin-bottom: 5px;
+		}
+		.recon_div_group .recon_set input, .recon_div_group .recon_set .input-group-btn {
+			display: inline-block;
+		}
+		.recon_div_group .recon_set input{
+			width: 230px;
+		}
+		.recon_div_group .recon_set input.trans{
+			width: 380px !important;
+		}
+	.form-wrapper input[type="submit"] , .form-wrapper button{
+		width: 110px;
+		margin: 5px auto;
+		color: #fff;
+		cursor: pointer;
+		text-transform: uppercase;
+		border-radius: 5px;
+		border: 0px;
+		font-size: 14px;
+		height: 35px;
+	}
+		.form-wrapper .btn_val, .form-wrapper .btn_recon {
+			background-color: green;
+		}
+		.form-wrapper .btn_redeem {
+			background-color: red;	
+		}
+		.form-wrapper .btn_void {		
+			background-color: #8e8e8e;	
+		}
+		.form-wrapper .btn_bdo {
+			background-color: #f0ad4e;	
+			width: 150px !important;
+		}
+		.form-wrapper .print{
+			background-color: #966909;
+		}
+	.form-div label#label_voucher {
+		display: block;
+		width: 100%;
+	}
+	
+	.api_return {
+		font-size: 11px;
+		border-top: 1px solid #D0D0D0;
+		line-height: 32px;
+		padding: 0 10px 0 10px;
+		margin: 20px 0 0 0;
+	}
+		.api_return span {
+			width: 98%;
+			margin: 0 auto;
+			display: block;
+			overflow-wrap: break-word;
+			line-height: normal;
+		}
+		
+	table.tbl_prod {
+		margin: 0 auto;
+		width: 98%;
+		border-color: #eee;
+	}
+	table tr td, table th {
+		padding: 5px;
+	}
+	table .total {
+		font-weight: bold;
+		text-align: right;
+	}
+	table tfoot, table thead {		
+		background-color: #ccc;
+	}
+		table .total b {
+			color: red;
+			font-size: 20px;
+		}
+	
+	 .reset {
+		width: 150px;
+		margin: 0 10px;
+		color: #fff;
+		cursor: pointer;
+		text-transform: uppercase;
+		border-radius: 5px;
+		border: 0px;
+		font-size: 14px;
+		height: 35px;
+		background-color: #f0ad4e;	
+	}
+	

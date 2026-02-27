@@ -1,0 +1,66 @@
+# Logs
+*.log
+logs/
+log/
+*.log.*
+
+# Environment files
+.env
+.env.*.local
+.env.local
+.env.production
+.env.development
+backup.env.production
+
+# Composer files
+/vendor/
+/composer.lock
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE and Editor files
+.vscode/
+*.code-workspace
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Node modules (if using any frontend stuff)
+node_modules/
+
+# Build folders (if any)
+dist/
+build/
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*~
+*.bak
+
+# Cache and sessions (PHP typical folders)
+cache/
+sessions/
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# OS generated files
+ehthumbs.db
+Desktop.ini
+
+# PHPStorm project files
+*.iml
+
+# Others
+.sfdx/
+
+to_upload/
+to_archive/
+# Ignore files with spaces or commas (optional)
+# If you have problematic file names, you can explicitly exclude or handle them
