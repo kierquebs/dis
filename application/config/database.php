@@ -105,10 +105,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' =>  '10.63.16.144', //getenv('DB_HOST'),
-	'username' =>  'oracle',//getenv('DB_USERNAME'),
-	'password' =>  'C1o3P5r1234',//getenv('DB_PASSWORD'),
-	'database' =>  'dis_db',//getenv('DB_DATABASE'),
+	'hostname' =>  getenv('DB_HOST') ? getenv('DB_HOST') : 'localhost',
+	'username' =>  getenv('DB_USERNAME') ? getenv('DB_USERNAME') : 'root',
+	'password' =>  getenv('DB_PASSWORD') ? getenv('DB_PASSWORD') : '',
+	'database' =>  getenv('DB_DATABASE') ? getenv('DB_DATABASE') : 'dis_db',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => TRUE,
