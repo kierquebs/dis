@@ -103,6 +103,20 @@ $db['oracle'] = array(
 $active_group = 'default';
 $query_builder = TRUE;
 
+/*
+| -------------------------------------------------------------------
+| PHP 8.1+ Compatibility Fix
+| -------------------------------------------------------------------
+| In PHP 8.1+, the default mysqli error reporting mode was changed from
+| MYSQLI_REPORT_OFF to MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT.
+| This causes mysqli to throw exceptions on errors, which might break
+| legacy CodeIgniter error handling. We explicitly set it to OFF here
+| to maintain backward compatibility.
+*/
+if (function_exists('mysqli_report')) {
+	mysqli_report(MYSQLI_REPORT_OFF);
+}
+
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' =>  getenv('DB_HOST') ? getenv('DB_HOST') : 'localhost',

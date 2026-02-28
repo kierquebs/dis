@@ -280,8 +280,8 @@ if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . '.env')) {
 	date_default_timezone_set("Asia/Hong_Kong");
 
 // Now load the environment-specific .env file (e.g., .env.development)
-$dotenv = new Dotenv\Dotenv(__DIR__);
 if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . '.env.' . ENVIRONMENT)) {
+	$dotenv = new Dotenv\Dotenv(__DIR__, '.env.' . ENVIRONMENT);
 	$dotenv->load();
 }
 
