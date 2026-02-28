@@ -13,7 +13,7 @@ class Process extends MX_Controller {
 		$this->form_validation->run($this);
 		if($this->auth->role_all($this->MODULE_ID) == false) redirect('404_override');
 		
-		$this->checkUpload = 1;//getenv('checkUpload'); //UPLOADS
+		$this->checkUpload = getenv('checkUpload') !== false ? getenv('checkUpload') : 1; //UPLOADS
 	}
 	
 	public function getReimbursementUserIds(){
