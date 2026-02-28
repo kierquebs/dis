@@ -105,7 +105,7 @@ class Nrecon extends MX_Controller {
 		exit();
 	}
 	
-		private function arr_result($temp_transac, $export = false, $where_date, $dateWhere){
+		private function arr_result($temp_transac, $export, $where_date, $dateWhere){
 			$arr = array();
 			foreach($temp_transac as $temp_row){ 
 				$newRow = new stdClass(); 						
