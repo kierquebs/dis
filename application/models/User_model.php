@@ -126,7 +126,10 @@ class User_model extends CI_Model{
 			if($checkRow !=0) return true;
 			else return false;
 		}
-		public function available_role($uID, $where = '', $select = '', $count = false){ 
+		public function available_role($uID, $where = array(), $select = '', $count = false){
+			if (!is_array($where)) {
+				$where = array();
+			}
 			$where['access_permission.user_id'] = $uID;
 			$this->db->from('access_permission')
 				->join('access_role', 'access_role.acc_id  = access_permission.acc_id')
