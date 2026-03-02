@@ -4,7 +4,12 @@ class Corepass_model extends CI_Model{
 	public function __construct(){
 		parent::__construct();
 		// -- reminder: connection uat environment -- //
-		$this->oracle_db = $this->load->database('oracle', TRUE);
+		if (extension_loaded('oci8')) {
+			$this->oracle_db = $this->load->database('oracle', TRUE);
+		} else {
+			log_message('error', 'Corepass_model: Oracle oci8 extension not loaded.');
+			$this->oracle_db = null;
+		}
 	}
 	
 	public function testing(){
