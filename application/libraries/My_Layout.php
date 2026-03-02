@@ -63,7 +63,7 @@ class My_layout extends MX_Controller{
 	/**
      * SET Layout w/ Navigation Tab
      */
-    public function layout_nav($page, $data = ''){
+    public function layout_nav($page, $data = array()){
 		$data['css'][] = 'queue.css';
 		$data['nav_div'] = 1;		
 		$nav_data = $this->set_nav();
@@ -75,7 +75,8 @@ class My_layout extends MX_Controller{
 		private function set_nav(){
 			$module_page = $this->uri->segment(1);
 			$module_class = $this->uri->segment(2);
-			$page_filter = $data['backAr'] = '';
+			$page_filter = '';
+			$data['backAr'] = array();
 			$admin = $this->auth->check_admin(false);
 			$allaccessArr = (is_array($this->auth->user_allaccess()) ? $this->auth->user_allaccess() : array());
 			$access_arr = $allaccessArr;
