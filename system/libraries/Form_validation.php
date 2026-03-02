@@ -1056,7 +1056,7 @@ class CI_Form_validation {
 	{
 		return is_array($str)
 			? (empty($str) === FALSE)
-			: (trim($str) !== '');
+			: (trim((string) $str) !== '');
 	}
 
 	// --------------------------------------------------------------------
@@ -1070,7 +1070,7 @@ class CI_Form_validation {
 	 */
 	public function regex_match($str, $regex)
 	{
-		return (bool) preg_match($regex, $str);
+		return (bool) preg_match($regex, (string) $str);
 	}
 
 	// --------------------------------------------------------------------
@@ -1139,7 +1139,7 @@ class CI_Form_validation {
 			return FALSE;
 		}
 
-		return ($val <= mb_strlen($str));
+		return ($val <= mb_strlen((string) $str));
 	}
 
 	// --------------------------------------------------------------------
@@ -1158,7 +1158,7 @@ class CI_Form_validation {
 			return FALSE;
 		}
 
-		return ($val >= mb_strlen($str));
+		return ($val >= mb_strlen((string) $str));
 	}
 
 	// --------------------------------------------------------------------
@@ -1177,7 +1177,7 @@ class CI_Form_validation {
 			return FALSE;
 		}
 
-		return (mb_strlen($str) === (int) $val);
+		return (mb_strlen((string) $str) === (int) $val);
 	}
 
 	// --------------------------------------------------------------------
@@ -1229,7 +1229,7 @@ class CI_Form_validation {
 	 */
 	public function valid_email($str)
 	{
-		if (function_exists('idn_to_ascii') && preg_match('#\A([^@]+)@(.+)\z#', $str, $matches))
+		if (function_exists('idn_to_ascii') && preg_match('#\A([^@]+)@(.+)\z#', (string) $str, $matches))
 		{
 			$str = $matches[1].'@'.idn_to_ascii($matches[2]);
 		}
@@ -1247,12 +1247,12 @@ class CI_Form_validation {
 	 */
 	public function valid_emails($str)
 	{
-		if (strpos($str, ',') === FALSE)
+		if (strpos((string) $str, ',') === FALSE)
 		{
-			return $this->valid_email(trim($str));
+			return $this->valid_email(trim((string) $str));
 		}
 
-		foreach (explode(',', $str) as $email)
+		foreach (explode(',', (string) $str) as $email)
 		{
 			if (trim($email) !== '' && $this->valid_email(trim($email)) === FALSE)
 			{
@@ -1287,7 +1287,7 @@ class CI_Form_validation {
 	 */
 	public function alpha($str)
 	{
-		return ctype_alpha($str);
+		return ctype_alpha((string) $str);
 	}
 
 	// --------------------------------------------------------------------
@@ -1313,7 +1313,7 @@ class CI_Form_validation {
 	 */
 	public function alpha_numeric_spaces($str)
 	{
-		return (bool) preg_match('/^[A-Z0-9 ]+$/i', $str);
+		return (bool) preg_match('/^[A-Z0-9 ]+$/i', (string) $str);
 	}
 
 	// --------------------------------------------------------------------
@@ -1326,7 +1326,7 @@ class CI_Form_validation {
 	 */
 	public function alpha_dash($str)
 	{
-		return (bool) preg_match('/^[a-z0-9_-]+$/i', $str);
+		return (bool) preg_match('/^[a-z0-9_-]+$/i', (string) $str);
 	}
 
 	// --------------------------------------------------------------------
@@ -1339,7 +1339,7 @@ class CI_Form_validation {
 	 */
 	public function numeric($str)
 	{
-		return (bool) preg_match('/^[\-+]?[0-9]*\.?[0-9]+$/', $str);
+		return (bool) preg_match('/^[\-+]?[0-9]*\.?[0-9]+$/', (string) $str);
 
 	}
 
@@ -1353,7 +1353,7 @@ class CI_Form_validation {
 	 */
 	public function integer($str)
 	{
-		return (bool) preg_match('/^[\-+]?[0-9]+$/', $str);
+		return (bool) preg_match('/^[\-+]?[0-9]+$/', (string) $str);
 	}
 
 	// --------------------------------------------------------------------
@@ -1366,7 +1366,7 @@ class CI_Form_validation {
 	 */
 	public function decimal($str)
 	{
-		return (bool) preg_match('/^[\-+]?[0-9]+\.[0-9]+$/', $str);
+		return (bool) preg_match('/^[\-+]?[0-9]+\.[0-9]+$/', (string) $str);
 	}
 
 	// --------------------------------------------------------------------
@@ -1478,7 +1478,7 @@ class CI_Form_validation {
 	 */
 	public function valid_base64($str)
 	{
-		return (base64_encode(base64_decode($str)) === $str);
+		return (base64_encode(base64_decode((string) $str)) === $str);
 	}
 
 	// --------------------------------------------------------------------
@@ -1510,7 +1510,7 @@ class CI_Form_validation {
 			return $data;
 		}
 
-		return str_replace(array("'", '"', '<', '>'), array('&#39;', '&quot;', '&lt;', '&gt;'), stripslashes($data));
+		return str_replace(array("'", '"', '<', '>'), array('&#39;', '&quot;', '&lt;', '&gt;'), stripslashes((string) $data));
 	}
 
 	// --------------------------------------------------------------------
@@ -1523,12 +1523,12 @@ class CI_Form_validation {
 	 */
 	public function prep_url($str = '')
 	{
-		if ($str === 'http://' OR $str === '')
+		if ($str === 'http://' OR (string) $str === '')
 		{
 			return '';
 		}
 
-		if (strpos($str, 'http://') !== 0 && strpos($str, 'https://') !== 0)
+		if (strpos((string) $str, 'http://') !== 0 && strpos((string) $str, 'https://') !== 0)
 		{
 			return 'http://'.$str;
 		}
@@ -1546,7 +1546,7 @@ class CI_Form_validation {
 	 */
 	public function strip_image_tags($str)
 	{
-		return $this->CI->security->strip_image_tags($str);
+		return $this->CI->security->strip_image_tags((string) $str);
 	}
 
 	// --------------------------------------------------------------------
@@ -1559,7 +1559,7 @@ class CI_Form_validation {
 	 */
 	public function encode_php_tags($str)
 	{
-		return str_replace(array('<?', '?>'), array('&lt;?', '?&gt;'), $str);
+		return str_replace(array('<?', '?>'), array('&lt;?', '?&gt;'), (string) $str);
 	}
 
 	// --------------------------------------------------------------------
