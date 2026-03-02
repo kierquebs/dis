@@ -16,7 +16,7 @@ class Nrecon extends MX_Controller {
 		$this->form_validation->run($this);
 		if($this->auth->role_all($this->MODULE_ID) == false) redirect('404_override');
 		
-		$this->checkUpload = getenv('checkUpload'); //UPLOADS
+		$this->checkUpload = getenv('checkUpload') !== false ? getenv('checkUpload') : 1; //UPLOADS
 	}
 	
 	public function index(){ 
@@ -105,7 +105,7 @@ class Nrecon extends MX_Controller {
 		exit();
 	}
 	
-		private function arr_result($temp_transac, $export = false, $where_date, $dateWhere){
+		private function arr_result($temp_transac, $export, $where_date, $dateWhere){
 			$arr = array();
 			foreach($temp_transac as $temp_row){ 
 				$newRow = new stdClass(); 						

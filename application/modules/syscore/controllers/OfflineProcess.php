@@ -39,8 +39,9 @@ class OfflineProcess extends MX_Controller {
 	}
 	
 	public function group_merchantID(){
-		$group = explode(',',getenv('group_merchantID'));
-		if(!empty($group)){
+		$group_merchantID = getenv('group_merchantID') !== false ? getenv('group_merchantID') : '';
+		$group = explode(',', $group_merchantID);
+		if(!empty($group) && !empty($group_merchantID)){
 			for($i=0; $i < count($group); $i++){
 				if(!empty($group[$i])){
 					$this->_processper_MID($group[$i], true);		

@@ -129,7 +129,10 @@ class Digital extends MX_Controller {
 			if(isset($_GET['date'])) $previousDate = $_GET['date'];
 			
 			if(isset($_GET['cpid'])) $where = " AND EC.COMPANY_ID = '".$_GET['cpid']."'";
-			else if(isset($_GET['grpcpid'])) $where = " AND EC.COMPANY_ID IN (".getenv('dm_groupid').")"; 
+			else if(isset($_GET['grpcpid'])) {
+				$dm_groupid = getenv('dm_groupid') !== false ? getenv('dm_groupid') : '';
+				$where = " AND EC.COMPANY_ID IN (".$dm_groupid.")";
+			}
 			else $where = " AND TO_CHAR(ECGD.CREATION_DATE, 'mm/dd/yyyy') = '".$previousDate."'";
 			
 			if(isset($_GET['month'])){

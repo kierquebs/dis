@@ -152,7 +152,7 @@ total
 		exit();
 	}
 	
-		private function arr_result($temp_transac, $export = false, $where_date){
+		private function arr_result($temp_transac, $export, $where_date){
 			$arr = array();
 			foreach($temp_transac as $temp_row){ 
 				$newRow = new stdClass(); 						

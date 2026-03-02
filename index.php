@@ -36,61 +36,6 @@
  * @filesource
  */
 
-/*
- *---------------------------------------------------------------
- * APPLICATION ENVIRONMENT
- *---------------------------------------------------------------
- *
- * You can load different configurations depending on your
- * current environment. Setting the environment also influences
- * things like logging and error reporting.
- *
- * This can be set to anything, but default usage is:
- *
- *     development
- *     testing
- *     production
- *
- * NOTE: If you change these, also change the error_reporting() code below
- */
-	
-	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'production');
-	date_default_timezone_set("Asia/Hong_Kong");
-
-/*
- *---------------------------------------------------------------
- * ERROR REPORTING
- *---------------------------------------------------------------
- *
- * Different environments will require different levels of error reporting.
- * By default development will show errors but testing and live will hide them.
- */
-switch (ENVIRONMENT)
-{
-	case 'development':
-		error_reporting(-1);
-		ini_set('display_errors', 1);
-	break;
-
-	case 'testing':
-	case 'production':
-		ini_set('memory_limit', '-1'); 
-		ini_set('display_errors', 1);
-		if (version_compare(PHP_VERSION, '5.3', '>='))
-		{
-			error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT & ~E_USER_NOTICE & ~E_USER_DEPRECATED);
-		}
-		else
-		{
-			error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_USER_NOTICE);
-		}
-	break;
-
-	default:
-		header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
-		echo 'The application environment is not set correctly.';
-		exit(1); // EXIT_ERROR
-}
 
 /*
  *---------------------------------------------------------------
@@ -318,9 +263,60 @@ switch (ENVIRONMENT)
  */
 require_once BASEPATH . 'dotenv/autoloader.php';
 
-$dotenv = new Dotenv\Dotenv(__DIR__);
-$dotenv->load();
-	
+// First, try to load a base .env file to get the ENVIRONMENT setting
+if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . '.env')) {
+	$dotenvBase = new Dotenv\Dotenv(__DIR__, '.env');
+	$dotenvBase->load();
+}
+
+/*
+ *---------------------------------------------------------------
+ * APPLICATION ENVIRONMENT
+ *---------------------------------------------------------------
+ */
+	// Priority: 1. System Environment, 2. .env file, 3. Hardcoded fallback
+	$ci_env = isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : (getenv('CI_ENV') ?: 'production');
+	define('ENVIRONMENT', $ci_env);
+	date_default_timezone_set("Asia/Hong_Kong");
+
+// Now load the environment-specific .env file (e.g., .env.development)
+if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . '.env.' . ENVIRONMENT)) {
+	$dotenv = new Dotenv\Dotenv(__DIR__, '.env.' . ENVIRONMENT);
+	$dotenv->load();
+}
+
+/*
+ *---------------------------------------------------------------
+ * ERROR REPORTING
+ *---------------------------------------------------------------
+ */
+switch (ENVIRONMENT)
+{
+	case 'development':
+		error_reporting(-1);
+		ini_set('display_errors', 1);
+	break;
+
+	case 'testing':
+	case 'production':
+		ini_set('memory_limit', '-1');
+		ini_set('display_errors', 1);
+		if (version_compare(PHP_VERSION, '5.3', '>='))
+		{
+			error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT & ~E_USER_NOTICE & ~E_USER_DEPRECATED);
+		}
+		else
+		{
+			error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_USER_NOTICE);
+		}
+	break;
+
+	default:
+		header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
+		echo 'The application environment is not set correctly.';
+		exit(1); // EXIT_ERROR
+}
+
 /*
  * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE

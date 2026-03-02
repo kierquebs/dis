@@ -376,7 +376,7 @@ class Action_model extends CI_Model{
 	** QUERY ACTION FOR TBL delsched_string
 	** mode [ 0: unknown, 1: payment_mode, 2: payment_term, 3: delivery_mode ]
 	*/
-	function delstring_add($mode = 0, $string){	
+	function delstring_add($mode = 0, $string = ''){
 		if(empty($string)) return false;
 		if($this->db->query('SELECT mode FROM delsched_string WHERE mode = '.$mode.' AND default_value = "'.$string.'"')->num_rows() == 0){
 			$insert['mode'] = $mode;

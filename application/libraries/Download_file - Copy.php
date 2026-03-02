@@ -94,7 +94,7 @@ class Download_file extends MX_Controller{
 		return $objWriter->save('php://output'); 
 	}
 	
-	private function _callDownloadServer($arrOBJ, $module, $type = 'Excel5', $serverDL){
+	private function _callDownloadServer($arrOBJ, $module, $type = 'Excel5', $serverDL = ''){
 		$filename = $serverDL.$module['filename'];				
 		if($type == 'CSV'){
 			$objWriter = new PHPExcel_Writer_CSV($arrOBJ);

@@ -58,7 +58,7 @@ $autoload['packages'] = array(APPPATH.'third_party');
 |
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
-$autoload['libraries'] = array('session', 'encrypt', 'database','form_validation', 'My_lib', 'MY_Form_validation','My_layout','auth','Sdx_email');  
+$autoload['libraries'] = array('session', 'encryption', 'database','form_validation', 'My_lib', 'MY_Form_validation','My_layout','auth','Sdx_email');
 
 
 /*
