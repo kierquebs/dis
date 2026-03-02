@@ -21,11 +21,11 @@ class Auth extends MX_Controller{
 	function encrypt_encode($msg, $sha1 = false){
 			if(empty($msg)) return false;
 		if($sha1 == true) return sha1($msg);
-		else return $this->encryption->encode($msg);
+		else return $this->encryption->encrypt($msg);
 	}
 	function ecrypt_decode($msg){
 			if(empty($msg)) return false;
-		$encrypted_string = $this->encryption->decode($msg);
+		$encrypted_string = $this->encryption->decrypt($msg);
 		return $encrypted_string;
 	}
 	/**
