@@ -37,6 +37,18 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/*
+ * PHP 8.1+ Compatibility Fix:
+ * Define OCI8 constants if the extension is not loaded to prevent fatal errors.
+ */
+if ( ! extension_loaded('oci8'))
+{
+	defined('OCI_COMMIT_ON_SUCCESS') OR define('OCI_COMMIT_ON_SUCCESS', 32);
+	defined('OCI_NO_AUTO_COMMIT') OR define('OCI_NO_AUTO_COMMIT', 0);
+	defined('OCI_B_CURSOR') OR define('OCI_B_CURSOR', 116);
+	defined('OCI_DEFAULT') OR define('OCI_DEFAULT', 0);
+}
+
 /**
  * oci8 Database Adapter Class
  *
