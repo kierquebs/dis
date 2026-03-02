@@ -119,10 +119,11 @@ if (function_exists('mysqli_report')) {
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' =>  getenv('DB_HOST') ? getenv('DB_HOST') : 'localhost',
+	'hostname' =>  getenv('DB_HOST') ? getenv('DB_HOST') : 'dis.local',
 	'username' =>  getenv('DB_USERNAME') ? getenv('DB_USERNAME') : 'root',
 	'password' =>  getenv('DB_PASSWORD') ? getenv('DB_PASSWORD') : '',
 	'database' =>  getenv('DB_DATABASE') ? getenv('DB_DATABASE') : 'dis_db',
+	'port'     => 3307,
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => TRUE,
@@ -130,13 +131,13 @@ $db['default'] = array(
 	'cache_on' => FALSE,
 	'cachedir' => '',
 	'char_set' => 'utf8',
-	'dbcollat' => 'utf8_general_ci', 
+	'dbcollat' => 'utf8_general_ci',
 	'swap_pre' => '',
 	'encrypt' => FALSE,
 	'compress' => FALSE,
 	'stricton' => FALSE,
 	'failover' => array(),
-	'save_queries' => TRUE 
+	'save_queries' => TRUE
 );
 
 
