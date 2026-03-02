@@ -32,7 +32,7 @@ class Action_model extends CI_Model{
 		$insert['order_id'] = $orderID;
 		$insert['auc_id'] = $actionID;
 		$this->db->insert('audit_trail',$insert);
-		$this->ci_pusher->callTrigger();
+		// $this->ci_pusher->callTrigger();
 	}
 	/*
 	** QUERY FOR TBL ajax_update
