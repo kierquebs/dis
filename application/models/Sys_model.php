@@ -349,7 +349,8 @@ class Sys_model extends CI_Model{
 		$this->db->update('redemption',$update);
 	}
 
-	public function getTransaction($where = '', $count = false, $page = '', $GROUP_BY = 'redeem.REDEEM_ID, redeem.PROD_ID'){
+	public function getTransaction($where = '', $count = false, $page = '', $GROUP_BY = ''){
+		if(empty($GROUP_BY)) $GROUP_BY = 'redeem.REDEEM_ID, redeem.PROD_ID';
 		/*
 		** RAW SQL
 		//amount, recon_status, settlement_status, 		
@@ -681,7 +682,7 @@ class Sys_model extends CI_Model{
 		return $result;
 	}
 
-	public function v_paH_new($where = null, $count = false, $select = null, $userIds){
+	public function v_paH_new($where = null, $count = false, $select = null, $userIds = null){
 		
 
 		$this->db->from('pa_header');	

@@ -448,7 +448,7 @@ class My_lib extends MX_Controller{
 	/**
 	 * validation for Face Value Name
 	 */
-	public function validateAM_Billable($AM = '', $BillableName){
+	public function validateAM_Billable($AM = '', $BillableName = ''){
 		$houseArr = array();
 		$houseArr[] ='SPI House Account';
 		$houseArr[] ='SM House Account';

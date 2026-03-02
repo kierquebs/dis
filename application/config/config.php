@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://10.63.16.144:8080/mp_dis';//getenv('APP_URL');
+$config['base_url'] = getenv('APP_URL') ? getenv('APP_URL') : 'http://dis.local/';
 
 /*
 |--------------------------------------------------------------------------
