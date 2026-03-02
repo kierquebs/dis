@@ -92,11 +92,11 @@ class Login extends MX_Controller {
 			$data['erros_msg'] = '<span class="error">Please select company</span>';	
 			$this->my_layout->layout('login/index', $data);
 		}else{	
-			$str = $this->db->escape_str($this->input->post('username', true));
+			$str = $this->input->post('username', true);
 			if(empty(valid_email($str))) $where['user_name'] = $str;	
 			else $where['email'] = $str;	
 			
-			$where['password'] = $this->db->escape_str($this->auth->encrypt_encode($this->input->post('password', true), true));
+			$where['password'] = $this->auth->encrypt_encode($this->input->post('password', true), true);
 			$row = $this->User_model->user_info($where);
 			$u_id = $row->row('user_id');
 				
@@ -150,11 +150,11 @@ class Login extends MX_Controller {
 	public function account_check($str){ 
 		$pass = $this->input->post('password', true);
 		
-		if(empty(valid_email($str))) $arr['user.user_name'] = $this->db->escape_str($str);	
-		else $arr['user.email'] = $this->db->escape_str($str);	
+		if(empty(valid_email($str))) $arr['user_name'] = $str;
+		else $arr['email'] = $str;
 		
-		$arr['user.password'] = $this->auth->encrypt_encode($this->db->escape_str($pass), true);
-		if($this->activate_stat == false) $arr['user.status'] = 1;
+		$arr['password'] = $this->auth->encrypt_encode($pass, true);
+		if($this->activate_stat == false) $arr['status'] = 1;
 		
 		if($this->User_model->check_user($arr, true) == 0){
 			$this->form_validation->set_message('account_check', 'Invalid username or password!');
