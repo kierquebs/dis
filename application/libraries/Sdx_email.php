@@ -7,9 +7,8 @@ class Sdx_email extends MX_Controller{
 	public function __construct(){
 		parent::__construct();
 		$this->load->library('email');
-		// $this->FR_EMAIL = getenv('MAIL_FROM');
-		$this->FR_EMAIL = 'gift@notifications.pluxee.ph';
-		$this->FR_NAME = 'Pluxee Admin';
+		$this->FR_EMAIL = getenv('MAIL_FROM') !== false ? getenv('MAIL_FROM') : 'gift@notifications.pluxee.ph';
+		$this->FR_NAME = getenv('MAIL_FROM_NAME') !== false ? getenv('MAIL_FROM_NAME') : 'Pluxee Admin';
 	}
 	function test(){
 		$this->email->from($this->FR_EMAIL, $this->FR_NAME);

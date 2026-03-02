@@ -80,9 +80,9 @@ $active_record = true;
 $db['oracle'] = array(
 	'dsn'	=> '',
 	'hostname' => getenv('ORDB_HOST').':'.getenv('ORDB_PORT').'/'.getenv('ORDB_DATABASE'),
-	'username' => 'PH32_PROD',
-	'password' => 'PH32_PROD',
-	'database' => 'COREPASS',
+	'username' => getenv('ORDB_USERNAME') ? getenv('ORDB_USERNAME') : 'PH32_PROD',
+	'password' => getenv('ORDB_PASSWORD') ? getenv('ORDB_PASSWORD') : 'PH32_PROD',
+	'database' => getenv('ORDB_DATABASE_NAME') ? getenv('ORDB_DATABASE_NAME') : 'COREPASS',
 	'dbdriver' => 'oci8',
 	'dbprefix' => '',
 	'pconnect' => TRUE,
@@ -103,12 +103,27 @@ $db['oracle'] = array(
 $active_group = 'default';
 $query_builder = TRUE;
 
+/*
+| -------------------------------------------------------------------
+| PHP 8.1+ Compatibility Fix
+| -------------------------------------------------------------------
+| In PHP 8.1+, the default mysqli error reporting mode was changed from
+| MYSQLI_REPORT_OFF to MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT.
+| This causes mysqli to throw exceptions on errors, which might break
+| legacy CodeIgniter error handling. We explicitly set it to OFF here
+| to maintain backward compatibility.
+*/
+if (function_exists('mysqli_report')) {
+	mysqli_report(MYSQLI_REPORT_OFF);
+}
+
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' =>  '10.63.16.144', //getenv('DB_HOST'),
-	'username' =>  'oracle',//getenv('DB_USERNAME'),
-	'password' =>  'C1o3P5r1234',//getenv('DB_PASSWORD'),
-	'database' =>  'dis_db',//getenv('DB_DATABASE'),
+	'hostname' =>  getenv('DB_HOST') ? getenv('DB_HOST') : '127.0.0.1',
+	'port'     =>  getenv('DB_PORT') ? getenv('DB_PORT') : 3306,
+	'username' =>  getenv('DB_USERNAME') ? getenv('DB_USERNAME') : 'root',
+	'password' =>  getenv('DB_PASSWORD') ? getenv('DB_PASSWORD') : '',
+	'database' =>  getenv('DB_DATABASE') ? getenv('DB_DATABASE') : 'dis_db',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => TRUE,
