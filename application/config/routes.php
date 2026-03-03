@@ -57,4 +57,7 @@ $route['translate_uri_dashes'] = FALSE;
 //Custom routing
 //$route['order'] = 'queue/order';
 
+$route['mp_dis/(.+)'] = '$1';
+$route['mp_dis'] = $route['default_controller'];
+
 $route['api/v1/si-details'] = 'api/api/getSiDetails';
