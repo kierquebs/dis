@@ -74,7 +74,7 @@ class Automate extends MX_Controller {
 	public function upload_branches(){
 		$map = directory_map('./to_upload/branches/', FALSE, TRUE);
 		
-		if(count($map) == 0){
+		if(!is_array($map) || count($map) == 0){
 			log_message('info', 'REDEEM:: EMPTY FOLDER');
 			echo 'EMPTY FOLDER'; exit();
 		}
@@ -139,7 +139,7 @@ class Automate extends MX_Controller {
 	public function upload_cutoff(){
 		$map = directory_map('./to_upload/cutoff/', FALSE, TRUE);
 		
-		if(count($map) == 0){
+		if(!is_array($map) || count($map) == 0){
 			log_message('info', 'REDEEM:: EMPTY FOLDER');
 			echo 'EMPTY FOLDER'; exit();
 		}

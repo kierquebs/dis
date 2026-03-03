@@ -31,7 +31,7 @@ class Conversion extends MX_Controller {
 	public function upload_conv(){
 		$map = directory_map('./to_upload/conversion/', FALSE, TRUE);
 		
-		if(count($map) == 0){
+		if(!is_array($map) || count($map) == 0){
 			log_message('info', 'CONVERSION:: EMPTY FOLDER');
 			echo 'EMPTY FOLDER'; exit();
 		}

@@ -64,7 +64,8 @@ class Offlineprocess extends MX_Controller {
 
 					if(!empty($merchantData['POST_date']) && is_array($merchantData['POST_date'])){
 						$merchantDataPOST_date = "";
-						for($i = 0; $i<count($merchantData['POST_date']);$i++){
+						$countDate = count($merchantData['POST_date']);
+						for($i = 0; $i<$countDate;$i++){
 							//echo $merchantData['POST_date'][$i].' '.date("d");
 							if($merchantData['POST_date'][$i] <= date("d")){
 								$merchantDataPOST_date = $merchantData['POST_date'][$i] ;
@@ -152,7 +153,8 @@ class Offlineprocess extends MX_Controller {
 
 					if(!empty($merchantData['POST_date']) && is_array($merchantData['POST_date'])){
 						$merchantDataPOST_date = "";
-						for($i = 0; $i<count($merchantData['POST_date']);$i++){
+						$countDate = count($merchantData['POST_date']);
+						for($i = 0; $i<$countDate;$i++){
 							//echo $merchantData['POST_date'][$i].' '.date("d");
 							if($merchantData['POST_date'][$i] <= date("d")){
 								$merchantDataPOST_date = $merchantData['POST_date'][$i] ;
@@ -208,7 +210,8 @@ class Offlineprocess extends MX_Controller {
 					if(isset($_GET['cfdate']) && !empty($_GET['cfdate'])){
 						$merchantData['POST_date'] = $_GET['cfdate'];
 					}else{
-						for($i = 0; $i<count($merchantData['POST_date']);$i++){
+						$countDate = count($merchantData['POST_date']);
+						for($i = 0; $i<$countDate;$i++){
 							if($merchantData['POST_date'][$i] >= date("d")) $merchantData['POST_date'] = $merchantData['POST_date'][$i] ;
 						}	
 					}				
@@ -263,11 +266,11 @@ class Offlineprocess extends MX_Controller {
 			$output['POST_terms'] = $rowField->TYPE; 
 			$output['POST_day'] = $rowField->SPECIFIC_DAY;
 			$output['POST_date'] =  (!empty($rowField->SPECIFIC_DATE) ? explode(",",substr($rowField->SPECIFIC_DATE, 1, -1)) : ''); 
-				if(count($output['POST_date']) == 1) $output['POST_date'] = $output['POST_date'][0];
+				if(is_array($output['POST_date']) && count($output['POST_date']) == 1) $output['POST_date'] = $output['POST_date'][0];
 			$output['POST_SETTLE'] = $rowField->DigitalSettlementType; 
 			
 			
-			if(!empty($rowField->SPECIFIC_DATE) && count($output['POST_date']) <> 1) rsort($output['POST_date']);
+			if(!empty($rowField->SPECIFIC_DATE) && is_array($output['POST_date']) && count($output['POST_date']) <> 1) rsort($output['POST_date']);
 			return $output;
 		}
 	}

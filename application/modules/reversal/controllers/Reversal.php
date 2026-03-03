@@ -49,7 +49,7 @@ class Reversal extends MX_Controller {
 	*/
 	public function upload_reversal(){
 		$map = directory_map('./to_upload/reversal/', FALSE, TRUE);
-		if(count($map) == 0){
+		if(!is_array($map) || count($map) == 0){
 			log_message('info', 'REVERSAL:: EMPTY FOLDER');
 			echo 'EMPTY FOLDER'; exit();
 		}

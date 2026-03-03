@@ -32,7 +32,7 @@ class Recon extends MX_Controller {
 	public function upload_recon($otherFolder = 'reconciliation'){
 		$map = directory_map('./to_upload/'.$otherFolder.'/', FALSE, TRUE);
 		
-		if(count($map) == 0){
+		if(!is_array($map) || count($map) == 0){
 			log_message('info', 'RECON:: EMPTY FOLDER');
 			echo 'EMPTY FOLDER'; exit();
 		}
