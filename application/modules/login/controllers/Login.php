@@ -57,7 +57,7 @@ class Login extends MX_Controller {
 		if(!$this->uri->segment(3)) redirect('login');	
 		$where['activation_code'] = $this->uri->segment(3);
 		$checkCode = $this->User_model->user_info($where, '', 'status');
-		if(count($checkCode) != 0){
+		if($checkCode->num_rows() != 0){
 			$stat = $checkCode->row('status');
 			if($stat == 0){
 				$this->activate_stat = true;
@@ -178,7 +178,7 @@ class Login extends MX_Controller {
 		if ($this->form_validation->run() !== FALSE){
 			$where['email'] = $this->input->post('email', true);
 			$row = $this->User_model->user_info($where);
-			if(count($row) != 0 ){			
+			if($row->num_rows() != 0 ){
 				$toEmail = $row->row('email');
 				$toName = (empty($row->row('full_name')) ? $row->row('user_name') : $row->row('full_name'));
 				$email = $this->sdx_email->reset_password($toEmail, $toName); 
