@@ -7,7 +7,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class AutoProcess extends MX_Controller {
+class Autoprocess extends MX_Controller {
 	private $POST_toProcess;
 	private $POST_terms;
 	private $POST_day;
