@@ -31,7 +31,7 @@ class Redeem extends MX_Controller {
 	public function upload_redeem(){
 		$map = directory_map('./to_upload/redemption/', FALSE, TRUE);
 		
-		if(count($map) == 0){
+		if(!is_array($map) || count($map) == 0){
 			log_message('info', 'REDEEM:: EMPTY FOLDER');
 			echo 'EMPTY FOLDER'; exit();
 		}
