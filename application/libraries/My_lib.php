@@ -203,7 +203,7 @@ class My_lib extends MX_Controller{
 		$timestamp = strtotime('next Sunday');
 		$days = array();
 		for ($i = 0; $i < 7; $i++) {
-			$days[] = strftime('%A', $timestamp);
+			$days[] = date('l', $timestamp);
 			$timestamp = strtotime('+1 day', $timestamp);
 		}
 		return $days;
