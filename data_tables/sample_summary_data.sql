@@ -11,6 +11,7 @@ INSERT IGNORE INTO `branches` (`BRANCH_ID`, `MERCHANT_ID`, `BRANCH_NAME`, `CP_ID
 VALUES ('BR001', 1001, 'Main Branch', 1001);
 
 -- 3. Insert PA Header for PA ID 200
+-- Aligned with joins in Sys_model::getTransactionSummary_part3
 INSERT IGNORE INTO `pa_header` (`PA_ID`, `MERCHANT_ID`, `REIMBURSEMENT_DATE`, `ExpectedDueDate`, `DATE_CREATED`, `USER_ID`, `GENERATED`)
 VALUES (200, 1001, '2026-03-01', '2026-03-04', '2026-03-01 10:00:00', 1, 1);
 
