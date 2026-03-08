@@ -124,7 +124,6 @@ $db['default'] = array(
 	'username' =>  getenv('DB_USERNAME') ? getenv('DB_USERNAME') : 'root',
 	'password' =>  getenv('DB_PASSWORD') ? getenv('DB_PASSWORD') : '',
 	'database' =>  getenv('DB_DATABASE') ? getenv('DB_DATABASE') : 'dis_db',
-	'port'     => 3307,
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => TRUE,
