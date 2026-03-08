@@ -75,7 +75,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 * corepass oracle db connection
 */
 $active_group = 'oracle';
-$active_record = true;
+$query_builder = true;
 
 $db['oracle'] = array(
 	'dsn'	=> '',
