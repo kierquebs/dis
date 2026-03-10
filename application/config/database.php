@@ -120,11 +120,10 @@ if (function_exists('mysqli_report')) {
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' =>  getenv('DB_HOST') ? getenv('DB_HOST') : '127.0.0.1',
-	'port'     =>  getenv('DB_PORT') ? getenv('DB_PORT') : 3306,
+	'port'     =>  getenv('DB_PORT') ? (int)getenv('DB_PORT') : 3306,
 	'username' =>  getenv('DB_USERNAME') ? getenv('DB_USERNAME') : 'root',
 	'password' =>  getenv('DB_PASSWORD') ? getenv('DB_PASSWORD') : '',
 	'database' =>  getenv('DB_DATABASE') ? getenv('DB_DATABASE') : 'dis_db',
-	'port'     => 3307,
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => TRUE,
