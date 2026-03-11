@@ -4720,7 +4720,7 @@ EOT;
      * @param bool $mask true if the image is masked
      * @throws Exception
      */
-    function addImagePng($file, $x, $y, $w = 0.0, $h = 0.0, &$img, $is_mask = false, $mask = null)
+    function addImagePng($file, $x, $y, $w, $h, &$img, $is_mask = false, $mask = null)
     {
         if (!function_exists("imagepng")) {
             throw new \Exception("The PHP GD extension is required, but is not installed.");
@@ -5063,7 +5063,7 @@ EOT;
      * @param bool $is_mask
      * @param null $mask
      */
-    function addPngFromBuf($file, $x, $y, $w = 0.0, $h = 0.0, &$data, $is_mask = false, $mask = null)
+    function addPngFromBuf($file, $x, $y, $w, $h, &$data, $is_mask = false, $mask = null)
     {
         if (isset($this->imagelist[$file])) {
             $data = null;
@@ -5411,11 +5411,11 @@ EOT;
         &$data,
         $x,
         $y,
-        $w = 0,
-        $h = 0,
+        $w,
+        $h,
         $imageWidth,
         $imageHeight,
-        $channels = 3,
+        $channels,
         $imgname
     ) {
         if ($this->image_iscached($imgname)) {
