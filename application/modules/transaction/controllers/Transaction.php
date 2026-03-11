@@ -113,12 +113,18 @@ class Transaction extends MX_Controller {
 		$stat = 'redeem.TRANSACTION_DATE_TIME';
 		if(isset($_GET['stat'])  && $_GET['stat'] != '' ){
 			$statNum = htmlentities($this->input->get('stat', true));
-			if($statNum == 1 && $statNum == 3) $stat = 'recon.RECON_DATE_TIME';
-			
-			if($statNum == 1) $where .= (empty($where) ? '' : ' AND ').' recon.PA_ID <> 0 ';
-			else if($statNum == 2) $where .= (empty($where) ? '' : ' AND ').' redeem.STAGE = "REDEEMED" ';
-			else if($statNum == 3) $where .= (empty($where) ? '' : ' AND ').' redeem.STAGE = "RECONCILED" ';	
-			else if($statNum == 4) $where .= (empty($where) ? '' : ' AND ').' redeem.STAGE = "REVERSED" ';			
+			if($statNum == 1){
+				$stat = 'paH.REIMBURSEMENT_DATE';
+				$where .= (empty($where) ? '' : ' AND ').' recon.PA_ID <> 0 ';
+			}else if($statNum == 2){
+				$where .= (empty($where) ? '' : ' AND ').' redeem.STAGE = "REDEEMED" ';
+			}else if($statNum == 3){
+				$stat = 'recon.RECON_DATE_TIME';
+				$where .= (empty($where) ? '' : ' AND ').' redeem.STAGE = "RECONCILED" ';
+			}else if($statNum == 4){
+				$stat = 'ref.REVERSAL_DATE_TIME';
+				$where .= (empty($where) ? '' : ' AND ').' redeem.STAGE = "REVERSED" ';
+			}
 		}
 
 		if(isset($_GET['datef']) || isset($_GET['datet'])){		
@@ -142,12 +148,13 @@ class Transaction extends MX_Controller {
 	}
 		private function arr_result($temp_transac, $export = false){
 			$arr = array();
-			foreach($temp_transac as $temp_row){ 
-				$newRow = new stdClass(); 						
-					$newRow->get_userid = $this->auth->get_userid(); 				
-					$newRow->uTransac = $this->auth->get_userid(); 
-					
-					$newRow->redeem_id = $temp_row->redeem_id;			
+			$whereBranch = array();
+			foreach($temp_transac as $temp_row){
+				$newRow = new stdClass();
+					$newRow->get_userid = $this->auth->get_userid();
+					$newRow->uTransac = $this->auth->get_userid();
+
+					$newRow->redeem_id = $temp_row->redeem_id;
 					$newRow->m_id = $whereBranch['br.MERCHANT_ID'] = $temp_row->m_id;
 					$newRow->br_id = $whereBranch['br.BRANCH_ID'] = $temp_row->br_id;
 					$newRow->tin = (!empty($temp_row->TIN) ? $this->my_lib->setTin($temp_row->TIN) : ''); 
