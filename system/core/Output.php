@@ -434,6 +434,8 @@ class CI_Output {
 			$output =& $this->final_output;
 		}
 
+		$output = (string) $output;
+
 		// --------------------------------------------------------------------
 
 		// Do we need to write a cache file? Only if the controller does not have its
