@@ -688,7 +688,7 @@ class Sys_model extends CI_Model{
 		$this->db->from('pa_header');	
 		if(!empty($where)){
 			$this->db->where($where);	
-			$this->db->where_in('USER_ID', $userIds);
+			$this->db->where_in('USER_ID', explode(',', $userIds));
 		} 
 		
 		if($select <> null) $this->db->select($select);
