@@ -170,7 +170,6 @@ class Transaction extends MX_Controller {
 					$newRow->pa_date = $temp_row->pa_date;
 					$newRow->pa_duedate = $temp_row->pa_duedate;
 					$newRow->prod_name = $temp_row->prod_name;
-					$newRow->ref_uname = $temp_row->ref_uname;
 					$newRow->ref_padate = $temp_row->ref_padate;
 					$newRow->ref_paid = $temp_row->ref_paid;
 					$newRow->ref_id = $temp_row->ref_id;
