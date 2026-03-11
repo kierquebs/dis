@@ -323,8 +323,8 @@ VALUES
 
 -- PA Headers
 INSERT INTO `pa_header` (`PA_ID`, `MERCHANT_ID`, `USER_ID`, `REIMBURSEMENT_DATE`, `ExpectedDueDate`, `MERCHANT_FEE`, `vatCond`) VALUES
-(1, 1, 1, '2026-01-20 09:00:00', '2026-01-23 17:00:00', 0.020000, 'Taxable'),    -- McDo BR-MC-001 (3 biz days)
-(2, 2, 1, '2026-01-21 09:00:00', '2026-01-24 17:00:00', 0.020000, 'Taxable'),    -- McDo BR-MC-002
+(1, 1, 2, '2026-01-20 09:00:00', '2026-01-23 17:00:00', 0.020000, 'Taxable'),    -- McDo BR-MC-001 (3 biz days)
+(2, 2, 2, '2026-01-21 09:00:00', '2026-01-24 17:00:00', 0.020000, 'Taxable'),    -- McDo BR-MC-002
 (3, 3, 2, '2026-01-25 09:00:00', '2026-01-30 17:00:00', 0.015000, 'VAT-Exempt'); -- 7-Eleven
 
 
