@@ -3150,7 +3150,7 @@ public function bulk_RECONCILED(){
 			where GENERATED = 1
 			ORDER BY REIMBURSEMENT_DATE DESC
 			limit 1
-			"); 
+			");
 
 		return $query->result();
 	}
@@ -3161,7 +3161,7 @@ public function bulk_RECONCILED(){
 				where DATE_CREATED
 				like '%" . $date . "%'
 				and GENERATED = 1
-			"); 
+			");
 
 		return $query->result();
 	}
