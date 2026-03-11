@@ -1816,7 +1816,7 @@ class Sys_model extends CI_Model{
 				and br.MERCHANT_ID = paH.MERCHANT_ID
 			".$where."
 			GROUP BY paD.BRANCH_ID, paH.MERCHANT_ID, paH.PA_ID
-			ORDER BY paD.DATE_CREATED asc
+			ORDER BY paH.PA_ID asc
 			".$limit."
 			");
 			/* OLD -- GROUP BY paD.RECON_ID, paD.BRANCH_ID, paH.MERCHANT_ID */
