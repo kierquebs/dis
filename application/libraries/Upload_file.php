@@ -64,7 +64,7 @@ class Upload_file extends MX_Controller{
 	}
 	
 	private function _redemption($arrayCount, $allDataInSheet){
-		$entry = '';
+		$entry = array();
 		for($i=2;$i<=$arrayCount;$i++){
 			if(trim($allDataInSheet[$i]["L"]) != ''){
 				$entry[] = array(
@@ -88,7 +88,7 @@ class Upload_file extends MX_Controller{
 	}
 	
 	private function _reconciliation($arrayCount, $allDataInSheet){
-		$entry = '';
+		$entry = array();
 		for($i=2;$i<=$arrayCount;$i++){
 			if(trim($allDataInSheet[$i]["L"]) != ''){
 				$entry[] = array(
@@ -113,7 +113,7 @@ class Upload_file extends MX_Controller{
 	}
 	
 	private function _branches($arrayCount, $allDataInSheet){
-		$entry = '';
+		$entry = array();
 		for($i=2;$i<=$arrayCount;$i++){
 			$AFFILIATEGROUPCODE = '';
 			if(trim($allDataInSheet[$i]["A"]) != '' && trim($allDataInSheet[$i]["D"]) != ''){
@@ -131,7 +131,7 @@ class Upload_file extends MX_Controller{
 	}
 	
 	private function _cutoff($arrayCount, $allDataInSheet){
-		$entry = '';
+		$entry = array();
 		for($i=2;$i<=$arrayCount;$i++){
 			if(trim($allDataInSheet[$i]["A"]) != ''){
 				$entry[] = array(
@@ -146,7 +146,7 @@ class Upload_file extends MX_Controller{
 	}
 	
 	private function _merchant_fee($arrayCount, $allDataInSheet){
-		$entry = '';
+		$entry = array();
 		for($i=2;$i<=$arrayCount;$i++){
 			if(trim($allDataInSheet[$i]["A"]) != ''){
 				$entry[] = array(
@@ -159,7 +159,7 @@ class Upload_file extends MX_Controller{
 	}
 
 	private function _conversion($arrayCount, $allDataInSheet){
-		$entry = '';
+		$entry = array();
 		for($i=2;$i<=$arrayCount;$i++){
 			if(trim($allDataInSheet[$i]["E"]) != ''){		
 				//check if VOUCHER CODE is MULTI
@@ -200,7 +200,7 @@ class Upload_file extends MX_Controller{
 	}
 	
 	private function _reversal($arrayCount, $allDataInSheet){
-		$entry = ''; 
+		$entry = array(); 
 		for($i=2;$i<=$arrayCount;$i++){
 			$entry[] = array(
 				'MERCHANT_NAME' => $this->my_lib->xss_filter(trim($allDataInSheet[$i]["A"])),
@@ -228,7 +228,7 @@ class Upload_file extends MX_Controller{
 	******* Temporary solution for SFTP Recon Files
 	*****/
 	private function _reconciliation_temp($arrayCount, $allDataInSheet){
-		$entry = '';
+		$entry = array();
 		for($i=2;$i<=$arrayCount;$i++){
 			if(trim($allDataInSheet[$i]["L"]) != ''){
 				$entry[] = array(
