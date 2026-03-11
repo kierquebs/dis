@@ -3145,10 +3145,10 @@ public function bulk_RECONCILED(){
 
 	function getLastPaDate() {
 		$query = $this->db->query("
-			select DATE(DATE_CREATED) as `date`
+			select DATE(REIMBURSEMENT_DATE) as `date`
 			from pa_header
 			where GENERATED = 1
-			ORDER BY DATE_CREATED DESC
+			ORDER BY REIMBURSEMENT_DATE DESC
 			limit 1
 			"); 
 
