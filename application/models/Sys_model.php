@@ -1795,8 +1795,7 @@ class Sys_model extends CI_Model{
 				SUM(paD.NUM_PASSES) NUM_PASSES,
 				SUM(paD.TOTAL_FV) TOTAL_FV,
 				SUM(paD.VAT) VAT,
-				SUM(paD.NET_DUE) NET_DUE,				
-				SUM(paD.TOTAL_REFUND) TOTAL_REFUND';
+				SUM(paD.NET_DUE) NET_DUE';
 		}else $select = 'paD.BRANCH_ID';
 
 		/* remove -- 
