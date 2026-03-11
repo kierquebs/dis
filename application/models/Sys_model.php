@@ -3158,10 +3158,10 @@ public function bulk_RECONCILED(){
 	function getPaIdFromLastPaDate($date){
 		$query = $this->db->query("
 				select PA_ID from pa_header
-				where DATE_CREATED
+				where REIMBURSEMENT_DATE
 				like '%" . $date . "%'
 				and GENERATED = 1
-			"); 
+			");
 
 		return $query->result();
 	}
