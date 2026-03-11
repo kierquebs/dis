@@ -154,7 +154,7 @@ class Pdf_pa extends MX_Controller {
 		//$generatedPA =  $this->Sys_model->v_paH($whereU, false, 'pa_id');
 		
 		if($generatedPA->num_rows() != 0){
-			$PA_ARR = '';
+			$PA_ARR = [];
 			foreach($generatedPA->result() as $row){
 				$PA_ARR[] = $PA_ID= $row->PA_ID;
 				$this->generate($row->PA_ID, '', false, true, true);	
