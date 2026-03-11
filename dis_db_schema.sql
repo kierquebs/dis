@@ -12,14 +12,14 @@ SET time_zone = "+00:00";
 -- Source: User_model.php, Action_model.php
 -- ============================================================
 
-CREATE TABLE `utype` (
+CREATE TABLE IF NOT EXISTS `utype` (
   `utype_id`   INT(11)      NOT NULL AUTO_INCREMENT,
   `utype_name` VARCHAR(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`utype_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `user` (
+CREATE TABLE IF NOT EXISTS `user` (
   `user_id`         INT(11)      NOT NULL AUTO_INCREMENT,
   `utype_id`        INT(11)      NOT NULL DEFAULT 0,
   `user_name`       VARCHAR(100) NOT NULL DEFAULT '',
@@ -33,17 +33,20 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `access_role` (
+CREATE TABLE IF NOT EXISTS `access_role` (
   `acc_id`   INT(11)     NOT NULL AUTO_INCREMENT,
   `acc_code` VARCHAR(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`acc_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `access_permission` (
-  `id`      INT(11) NOT NULL AUTO_INCREMENT,
-  `user_id` INT(11) NOT NULL DEFAULT 0,
-  `acc_id`  INT(11) NOT NULL DEFAULT 0,
+CREATE TABLE IF NOT EXISTS `access_permission` (
+  `id`             INT(11)    NOT NULL AUTO_INCREMENT,
+  `user_id`        INT(11)    NOT NULL DEFAULT 0,
+  `acc_id`         INT(11)    NOT NULL DEFAULT 0 COMMENT 'FK to access_role.acc_id',
+  `acc_read_only`  TINYINT(1) NOT NULL DEFAULT 0 COMMENT '1=can view only',
+  `acc_all_access` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '1=can view+edit',
+  `def_page`       TINYINT(1) NOT NULL DEFAULT 0 COMMENT '1=this is the default landing module',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `acc_id` (`acc_id`)
@@ -51,14 +54,14 @@ CREATE TABLE `access_permission` (
 
 
 -- access table referenced by Action_model::access_update()
-CREATE TABLE `access` (
+CREATE TABLE IF NOT EXISTS `access` (
   `access_id`   INT(11)      NOT NULL AUTO_INCREMENT,
   `access_name` VARCHAR(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`access_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `password_history` (
+CREATE TABLE IF NOT EXISTS `password_history` (
   `id`                       INT(11)      NOT NULL AUTO_INCREMENT,
   `user_id`                  INT(11)      NOT NULL,
   `password_hash`            VARCHAR(255) NOT NULL,
@@ -73,7 +76,7 @@ CREATE TABLE `password_history` (
 -- Source: Action_model.php
 -- ============================================================
 
-CREATE TABLE `audit_trail` (
+CREATE TABLE IF NOT EXISTS `audit_trail` (
   `id`        INT(11)  NOT NULL AUTO_INCREMENT,
   `user_id`   INT(11)  NOT NULL DEFAULT 0,
   `module_id` INT(11)  NOT NULL DEFAULT 0,
@@ -86,7 +89,7 @@ CREATE TABLE `audit_trail` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `ajax_update` (
+CREATE TABLE IF NOT EXISTS `ajax_update` (
   `id`           INT(11)      NOT NULL AUTO_INCREMENT,
   `session_id`   VARCHAR(255) NOT NULL DEFAULT '',
   `date_created` DATETIME     NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -96,7 +99,7 @@ CREATE TABLE `ajax_update` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `audit_upload` (
+CREATE TABLE IF NOT EXISTS `audit_upload` (
   `id`          INT(11)      NOT NULL AUTO_INCREMENT,
   `module_name` VARCHAR(100) NOT NULL DEFAULT '',
   `file_name`   VARCHAR(255) NOT NULL DEFAULT '',
@@ -104,7 +107,7 @@ CREATE TABLE `audit_upload` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `file_upload` (
+CREATE TABLE IF NOT EXISTS `file_upload` (
   `file_id`   INT(11)      NOT NULL AUTO_INCREMENT,
   `file_name` VARCHAR(255) NOT NULL DEFAULT '',
   `module_id` INT(11)      NOT NULL DEFAULT 0,
@@ -119,7 +122,7 @@ CREATE TABLE `file_upload` (
 -- Source: Action_model.php
 -- ============================================================
 
-CREATE TABLE `companies` (
+CREATE TABLE IF NOT EXISTS `companies` (
   `company_id`   INT(11)      NOT NULL AUTO_INCREMENT,
   `company_name` VARCHAR(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`company_id`),
@@ -127,7 +130,7 @@ CREATE TABLE `companies` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `location` (
+CREATE TABLE IF NOT EXISTS `location` (
   `location_id`   INT(11)      NOT NULL AUTO_INCREMENT,
   `location_name` VARCHAR(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`location_id`),
@@ -135,7 +138,7 @@ CREATE TABLE `location` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `statorder` (
+CREATE TABLE IF NOT EXISTS `statorder` (
   `statorder_id`   INT(11)      NOT NULL AUTO_INCREMENT,
   `statorder_name` VARCHAR(255) NOT NULL DEFAULT '',
   `module_id`      INT(11)      NOT NULL DEFAULT 0,
@@ -144,7 +147,7 @@ CREATE TABLE `statorder` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `statcategory` (
+CREATE TABLE IF NOT EXISTS `statcategory` (
   `statcategory_id`   INT(11)      NOT NULL AUTO_INCREMENT,
   `statcategory_name` VARCHAR(255) NOT NULL DEFAULT '',
   `module_id`         INT(11)      NOT NULL DEFAULT 0,
@@ -153,7 +156,7 @@ CREATE TABLE `statcategory` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `statreason` (
+CREATE TABLE IF NOT EXISTS `statreason` (
   `statreason_id`   INT(11)      NOT NULL AUTO_INCREMENT,
   `statreason_name` VARCHAR(255) NOT NULL DEFAULT '',
   `module_id`       INT(11)      NOT NULL DEFAULT 0,
@@ -161,7 +164,7 @@ CREATE TABLE `statreason` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `order_list` (
+CREATE TABLE IF NOT EXISTS `order_list` (
   `order_id`   INT(11) NOT NULL,
   `company_id` INT(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`order_id`),
@@ -169,7 +172,7 @@ CREATE TABLE `order_list` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `binloc` (
+CREATE TABLE IF NOT EXISTS `binloc` (
   `binloc_id`    INT(11)  NOT NULL AUTO_INCREMENT,
   `order_id`     INT(11)  NOT NULL DEFAULT 0,
   `location_id`  INT(11)  NOT NULL DEFAULT 0,
@@ -185,7 +188,7 @@ CREATE TABLE `binloc` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `binloc_log` (
+CREATE TABLE IF NOT EXISTS `binloc_log` (
   `id`           INT(11)      NOT NULL AUTO_INCREMENT,
   `binloc_id`    INT(11)      NOT NULL DEFAULT 0,
   `order_id`     INT(11)      NOT NULL DEFAULT 0,
@@ -202,7 +205,7 @@ CREATE TABLE `binloc_log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `delsched` (
+CREATE TABLE IF NOT EXISTS `delsched` (
   `delsched_id`     INT(11)        NOT NULL AUTO_INCREMENT,
   `company_id`      INT(11)        NOT NULL DEFAULT 0,
   `order_id`        INT(11)        NOT NULL DEFAULT 0,
@@ -223,7 +226,7 @@ CREATE TABLE `delsched` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `delsched_string` (
+CREATE TABLE IF NOT EXISTS `delsched_string` (
   `id`            INT(11)      NOT NULL AUTO_INCREMENT,
   `mode`          TINYINT(1)   NOT NULL DEFAULT 0 COMMENT '0=unknown,1=payment_mode,2=payment_term,3=delivery_mode',
   `default_value` VARCHAR(255) NOT NULL DEFAULT '',
@@ -232,7 +235,7 @@ CREATE TABLE `delsched_string` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `transac` (
+CREATE TABLE IF NOT EXISTS `transac` (
   `transac_id`     INT(11)  NOT NULL AUTO_INCREMENT,
   `order_id`       INT(11)  NOT NULL DEFAULT 0,
   `company_id`     INT(11)  NOT NULL DEFAULT 0,
@@ -251,7 +254,7 @@ CREATE TABLE `transac` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `transac_temp` (
+CREATE TABLE IF NOT EXISTS `transac_temp` (
   `transac_tempid` INT(11)      NOT NULL AUTO_INCREMENT,
   `transac_id`     INT(11)      NOT NULL DEFAULT 0,
   `order_id`       INT(11)      NOT NULL DEFAULT 0,
@@ -270,7 +273,7 @@ CREATE TABLE `transac_temp` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `transac_comment` (
+CREATE TABLE IF NOT EXISTS `transac_comment` (
   `id`         INT(11)   NOT NULL AUTO_INCREMENT,
   `transac_id` INT(11)   NOT NULL DEFAULT 0,
   `comment`    TEXT      NOT NULL,
@@ -281,7 +284,7 @@ CREATE TABLE `transac_comment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `resoa` (
+CREATE TABLE IF NOT EXISTS `resoa` (
   `resoa_id`      INT(11)  NOT NULL AUTO_INCREMENT,
   `transac_id`    INT(11)  NOT NULL DEFAULT 0,
   `order_id`      INT(11)  NOT NULL DEFAULT 0,
@@ -293,7 +296,7 @@ CREATE TABLE `resoa` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `release_order` (
+CREATE TABLE IF NOT EXISTS `release_order` (
   `reorder_id`    INT(11)  NOT NULL AUTO_INCREMENT,
   `order_id`      INT(11)  NOT NULL DEFAULT 0,
   `served_stat`   INT(11)  NOT NULL DEFAULT 0,
@@ -304,7 +307,7 @@ CREATE TABLE `release_order` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `advance_soa` (
+CREATE TABLE IF NOT EXISTS `advance_soa` (
   `adsoa_id`       INT(11)      NOT NULL AUTO_INCREMENT,
   `order_id`       INT(11)      NOT NULL DEFAULT 0,
   `company_id`     INT(11)      NOT NULL DEFAULT 0,
@@ -316,7 +319,7 @@ CREATE TABLE `advance_soa` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `co_orderinfo` (
+CREATE TABLE IF NOT EXISTS `co_orderinfo` (
   `co_orderinfo_id` INT(11) NOT NULL AUTO_INCREMENT,
   `order_id`        INT(11) NOT NULL DEFAULT 0,
   `company_id`      INT(11) NOT NULL DEFAULT 0,
@@ -326,7 +329,7 @@ CREATE TABLE `co_orderinfo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `co_transac` (
+CREATE TABLE IF NOT EXISTS `co_transac` (
   `co_transac_id`   INT(11) NOT NULL AUTO_INCREMENT,
   `order_id`        INT(11) NOT NULL DEFAULT 0,
   `company_id`      INT(11) NOT NULL DEFAULT 0,
@@ -338,7 +341,7 @@ CREATE TABLE `co_transac` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `cor_transac` (
+CREATE TABLE IF NOT EXISTS `cor_transac` (
   `cor_transac_id`  INT(11) NOT NULL AUTO_INCREMENT,
   `order_id`        INT(11) NOT NULL DEFAULT 0,
   `company_id`      INT(11) NOT NULL DEFAULT 0,
@@ -355,7 +358,7 @@ CREATE TABLE `cor_transac` (
 -- Source: Sys_model.php
 -- ============================================================
 
-CREATE TABLE `cp_merchant` (
+CREATE TABLE IF NOT EXISTS `cp_merchant` (
   `id`                   INT(11)        NOT NULL AUTO_INCREMENT,
   `CP_ID`                INT(11)        NOT NULL DEFAULT 0 COMMENT 'Corepass Merchant ID',
   `TIN`                  VARCHAR(50)    NOT NULL DEFAULT '',
@@ -385,7 +388,7 @@ CREATE TABLE `cp_merchant` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `cp_agreement` (
+CREATE TABLE IF NOT EXISTS `cp_agreement` (
   `id`           INT(11) NOT NULL AUTO_INCREMENT,
   `CP_ID`        INT(11) NOT NULL DEFAULT 0,
   `AGREEMENT_ID` INT(11) NOT NULL DEFAULT 0,
@@ -394,14 +397,14 @@ CREATE TABLE `cp_agreement` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `cp_product` (
+CREATE TABLE IF NOT EXISTS `cp_product` (
   `SERVICE_ID`   INT(11)      NOT NULL AUTO_INCREMENT,
   `SERVICE_NAME` VARCHAR(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`SERVICE_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `branches` (
+CREATE TABLE IF NOT EXISTS `branches` (
   `BRANCH_ID`          VARCHAR(25)  NOT NULL DEFAULT '',
   `MERCHANT_ID`        INT(11)      NOT NULL DEFAULT 0,
   `BRANCH_NAME`        VARCHAR(255) NOT NULL DEFAULT '',
@@ -413,14 +416,14 @@ CREATE TABLE `branches` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `branch_merchant` (
+CREATE TABLE IF NOT EXISTS `branch_merchant` (
   `MERCHANT_ID` INT(11)     NOT NULL DEFAULT 0,
   `BRANCH_ID`   VARCHAR(25) NOT NULL DEFAULT '',
   UNIQUE KEY `mid_bid` (`MERCHANT_ID`, `BRANCH_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `payment_cutoff` (
+CREATE TABLE IF NOT EXISTS `payment_cutoff` (
   `MERCHANT_ID`          INT(11)      NOT NULL DEFAULT 0,
   `TYPE`                 VARCHAR(50)  NOT NULL DEFAULT '' COMMENT 'e.g. Weekly',
   `SPECIFIC_DAY`         VARCHAR(100) NOT NULL DEFAULT '' COMMENT 'e.g. Sunday',
@@ -435,7 +438,7 @@ CREATE TABLE `payment_cutoff` (
 -- Source: Sys_model.php, Process_model.php, sample_wrecon_data.sql
 -- ============================================================
 
-CREATE TABLE `redemption` (
+CREATE TABLE IF NOT EXISTS `redemption` (
   `ID`                   INT(11)        NOT NULL AUTO_INCREMENT,
   `REDEEM_ID`            VARCHAR(50)    NOT NULL DEFAULT '' COMMENT 'Redemption transaction ID from API',
   `MERCHANT_ID`          INT(11)        NOT NULL DEFAULT 0,
@@ -462,7 +465,7 @@ CREATE TABLE `redemption` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `reconcilation` (
+CREATE TABLE IF NOT EXISTS `reconcilation` (
   -- Note: intentional typo in table name matches codebase spelling
   `ID`                   INT(11)        NOT NULL AUTO_INCREMENT,
   `RECON_ID`             VARCHAR(50)    NOT NULL DEFAULT '' COMMENT 'Reconciliation ID from API',
@@ -494,7 +497,7 @@ CREATE TABLE `reconcilation` (
 
 
 -- Defined in data_tables/prod_refund.sql + ALTER from sample_wrecon_data.sql
-CREATE TABLE `refund` (
+CREATE TABLE IF NOT EXISTS `refund` (
   `REFUND_ID`              INT(11)       NOT NULL AUTO_INCREMENT,
   `REDEEM_ID`              VARCHAR(50)   NOT NULL DEFAULT '',
   `REVERSAL_TRANSACTION_ID` VARCHAR(100) NOT NULL DEFAULT '',
@@ -531,7 +534,7 @@ CREATE TABLE `refund` (
 
 
 -- Defined in data_tables/prod_temp_refund.sql
-CREATE TABLE `temp_refund` (
+CREATE TABLE IF NOT EXISTS `temp_refund` (
   `TEMP_REFUNDID`                  INT(11)      NOT NULL AUTO_INCREMENT,
   `REFUND_ID`                      INT(11)      NOT NULL DEFAULT 0,
   `MERCHANT_NAME`                  VARCHAR(250) NOT NULL DEFAULT '',
@@ -564,7 +567,7 @@ CREATE TABLE `temp_refund` (
 -- Source: Sys_model.php, Automate.php
 -- ============================================================
 
-CREATE TABLE `pa_header` (
+CREATE TABLE IF NOT EXISTS `pa_header` (
   `PA_ID`              INT(11)        NOT NULL AUTO_INCREMENT,
   `MERCHANT_ID`        INT(11)        NOT NULL DEFAULT 0,
   `USER_ID`            INT(11)        NOT NULL DEFAULT 0,
@@ -578,7 +581,7 @@ CREATE TABLE `pa_header` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `pa_detail` (
+CREATE TABLE IF NOT EXISTS `pa_detail` (
   `PA_DID`        INT(11)       NOT NULL AUTO_INCREMENT,
   `PA_ID`         INT(11)       NOT NULL DEFAULT 0,
   `RECON_ID`      VARCHAR(50)   NOT NULL DEFAULT '',
@@ -601,7 +604,7 @@ CREATE TABLE `pa_detail` (
 -- Source: Automate.php, Sys_model.php
 -- ============================================================
 
-CREATE TABLE `nav_header` (
+CREATE TABLE IF NOT EXISTS `nav_header` (
   `NAVH_ID`         INT(11)       NOT NULL AUTO_INCREMENT,
   `CP_ID`           INT(11)       NOT NULL DEFAULT 0,
   `MERCHANT_ID`     INT(11)       NOT NULL DEFAULT 0,
@@ -619,7 +622,7 @@ CREATE TABLE `nav_header` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `nav_detail` (
+CREATE TABLE IF NOT EXISTS `nav_detail` (
   `NAVD_ID`  INT(11)       NOT NULL AUTO_INCREMENT,
   `NAVH_ID`  INT(11)       NOT NULL DEFAULT 0,
   `PROD_ID`  INT(11)       NOT NULL DEFAULT 0,
@@ -638,7 +641,7 @@ CREATE TABLE `nav_detail` (
 -- Source: Sys_model.php, Rs.php controller
 -- ============================================================
 
-CREATE TABLE `conversion` (
+CREATE TABLE IF NOT EXISTS `conversion` (
   `COV_ID`        INT(11)        NOT NULL AUTO_INCREMENT,
   `MERCHANT_ID`   INT(11)        NOT NULL DEFAULT 0,
   `BRANCH_ID`     VARCHAR(25)    NOT NULL DEFAULT '',
@@ -661,7 +664,7 @@ CREATE TABLE `conversion` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `rs_header` (
+CREATE TABLE IF NOT EXISTS `rs_header` (
   `RS_ID`              INT(11)       NOT NULL AUTO_INCREMENT,
   `BRANCH_ID`          VARCHAR(25)   NOT NULL DEFAULT '',
   `MERCHANT_ID`        INT(11)       NOT NULL DEFAULT 0,
@@ -678,7 +681,7 @@ CREATE TABLE `rs_header` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `rs_detail` (
+CREATE TABLE IF NOT EXISTS `rs_detail` (
   `RS_DID`        INT(11)       NOT NULL AUTO_INCREMENT,
   `RS_ID`         INT(11)       NOT NULL DEFAULT 0,
   `COV_ID`        INT(11)       NOT NULL DEFAULT 0,
@@ -699,5 +702,5 @@ CREATE TABLE `rs_detail` (
 -- Source: Sys_model.php
 -- ============================================================
 
-CREATE TABLE `redemption_20230608` LIKE `redemption`;
-CREATE TABLE `old_redemption` LIKE `redemption`;
+CREATE TABLE IF NOT EXISTS `redemption_20230608` LIKE `redemption`;
+CREATE TABLE IF NOT EXISTS `old_redemption` LIKE `redemption`;
