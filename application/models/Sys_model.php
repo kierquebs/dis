@@ -337,7 +337,7 @@ class Sys_model extends CI_Model{
 			
 			$result = $query1->result();
 		// Access the first result object and retrieve the value of the column
-			return $result[0]->id;
+			return !empty($result) ? $result[0]->id : '';
 		}
 		/* original code below
 		$this->db->insert('redemption',$arr);		
