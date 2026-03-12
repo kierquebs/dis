@@ -15,11 +15,13 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ============================================================
 
 -- User Types
-INSERT INTO `utype` (`utype_id`, `utype_name`) VALUES
-(1, 'Admin'),
-(2, 'Reimbursement'),
-(3, 'Read Only'),
-(4, 'Finance');
+-- utype_code: short code used programmatically
+-- utype_desc: display label used by the app (e.g. audit.php, Login-pp.php -> utype_desc)
+INSERT INTO `utype` (`utype_id`, `utype_code`, `utype_desc`) VALUES
+(1, 'ADMIN',  'Admin'),
+(2, 'REIMB',  'Reimbursement'),
+(3, 'RDONLY', 'Read Only'),
+(4, 'FIN',    'Finance');
 
 
 -- Users  (all passwords = sha1('p@55123') = p@55123)
