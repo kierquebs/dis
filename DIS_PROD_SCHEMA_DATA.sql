@@ -17,6 +17,40 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ============================================================
+-- CLEAN SLATE — truncate all tables so re-running this script
+-- on an existing DB always yields a consistent state
+-- ============================================================
+TRUNCATE TABLE `nav_detail`;
+TRUNCATE TABLE `nav_header`;
+TRUNCATE TABLE `rs_detail`;
+TRUNCATE TABLE `rs_header`;
+TRUNCATE TABLE `conversion`;
+TRUNCATE TABLE `pa_detail`;
+TRUNCATE TABLE `pa_header`;
+TRUNCATE TABLE `temp_refund`;
+TRUNCATE TABLE `refund`;
+TRUNCATE TABLE `reconcilation`;
+TRUNCATE TABLE `redemption`;
+TRUNCATE TABLE `payment_cutoff`;
+TRUNCATE TABLE `branch_merchant`;
+TRUNCATE TABLE `branches`;
+TRUNCATE TABLE `merchant_fee`;
+TRUNCATE TABLE `cp_agreement`;
+TRUNCATE TABLE `cp_product_backup`;
+TRUNCATE TABLE `cp_product`;
+TRUNCATE TABLE `cp_merchant`;
+TRUNCATE TABLE `audit_upload`;
+TRUNCATE TABLE `audit_trail`;
+TRUNCATE TABLE `audit_action`;
+TRUNCATE TABLE `tbl_user`;
+TRUNCATE TABLE `password_history`;
+TRUNCATE TABLE `access_permission`;
+TRUNCATE TABLE `access_role`;
+TRUNCATE TABLE `user`;
+TRUNCATE TABLE `utype`;
+
+
+-- ============================================================
 -- USER MANAGEMENT
 -- ============================================================
 
@@ -233,12 +267,14 @@ INSERT INTO `branch_merchant` (`MERCHANT_ID`, `BRANCH_ID`) VALUES
 
 
 -- branches
+-- cp_id must match cp_merchant.CP_ID (varchar '1001'/'1002'/'1003'), NOT cp_merchant.ID (1/2/3)
+-- The app query joins: mer.CP_ID = br.CP_ID  →  cp_merchant.CP_ID = branches.cp_id
 INSERT INTO `branches` (`BRANCH_ID`, `MERCHANT_ID`, `cp_id`, `BRANCH_NAME`, `affiliategroupcode`) VALUES
-('BR-MC-001', 1, 1, 'McDo Makati Ayala',    'GADC'),
-('BR-MC-002', 1, 1, 'McDo BGC High Street', 'GADC'),
-('BR-7E-001', 2, 2, '7-Eleven Ortigas',     'CVSG'),
-('BR-7E-002', 2, 2, '7-Eleven Pasig',       'CVSG'),
-('BR-RR-001', 3, 3, 'Robinsons Galleria',   'RRHI');
+('BR-MC-001', 1, 1001, 'McDo Makati Ayala',    'GADC'),
+('BR-MC-002', 1, 1001, 'McDo BGC High Street', 'GADC'),
+('BR-7E-001', 2, 1002, '7-Eleven Ortigas',     'CVSG'),
+('BR-7E-002', 2, 1002, '7-Eleven Pasig',       'CVSG'),
+('BR-RR-001', 3, 1003, 'Robinsons Galleria',   'RRHI');
 
 
 -- payment_cutoff (MERCHANT_ID is UNIQUE KEY in prod schema)
@@ -440,15 +476,18 @@ INSERT INTO `rs_detail` (`RS_ID`, `COV_ID`, `RATE`, `TOTAL_FV`, `MARKETING_FEE`,
 
 -- ============================================================
 -- NAV (Navision/ERP) EXPORT
--- nav_header.CP_ID is int(11) → maps to cp_merchant.ID (auto-increment: 1,2,3)
+-- nav_header.CP_ID  is int(11) → maps to cp_merchant.ID (auto-increment: 1=McD, 2=7E, 3=RR)
+-- nav_header.RECON_ID is int(11) → maps to reconcilation.ID (auto-increment row ID)
+--   reconcilation row 1 = RECON-2026-001 (under PA 1, McDo Makati)
+--   reconcilation row 7 = RECON-2026-007 (under PA 3, 7-Eleven)
 -- ============================================================
 
 INSERT INTO `nav_header`
   (`NAVH_ID`, `CP_ID`, `MERCHANT_ID`, `PA_ID`, `RECON_ID`, `PROD_ID`,
    `TotalAmount`, `DateofReceipt`, `ExpectedDueDate`)
 VALUES
-(1, 1, 1, 1, 'RECON-2026-001', 42, 1250.00, '2026-01-20', '2026-01-23'),
-(2, 2, 2, 3, 'RECON-2026-007', 42,  550.00, '2026-01-25', '2026-01-30');
+(1, 1, 1, 1, 1, 42, 1250.00, '2026-01-20', '2026-01-23'),
+(2, 2, 2, 3, 7, 42,  550.00, '2026-01-25', '2026-01-30');
 
 
 -- nav_detail
