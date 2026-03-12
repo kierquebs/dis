@@ -9,6 +9,34 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET FOREIGN_KEY_CHECKS = 0;
 
+-- ============================================================
+-- CLEAN SLATE — truncate all sample-data tables so re-running
+-- this script on an existing DB always yields a consistent state
+-- ============================================================
+TRUNCATE TABLE `audit_upload`;
+TRUNCATE TABLE `audit_trail`;
+TRUNCATE TABLE `nav_detail`;
+TRUNCATE TABLE `nav_header`;
+TRUNCATE TABLE `rs_detail`;
+TRUNCATE TABLE `rs_header`;
+TRUNCATE TABLE `conversion`;
+TRUNCATE TABLE `pa_detail`;
+TRUNCATE TABLE `pa_header`;
+TRUNCATE TABLE `temp_refund`;
+TRUNCATE TABLE `refund`;
+TRUNCATE TABLE `reconcilation`;
+TRUNCATE TABLE `redemption`;
+TRUNCATE TABLE `payment_cutoff`;
+TRUNCATE TABLE `branch_merchant`;
+TRUNCATE TABLE `branches`;
+TRUNCATE TABLE `cp_merchant`;
+TRUNCATE TABLE `cp_product`;
+TRUNCATE TABLE `password_history`;
+TRUNCATE TABLE `access_permission`;
+TRUNCATE TABLE `access_role`;
+TRUNCATE TABLE `user`;
+TRUNCATE TABLE `utype`;
+
 
 -- ============================================================
 -- USER MANAGEMENT
