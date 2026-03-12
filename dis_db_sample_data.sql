@@ -35,14 +35,15 @@ INSERT INTO `user` (`user_id`, `utype_id`, `user_name`, `full_name`, `email`, `p
 
 -- Access Roles (modules)
 -- acc_id matches the module IDs used in My_Layout.php::user_permission()
-INSERT INTO `access_role` (`acc_id`, `acc_code`) VALUES
-(1, 'transaction'),   -- BIN/card transaction tracking
-(2, 'process'),       -- Payment Advice (PA) processing
-(3, 'summary'),       -- PA Summary reports
-(4, 'rs_process'),    -- Reimbursement Settlement processing
-(5, 'admin'),         -- Admin panel
-(6, 'rs_summary'),    -- RS Summary reports
-(7, 'conversion');    -- Digital Conversion vouchers
+-- acc_name (NOT NULL in prod schema) added; app routes on acc_code
+INSERT INTO `access_role` (`acc_id`, `acc_name`, `acc_code`) VALUES
+(1, 'Transaction',  'transaction'),   -- BIN/card transaction tracking
+(2, 'Process',      'process'),       -- Payment Advice (PA) processing
+(3, 'Summary',      'summary'),       -- PA Summary reports
+(4, 'RS Process',   'rs_process'),    -- Reimbursement Settlement processing
+(5, 'Admin',        'admin'),         -- Admin panel
+(6, 'RS Summary',   'rs_summary'),    -- RS Summary reports
+(7, 'Conversion',   'conversion');    -- Digital Conversion vouchers
 
 
 -- Access Permissions
