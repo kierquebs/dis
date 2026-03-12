@@ -95,27 +95,28 @@ INSERT INTO `cp_product` (`SERVICE_ID`, `SERVICE_NAME`) VALUES
 
 
 -- Merchants
+-- PayeeId (NOT NULL in prod schema) added; used by Corepass_model.php NAV export queries
 INSERT INTO `cp_merchant`
   (`CP_ID`, `TIN`, `LegalName`, `TradingName`, `GroupTIN`, `GroupName`, `Address`,
-   `MeanofPayment`, `PayeeCode`, `BankName`, `BankAccountNumber`, `PayeeName`,
+   `MeanofPayment`, `PayeeCode`, `BankName`, `BankAccountNumber`, `PayeeName`, `PayeeId`,
    `MerchantFee`, `Industry`, `VATCond`, `InsertType`, `BankBranchCode`,
    `PayeeQtyOfDays`, `PayeeDayType`, `PayeeComments`,
    `AffiliateGroupCode`, `MerchantType`, `DIGITALSETTLEMENTTYPE`)
 VALUES
 (1001, '123-456-789-000', 'Golden Arches Dev Corp',       'McDonalds PH',   '123-456-789-000', 'QSR Group', 'Mckinley Pkwy, BGC Taguig',
-   'Bank Transfer', 'PAYEE-MC-001', 'BDO', '1234-5678-9012', 'Golden Arches',
+   'Bank Transfer', 'PAYEE-MC-001', 'BDO', '1234-5678-9012', 'Golden Arches', 'PID-MC-001',
    0.020000, 'Food Service', 'Taxable', 'AUTO', 'BDO-BGC',
    3, 1, 'Standard 3 business days',
    'GADC', '', ''),
 
 (1002, '987-654-321-000', '7-Eleven Philippines Inc',     '7-Eleven PH',    '987-654-321-000', 'CVS Group', '7-Eleven Bldg, Pasig City',
-   'Bank Transfer', 'PAYEE-7E-001', 'BPI', '9876-5432-1098', '7-Eleven PH',
+   'Bank Transfer', 'PAYEE-7E-001', 'BPI', '9876-5432-1098', '7-Eleven PH', 'PID-7E-001',
    0.015000, 'Convenience Store', 'VAT-Exempt', 'AUTO', 'BPI-ORTIGAS',
    5, 0, 'Standard 5 calendar days',
    'CVSG', '', ''),
 
 (1003, '111-222-333-000', 'Robinsons Retail Holdings Inc','Robinsons Supermarket','111-222-333-000','Robinsons Group','Robinson Galleria, Ortigas',
-   'Bank Transfer', 'PAYEE-RR-001', 'Metrobank', '1111-2222-3333', 'Robinsons Retail',
+   'Bank Transfer', 'PAYEE-RR-001', 'Metrobank', '1111-2222-3333', 'Robinsons Retail', 'PID-RR-001',
    0.018000, 'Supermarket', 'Taxable', 'AUTO', 'MBK-ORTIGAS',
    3, 1, '',
    'RRHI', 'Merchant Dormancy', '');  -- dormancy type for testing dormancy filter
