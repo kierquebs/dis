@@ -20,7 +20,7 @@ class Pdf_pa extends MX_Controller {
 		$this->load->helper('download');
 		$this->load->library('zip');
 		$this->zipName = 'zipFIle_'.$this->auth->get_userid().'.zip';
-		$this->zipLocation = 'C:/xampp/htdocs/generated_payment_advice/';
+		$this->zipLocation = FCPATH.'generated_payment_advice/';
     }
 	
 	public function index(){
@@ -114,8 +114,7 @@ class Pdf_pa extends MX_Controller {
 			$xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
 			$xlsx->saveAs($fileName); 
 
-			// rename("C:\laragon\www\mp_dis/".$fileName, "C:/xampp/htdocs/generated_payment_advice/". date('Ymd') . '/' . $fileName); // local
-			rename("C:/xampp/htdocs/mp_dis/".$fileName, "C:/xampp/htdocs/generated_payment_advice/". date('Ymd') . '/' . $fileName); // uat
+			rename(FCPATH.$fileName, $this->my_lib->makeDIR($this->zipLocation, date('Ymd')).$fileName);
 		
 		}
 
