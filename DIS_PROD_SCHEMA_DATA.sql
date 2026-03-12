@@ -411,16 +411,19 @@ VALUES
 -- export() generates Excel files for all of them in one batch:
 --   getLastPaDate()        → returns '2026-01-20' (max REIMBURSEMENT_DATE)
 --   getPaIdFromLastPaDate() → matches DATE_CREATED LIKE '%2026-01-20%' → all 3 PAs
--- explicit_defaults_for_timestamp required so MariaDB honours the explicit
--- DATE_CREATED value instead of overriding it with CURRENT_TIMESTAMP.
-SET @@SESSION.explicit_defaults_for_timestamp = 1;
+-- SET TIMESTAMP pins CURRENT_TIMESTAMP to 2026-01-20 for this session so
+-- DATE_CREATED (DEFAULT CURRENT_TIMESTAMP) gets the correct value on INSERT.
+-- This is the same technique mysqldump uses to preserve timestamp values.
+-- Works on MariaDB 10.1+ without requiring explicit_defaults_for_timestamp.
+SET TIMESTAMP = UNIX_TIMESTAMP('2026-01-20 09:00:00');
 INSERT INTO `pa_header`
   (`PA_ID`, `MERCHANT_ID`, `MERCHANT_FEE`, `vatcond`, `REIMBURSEMENT_DATE`,
-   `ExpectedDueDate`, `USER_ID`, `GENERATED`, `DATE_CREATED`)
+   `ExpectedDueDate`, `USER_ID`, `GENERATED`)
 VALUES
-(1, 1, 0.02000, 'Taxable',    '2026-01-20 09:00:00', '2026-01-23', 2, 0, '2026-01-20 09:00:00'),
-(2, 1, 0.02000, 'Taxable',    '2026-01-20 09:00:00', '2026-01-24', 2, 0, '2026-01-20 09:00:00'),
-(3, 2, 0.01500, 'VAT-Exempt', '2026-01-20 09:00:00', '2026-01-30', 2, 0, '2026-01-20 09:00:00');
+(1, 1, 0.02000, 'Taxable',    '2026-01-20 09:00:00', '2026-01-23', 2, 0),
+(2, 1, 0.02000, 'Taxable',    '2026-01-20 09:00:00', '2026-01-24', 2, 0),
+(3, 2, 0.01500, 'VAT-Exempt', '2026-01-20 09:00:00', '2026-01-30', 2, 0);
+SET TIMESTAMP = DEFAULT;
 
 
 -- pa_detail
