@@ -78,12 +78,13 @@ class Download_file extends MX_Controller{
 	 * @param string $type {'Excel5' , 'CSV'}
 	 * @return void
 	 */
-	private function _callDownload($arrOBJ, $module, $type = 'Excel5'){	
-		$filename = $module['filename'];			
+	private function _callDownload($arrOBJ, $module, $type = 'Excel5'){
+		$filename = $module['filename'];
+		ob_end_clean();
 		header('Content-Type: application/force-download;');
-		header('Content-Transfer-Encoding: binary'); //no cache	
-		header('Cache-Control: max-age=0'); //no cache			
-		header('Content-Disposition: attachment;filename="'.$filename.'"'); 		
+		header('Content-Transfer-Encoding: binary'); //no cache
+		header('Cache-Control: max-age=0'); //no cache
+		header('Content-Disposition: attachment;filename="'.$filename.'"');		
 		
 		if($type == 'CSV'){
 			$objWriter = new PHPExcel_Writer_CSV($arrOBJ);
