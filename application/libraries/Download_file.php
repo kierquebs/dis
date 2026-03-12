@@ -5,9 +5,7 @@ class Download_file extends MX_Controller{
 	public $navLocation;
 	public function __construct(){
 		parent::__construct();
-		$this->load->library('classes/PHPExcel.php');
-		//$this->load->library('classes/PHPExcel.php');
-		$this->navLocation = "C:/xampp/htdocs/nav_interface/";
+		$this->navLocation = FCPATH.'nav_interface/';
 	}
 	
 	public function file_path(){
@@ -28,15 +26,15 @@ class Download_file extends MX_Controller{
 		
 		// Field names in the first row
 		$fields = $query->list_fields();
-		$col = 0;
+		$col = 1;
 		foreach ($fields as $field){
 			$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($col, 1, $field);
 			$col++;
-		}	 
+		}
 		// Fetching the table data
 		$row = 2;
 		foreach($query->result() as $data){
-			$col = 0;
+			$col = 1;
 			foreach ($fields as $field){
 				$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($col, $row, $data->$field);
 				$col++;
@@ -64,10 +62,10 @@ class Download_file extends MX_Controller{
 	  * @param array $module
 	  * @return object_array
 	  */
-	private function _callPHPCLASS($module){	
-		$objPHPExcel = new PHPExcel();
-        $objPHPExcel->getProperties()->setTitle($module['filename'])->setDescription("");        
-		$objPHPExcel->setActiveSheetIndex(0);	
+	private function _callPHPCLASS($module){
+		$objPHPExcel = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+        $objPHPExcel->getProperties()->setTitle($module['filename'])->setDescription("");
+		$objPHPExcel->setActiveSheetIndex(0);
 		return $objPHPExcel;
 	}	
 	/**
@@ -78,34 +76,36 @@ class Download_file extends MX_Controller{
 	 * @param string $type {'Excel5' , 'CSV'}
 	 * @return void
 	 */
-	private function _callDownload($arrOBJ, $module, $type = 'Excel5'){	
-		$filename = $module['filename'];			
+	private function _callDownload($arrOBJ, $module, $type = 'Excel5'){
+		$filename = $module['filename'];
+		ob_end_clean();
 		header('Content-Type: application/force-download;');
-		header('Content-Transfer-Encoding: binary'); //no cache	
-		header('Cache-Control: max-age=0'); //no cache			
-		header('Content-Disposition: attachment;filename="'.$filename.'"'); 		
-		
-		if($type == 'CSV'){
-			$objWriter = new PHPExcel_Writer_CSV($arrOBJ);
-			$objWriter->setUseBOM(true);
-			$objWriter->setEnclosure('');  
-		}else $objWriter = PHPExcel_IOFactory::createWriter($arrOBJ, $type);
+		header('Content-Transfer-Encoding: binary'); //no cache
+		header('Cache-Control: max-age=0'); //no cache
+		header('Content-Disposition: attachment;filename="'.$filename.'"');
 
-		return $objWriter->save('php://output'); 
+		if($type == 'CSV'){
+			$objWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($arrOBJ, 'Csv');
+			$objWriter->setUseBOM(true);
+			$objWriter->setEnclosure('');
+		}else $objWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($arrOBJ, 'Xls');
+
+		return $objWriter->save('php://output');
 	}
 
-	private function _callDownloadNew($arrOBJ, $module, $type = 'Excel5'){	
-		$filename = $module['filename'];			
+	private function _callDownloadNew($arrOBJ, $module, $type = 'Excel5'){
+		$filename = $module['filename'];
+		ob_end_clean();
 		header('Content-Type: application/force-download;');
-		header('Content-Transfer-Encoding: binary'); //no cache	
-		header('Cache-Control: max-age=0'); //no cache			
-		header('Content-Disposition: attachment;filename="'.$filename.'"'); 		
-		
+		header('Content-Transfer-Encoding: binary'); //no cache
+		header('Cache-Control: max-age=0'); //no cache
+		header('Content-Disposition: attachment;filename="'.$filename.'"');
+
 		if($type == 'CSV'){
-			$objWriter = new PHPExcel_Writer_CSV($arrOBJ);
+			$objWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($arrOBJ, 'Csv');
 			$objWriter->setUseBOM(false);
-			$objWriter->setEnclosure('');  
-		}else $objWriter = PHPExcel_IOFactory::createWriter($arrOBJ, $type);
+			$objWriter->setEnclosure('');
+		}else $objWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($arrOBJ, 'Xls');
 		
 		// Start output buffering to capture CSV content
 		ob_start();
@@ -142,12 +142,12 @@ class Download_file extends MX_Controller{
 	}
 	
 	private function _callDownloadServer($arrOBJ, $module, $type = 'Excel5', $serverDL = ''){
-		$filename = $serverDL.$module['filename'];				
+		$filename = $serverDL.$module['filename'];
 		if($type == 'CSV'){
-			$objWriter = new PHPExcel_Writer_CSV($arrOBJ);
+			$objWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($arrOBJ, 'Csv');
 			$objWriter->setUseBOM(true);
 			$objWriter->setEnclosure('');
-		}else $objWriter = PHPExcel_IOFactory::createWriter($arrOBJ, $type);
+		}else $objWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($arrOBJ, 'Xls');
 		return $objWriter->save($filename);
 	}
  /**
