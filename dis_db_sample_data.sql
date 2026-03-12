@@ -242,49 +242,52 @@ INSERT INTO `co_transac` (`order_id`, `company_id`, `co_orderinfo_id`, `created_
 -- PA1 covers RED-001 and RED-002 (RECONCILED)
 -- RED-003 is RECONCILED then REVERSED (has refund)
 -- RED-004, RED-005 are REDEEMED (uploaded, pending reconciliation)
+-- MERCHANT_NAME, POS_TXN_ID, TRANSACTION_ID added (all NOT NULL in prod schema)
 INSERT INTO `redemption`
-  (`ID`, `REDEEM_ID`, `MERCHANT_ID`, `BRANCH_ID`, `PROD_ID`, `VOUCHER_CODE`,
-   `TRANSACTION_VALUE`, `STAGE`, `TRANSACTION_DATE_TIME`, `POS_ID`, `PAYMENT_MODE`,
-   `REFUND_ID`, `PA_ID`, `PA_TEMPID`)
+  (`ID`, `REDEEM_ID`, `MERCHANT_ID`, `MERCHANT_NAME`, `BRANCH_ID`, `PROD_ID`, `VOUCHER_CODE`,
+   `TRANSACTION_VALUE`, `STAGE`, `TRANSACTION_DATE_TIME`, `POS_ID`, `POS_TXN_ID`,
+   `TRANSACTION_ID`, `PAYMENT_MODE`, `REFUND_ID`, `PA_ID`, `PA_TEMPID`)
 VALUES
 -- Reconciled — under PA 1
-(1,  'RED-2026-001', 1, 'BR-MC-001', 42, 'VOUCH-MC-001',  500.00, 'RECONCILED', '2026-01-05 10:00:00', 'POS-MC-001', 'DIGITAL', 0, 1, 0),
-(2,  'RED-2026-002', 1, 'BR-MC-001', 42, 'VOUCH-MC-002',  750.00, 'RECONCILED', '2026-01-06 11:00:00', 'POS-MC-001', 'DIGITAL', 0, 1, 0),
-(3,  'RED-2026-003', 2, 'BR-MC-002', 42, 'VOUCH-MC-003',  300.00, 'RECONCILED', '2026-01-07 09:30:00', 'POS-MC-002', 'DIGITAL', 0, 2, 0),
-(4,  'RED-2026-004', 2, 'BR-MC-002', 42, 'VOUCH-MC-004',  600.00, 'RECONCILED', '2026-01-08 14:00:00', 'POS-MC-002', 'DIGITAL', 0, 2, 0),
+(1,  'RED-2026-001', 1, 'McDonalds PH', 'BR-MC-001', 42, 'VOUCH-MC-001',  500.00, 'RECONCILED', '2026-01-05 10:00:00', 'POS-MC-001', 'POSTXN-MC-001', 'TXN-2026-001', 'DIGITAL', 0, 1, 0),
+(2,  'RED-2026-002', 1, 'McDonalds PH', 'BR-MC-001', 42, 'VOUCH-MC-002',  750.00, 'RECONCILED', '2026-01-06 11:00:00', 'POS-MC-001', 'POSTXN-MC-002', 'TXN-2026-002', 'DIGITAL', 0, 1, 0),
+(3,  'RED-2026-003', 2, 'McDonalds PH', 'BR-MC-002', 42, 'VOUCH-MC-003',  300.00, 'RECONCILED', '2026-01-07 09:30:00', 'POS-MC-002', 'POSTXN-MC-003', 'TXN-2026-003', 'DIGITAL', 0, 2, 0),
+(4,  'RED-2026-004', 2, 'McDonalds PH', 'BR-MC-002', 42, 'VOUCH-MC-004',  600.00, 'RECONCILED', '2026-01-08 14:00:00', 'POS-MC-002', 'POSTXN-MC-004', 'TXN-2026-004', 'DIGITAL', 0, 2, 0),
 -- Reversed — under PA 1 → has refund
-(5,  'RED-2026-005', 1, 'BR-MC-001', 42, 'VOUCH-MC-005',  400.00, 'REVERSED',   '2026-01-09 10:00:00', 'POS-MC-001', 'DIGITAL', 1, 0, 0),
+(5,  'RED-2026-005', 1, 'McDonalds PH', 'BR-MC-001', 42, 'VOUCH-MC-005',  400.00, 'REVERSED',   '2026-01-09 10:00:00', 'POS-MC-001', 'POSTXN-MC-005', 'TXN-2026-005', 'DIGITAL', 1, 0, 0),
 -- Already in PA but with REFUND too (post-PA reversal)
-(6,  'RED-2026-006', 1, 'BR-MC-001', 42, 'VOUCH-MC-006',  250.00, 'REVERSED',   '2026-01-10 10:00:00', 'POS-MC-001', 'DIGITAL', 2, 1, 0),
--- Merchant 2 (7-Eleven) — Reconciled, under PA 3
-(7,  'RED-2026-007', 3, 'BR-7E-001', 42, 'VOUCH-7E-001',  200.00, 'RECONCILED', '2026-01-12 08:00:00', 'POS-7E-001', 'DIGITAL', 0, 3, 0),
-(8,  'RED-2026-008', 3, 'BR-7E-001', 42, 'VOUCH-7E-002',  350.00, 'RECONCILED', '2026-01-13 09:00:00', 'POS-7E-001', 'DIGITAL', 0, 3, 0),
+(6,  'RED-2026-006', 1, 'McDonalds PH', 'BR-MC-001', 42, 'VOUCH-MC-006',  250.00, 'REVERSED',   '2026-01-10 10:00:00', 'POS-MC-001', 'POSTXN-MC-006', 'TXN-2026-006', 'DIGITAL', 2, 1, 0),
+-- Merchant 3 (7-Eleven) — Reconciled, under PA 3
+(7,  'RED-2026-007', 3, '7-Eleven PH',  'BR-7E-001', 42, 'VOUCH-7E-001',  200.00, 'RECONCILED', '2026-01-12 08:00:00', 'POS-7E-001', 'POSTXN-7E-001', 'TXN-2026-007', 'DIGITAL', 0, 3, 0),
+(8,  'RED-2026-008', 3, '7-Eleven PH',  'BR-7E-001', 42, 'VOUCH-7E-002',  350.00, 'RECONCILED', '2026-01-13 09:00:00', 'POS-7E-001', 'POSTXN-7E-002', 'TXN-2026-008', 'DIGITAL', 0, 3, 0),
 -- Redeemed — uploaded but not yet reconciled (pending)
-(9,  'RED-2026-009', 1, 'BR-MC-001', 42, 'VOUCH-MC-009',  500.00, 'REDEEMED',   '2026-02-01 10:00:00', 'POS-MC-001', 'DIGITAL', 0, 0, 0),
-(10, 'RED-2026-010', 3, 'BR-7E-001', 43, 'VOUCH-7E-010', 1000.00, 'REDEEMED',   '2026-02-02 11:00:00', 'POS-7E-001', 'DIGITAL', 0, 0, 0),
+(9,  'RED-2026-009', 1, 'McDonalds PH', 'BR-MC-001', 42, 'VOUCH-MC-009',  500.00, 'REDEEMED',   '2026-02-01 10:00:00', 'POS-MC-001', 'POSTXN-MC-009', 'TXN-2026-009', 'DIGITAL', 0, 0, 0),
+(10, 'RED-2026-010', 3, '7-Eleven PH',  'BR-7E-001', 43, 'VOUCH-7E-010', 1000.00, 'REDEEMED',   '2026-02-02 11:00:00', 'POS-7E-001', 'POSTXN-7E-010', 'TXN-2026-010', 'DIGITAL', 0, 0, 0),
 -- Void — cancelled transaction
-(11, 'RED-2026-011', 4, 'BR-7E-002', 42, 'VOUCH-7E-011',  100.00, 'VOID',       '2026-02-03 12:00:00', 'POS-7E-002', 'DIGITAL', 0, 0, 0);
+(11, 'RED-2026-011', 4, '7-Eleven PH',  'BR-7E-002', 42, 'VOUCH-7E-011',  100.00, 'VOID',       '2026-02-03 12:00:00', 'POS-7E-002', 'POSTXN-7E-011', 'TXN-2026-011', 'DIGITAL', 0, 0, 0);
 
 
 -- RECONCILIATIONS
+-- MERCHANT_NAME, POS_ID, POS_TXN_ID, VOUCHER_CODE added (all NOT NULL in prod schema)
 INSERT INTO `reconcilation`
-  (`ID`, `RECON_ID`, `REDEEM_ID`, `MERCHANT_ID`, `BRANCH_ID`, `PROD_ID`,
+  (`ID`, `RECON_ID`, `REDEEM_ID`, `MERCHANT_NAME`, `MERCHANT_ID`, `BRANCH_ID`, `PROD_ID`,
+   `POS_ID`, `POS_TXN_ID`, `VOUCHER_CODE`,
    `TRANSACTION_VALUE`, `RECON_DATE_TIME`, `TRANSACTION_DATE_TIME`,
    `REFUND_ID`, `PA_ID`, `payment_mode`, `REDEEM_TBL_ID`, `STAGE`, `PA_TEMPID`)
 VALUES
 -- Under PA 1 (Merchant 1, BR-MC-001)
-(1, 'RECON-2026-001', 'RED-2026-001', 1, 'BR-MC-001', 42,  500.00, '2026-01-15 08:00:00', '2026-01-05 10:00:00', 0, 1, 'DIGITAL', 1,  'RECONCILED', 0),
-(2, 'RECON-2026-002', 'RED-2026-002', 1, 'BR-MC-001', 42,  750.00, '2026-01-15 08:05:00', '2026-01-06 11:00:00', 0, 1, 'DIGITAL', 2,  'RECONCILED', 0),
+(1, 'RECON-2026-001', 'RED-2026-001', 'McDonalds PH', 1, 'BR-MC-001', 42, 'POS-MC-001', 'POSTXN-MC-001', 'VOUCH-MC-001',  500.00, '2026-01-15 08:00:00', '2026-01-05 10:00:00', 0, 1, 'DIGITAL', 1,  'RECONCILED', 0),
+(2, 'RECON-2026-002', 'RED-2026-002', 'McDonalds PH', 1, 'BR-MC-001', 42, 'POS-MC-001', 'POSTXN-MC-002', 'VOUCH-MC-002',  750.00, '2026-01-15 08:05:00', '2026-01-06 11:00:00', 0, 1, 'DIGITAL', 2,  'RECONCILED', 0),
 -- Under PA 2 (Merchant 2, BR-MC-002)
-(3, 'RECON-2026-003', 'RED-2026-003', 2, 'BR-MC-002', 42,  300.00, '2026-01-16 08:00:00', '2026-01-07 09:30:00', 0, 2, 'DIGITAL', 3,  'RECONCILED', 0),
-(4, 'RECON-2026-004', 'RED-2026-004', 2, 'BR-MC-002', 42,  600.00, '2026-01-16 08:10:00', '2026-01-08 14:00:00', 0, 2, 'DIGITAL', 4,  'RECONCILED', 0),
+(3, 'RECON-2026-003', 'RED-2026-003', 'McDonalds PH', 2, 'BR-MC-002', 42, 'POS-MC-002', 'POSTXN-MC-003', 'VOUCH-MC-003',  300.00, '2026-01-16 08:00:00', '2026-01-07 09:30:00', 0, 2, 'DIGITAL', 3,  'RECONCILED', 0),
+(4, 'RECON-2026-004', 'RED-2026-004', 'McDonalds PH', 2, 'BR-MC-002', 42, 'POS-MC-002', 'POSTXN-MC-004', 'VOUCH-MC-004',  600.00, '2026-01-16 08:10:00', '2026-01-08 14:00:00', 0, 2, 'DIGITAL', 4,  'RECONCILED', 0),
 -- REVERSED — pre-PA reversal (PA_ID=0, REFUND_ID=1)
-(5, 'RECON-2026-005', 'RED-2026-005', 1, 'BR-MC-001', 42,  400.00, '2026-01-17 08:00:00', '2026-01-09 10:00:00', 1, 0, 'DIGITAL', 5,  'REVERSED',   0),
+(5, 'RECON-2026-005', 'RED-2026-005', 'McDonalds PH', 1, 'BR-MC-001', 42, 'POS-MC-001', 'POSTXN-MC-005', 'VOUCH-MC-005',  400.00, '2026-01-17 08:00:00', '2026-01-09 10:00:00', 1, 0, 'DIGITAL', 5,  'REVERSED',   0),
 -- REVERSED — post-PA reversal (PA_ID=1, REFUND_ID=2)
-(6, 'RECON-2026-006', 'RED-2026-006', 1, 'BR-MC-001', 42,  250.00, '2026-01-17 08:30:00', '2026-01-10 10:00:00', 2, 1, 'DIGITAL', 6,  'REVERSED',   0),
+(6, 'RECON-2026-006', 'RED-2026-006', 'McDonalds PH', 1, 'BR-MC-001', 42, 'POS-MC-001', 'POSTXN-MC-006', 'VOUCH-MC-006',  250.00, '2026-01-17 08:30:00', '2026-01-10 10:00:00', 2, 1, 'DIGITAL', 6,  'REVERSED',   0),
 -- Under PA 3 (Merchant 3 — 7-Eleven)
-(7, 'RECON-2026-007', 'RED-2026-007', 3, 'BR-7E-001', 42,  200.00, '2026-01-20 08:00:00', '2026-01-12 08:00:00', 0, 3, 'DIGITAL', 7,  'RECONCILED', 0),
-(8, 'RECON-2026-008', 'RED-2026-008', 3, 'BR-7E-001', 42,  350.00, '2026-01-20 08:05:00', '2026-01-13 09:00:00', 0, 3, 'DIGITAL', 8,  'RECONCILED', 0);
+(7, 'RECON-2026-007', 'RED-2026-007', '7-Eleven PH',  3, 'BR-7E-001', 42, 'POS-7E-001', 'POSTXN-7E-001', 'VOUCH-7E-001',  200.00, '2026-01-20 08:00:00', '2026-01-12 08:00:00', 0, 3, 'DIGITAL', 7,  'RECONCILED', 0),
+(8, 'RECON-2026-008', 'RED-2026-008', '7-Eleven PH',  3, 'BR-7E-001', 42, 'POS-7E-001', 'POSTXN-7E-002', 'VOUCH-7E-002',  350.00, '2026-01-20 08:05:00', '2026-01-13 09:00:00', 0, 3, 'DIGITAL', 8,  'RECONCILED', 0);
 
 
 -- REFUNDS (reversals)
@@ -322,46 +325,51 @@ VALUES
 -- ============================================================
 
 -- PA Headers
-INSERT INTO `pa_header` (`PA_ID`, `MERCHANT_ID`, `USER_ID`, `DATE_CREATED`, `REIMBURSEMENT_DATE`, `ExpectedDueDate`, `MERCHANT_FEE`, `vatCond`) VALUES
-(1, 1, 2, '2026-01-20 09:00:00', '2026-01-20 09:00:00', '2026-01-23 17:00:00', 0.020000, 'Taxable'),    -- McDo BR-MC-001 (3 biz days)
-(2, 2, 2, '2026-01-21 09:00:00', '2026-01-21 09:00:00', '2026-01-24 17:00:00', 0.020000, 'Taxable'),    -- McDo BR-MC-002
-(3, 3, 2, '2026-01-25 09:00:00', '2026-01-25 09:00:00', '2026-01-30 17:00:00', 0.015000, 'VAT-Exempt'); -- 7-Eleven
+-- GENERATED added (NOT NULL in prod schema; 0=generated, 1=copy)
+INSERT INTO `pa_header` (`PA_ID`, `MERCHANT_ID`, `USER_ID`, `DATE_CREATED`, `REIMBURSEMENT_DATE`, `ExpectedDueDate`, `MERCHANT_FEE`, `vatCond`, `GENERATED`) VALUES
+(1, 1, 2, '2026-01-20 09:00:00', '2026-01-20 09:00:00', '2026-01-23', 0.020000, 'Taxable',    0),  -- McDo BR-MC-001 (3 biz days)
+(2, 2, 2, '2026-01-21 09:00:00', '2026-01-21 09:00:00', '2026-01-24', 0.020000, 'Taxable',    0),  -- McDo BR-MC-002
+(3, 3, 2, '2026-01-25 09:00:00', '2026-01-25 09:00:00', '2026-01-30', 0.015000, 'VAT-Exempt', 0);  -- 7-Eleven
 
 
 -- PA Details  (RECON_ID links to reconcilation.RECON_ID)
 -- PA 1 covers RECON-001, RECON-002 (and RECON-006 post-PA reversal is also under PA 1)
-INSERT INTO `pa_detail` (`PA_DID`, `PA_ID`, `RECON_ID`, `RATE`, `NUM_PASSES`, `TOTAL_FV`, `MARKETING_FEE`, `VAT`, `NET_DUE`, `BRANCH_ID`) VALUES
+-- TOTAL_REFUND added (NOT NULL in prod schema)
+INSERT INTO `pa_detail` (`PA_DID`, `PA_ID`, `RECON_ID`, `RATE`, `NUM_PASSES`, `TOTAL_FV`, `MARKETING_FEE`, `VAT`, `NET_DUE`, `TOTAL_REFUND`, `BRANCH_ID`) VALUES
 -- PA 1 — McDo Makati
-(1, 1, 'RECON-2026-001', 0.020000, 1,  500.00, 10.00, 1.20,  490.80, 'BR-MC-001'),
-(2, 1, 'RECON-2026-002', 0.020000, 1,  750.00, 15.00, 1.80,  735.00, 'BR-MC-001'),
+(1, 1, 'RECON-2026-001', 0.020000, 1,  500.00, 10.00, 1.20,  490.80, 0.00000, 'BR-MC-001'),
+(2, 1, 'RECON-2026-002', 0.020000, 1,  750.00, 15.00, 1.80,  735.00, 0.00000, 'BR-MC-001'),
 -- PA 2 — McDo BGC
-(3, 2, 'RECON-2026-003', 0.020000, 1,  300.00,  6.00, 0.72,  294.00, 'BR-MC-002'),
-(4, 2, 'RECON-2026-004', 0.020000, 1,  600.00, 12.00, 1.44,  588.00, 'BR-MC-002'),
+(3, 2, 'RECON-2026-003', 0.020000, 1,  300.00,  6.00, 0.72,  294.00, 0.00000, 'BR-MC-002'),
+(4, 2, 'RECON-2026-004', 0.020000, 1,  600.00, 12.00, 1.44,  588.00, 0.00000, 'BR-MC-002'),
 -- PA 3 — 7-Eleven Ortigas
-(5, 3, 'RECON-2026-007', 0.015000, 1,  200.00,  3.00, 0.00,  197.00, 'BR-7E-001'),
-(6, 3, 'RECON-2026-008', 0.015000, 1,  350.00,  5.25, 0.00,  344.75, 'BR-7E-001');
+(5, 3, 'RECON-2026-007', 0.015000, 1,  200.00,  3.00, 0.00,  197.00, 0.00000, 'BR-7E-001'),
+(6, 3, 'RECON-2026-008', 0.015000, 1,  350.00,  5.25, 0.00,  344.75, 0.00000, 'BR-7E-001');
 
 
 -- ============================================================
 -- CONVERSION & REIMBURSEMENT SETTLEMENT (RS) — Digital flow
 -- ============================================================
 
+-- CHANNEL added (NOT NULL in prod schema)
+-- AGENT_ID changed from string ('AGT-001') to int (prod schema: int NOT NULL)
 INSERT INTO `conversion`
   (`COV_ID`, `MERCHANT_ID`, `BRANCH_ID`, `BRANCH_NAME`, `PROD_ID`, `VOUCHER_CODES`,
-   `AGENT_ID`, `DENO`, `TOTAL_AMOUNT`, `STAGE`, `RS_ID`, `USER_ID`, `NAME`, `CREATED_AT`)
+   `AGENT_ID`, `DENO`, `TOTAL_AMOUNT`, `STAGE`, `CHANNEL`, `RS_ID`, `USER_ID`, `NAME`, `CREATED_AT`)
 VALUES
 (1, 1, 'BR-MC-001', 'McDo Makati Ayala',    42, 'VOUCH-MC-CONV-001,VOUCH-MC-CONV-002',
-   'AGT-001', 500.00, 1000.00, 'CONVERTED', 1, 1, 'Juan Dela Cruz', '2026-01-10 08:00:00'),
+   1, 500.00, 1000.00, 'CONVERTED', 'DIGITAL', 1, 1, 'Juan Dela Cruz', '2026-01-10 08:00:00'),
 (2, 1, 'BR-MC-001', 'McDo Makati Ayala',    42, 'VOUCH-MC-CONV-003',
-   'AGT-001', 500.00,  500.00, 'CONVERTED', 1, 1, 'Juan Dela Cruz', '2026-01-10 09:00:00'),
+   1, 500.00,  500.00, 'CONVERTED', 'DIGITAL', 1, 1, 'Juan Dela Cruz', '2026-01-10 09:00:00'),
 (3, 3, 'BR-7E-001', '7-Eleven Ortigas',     42, 'VOUCH-7E-CONV-001',
-   'AGT-002', 200.00,  200.00, 'CONVERTED', 0, 1, 'Pedro Cruz',     '2026-02-01 08:00:00');
+   2, 200.00,  200.00, 'CONVERTED', 'DIGITAL', 0, 1, 'Pedro Cruz',     '2026-02-01 08:00:00');
    -- RS_ID=0 means not yet settled — will show in pending RS list
 
 
 -- RS Headers
-INSERT INTO `rs_header` (`RS_ID`, `BRANCH_ID`, `MERCHANT_ID`, `DATE_CREATED`, `REIMBURSEMENT_DATE`, `USER_ID`, `MERCHANT_FEE`, `VATCOND`, `ExpectedDueDate`, `RS_NUMBER`) VALUES
-(1, 'BR-MC-001', 1, '2026-01-20 09:00:00', '2026-01-20 09:00:00', 1, 0.020000, 'Taxable', '2026-01-23 17:00:00', 'RS-2026-01-001');
+-- GENERATED added (NOT NULL in prod schema; 0=generated, 1=copy)
+INSERT INTO `rs_header` (`RS_ID`, `BRANCH_ID`, `MERCHANT_ID`, `DATE_CREATED`, `REIMBURSEMENT_DATE`, `USER_ID`, `MERCHANT_FEE`, `VATCOND`, `ExpectedDueDate`, `RS_NUMBER`, `GENERATED`) VALUES
+(1, 'BR-MC-001', 1, '2026-01-20 09:00:00', '2026-01-20 09:00:00', 1, 0.020000, 'Taxable', '2026-01-23', 'RS-2026-01-001', 0);
 
 
 -- RS Details
@@ -387,23 +395,22 @@ INSERT INTO `nav_detail` (`NAVH_ID`, `PROD_ID`, `BillItem`, `FaceValue`, `Output
 -- AUDIT TRAIL
 -- ============================================================
 
-INSERT INTO `audit_trail` (`user_id`, `module_id`, `target_id`, `order_id`, `auc_id`) VALUES
-(1, 5, 1, 0, 1),  -- admin logged action on user 1
-(1, 2, 1, 0, 2),  -- PA created (PA_ID=1)
-(1, 2, 2, 0, 2),  -- PA created (PA_ID=2)
-(2, 2, 3, 0, 2),  -- reimb user created PA 3
-(1, 4, 1, 0, 2),  -- RS created
-(1, 1, 1, 1001, 2), -- transaction action on order 1001
-(1, 1, 2, 1002, 2); -- transaction action on order 1002
+-- audit_trail prod schema columns: action, user_id, pa_id, logist_id, dist_status
+-- (dev schema had module_id/target_id/order_id/auc_id — none of these exist in prod)
+INSERT INTO `audit_trail` (`action`, `user_id`, `pa_id`, `logist_id`, `dist_status`) VALUES
+(0, 1, 0, 0, 0),  -- login: admin
+(0, 2, 0, 0, 0),  -- login: reimb.user
+(2, 1, 1, 0, 0),  -- add: PA 1 created
+(2, 2, 2, 0, 0),  -- add: PA 2 created
+(2, 2, 3, 0, 0),  -- add: PA 3 created
+(2, 1, 0, 0, 0),  -- add: RS created
+(3, 1, 1, 0, 1);  -- update: PA 1 status change
 
 
 -- ============================================================
--- FILE UPLOAD LOG (simulates uploaded reconciliation files)
+-- FILE UPLOAD LOG
 -- ============================================================
-
-INSERT INTO `file_upload` (`file_id`, `file_name`, `module_id`, `utype_id`) VALUES
-(1, 'recon_upload_2026_01_15.csv', 8, 2),
-(2, 'refund_upload_2026_01_17.csv', 9, 2);
+-- NOTE: file_upload table does not exist in prod schema — insert removed
 
 INSERT INTO `audit_upload` (`module_name`, `file_name`) VALUES
 ('reconciliation', 'recon_upload_2026_01_15.csv'),
