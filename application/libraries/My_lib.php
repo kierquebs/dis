@@ -319,7 +319,7 @@ class My_lib extends MX_Controller{
 	* FORMULA FOR PA NUMBER
 	*/	
 	public function paNumber($PAID, $decode = false){
-		$prefix = 'Z';		 
+		$prefix = 'Z';
 		$minimum = 6;
 		$str = str_repeat('0', $minimum);
 		$PAID_Num = strlen((string)$PAID);
