@@ -48,10 +48,10 @@ class Wrecon extends MX_Controller {
 	public function get_item(){
 		if(!$this->input->is_ajax_request()) exit('No direct script access allowed');
 		
-		$dateWhere = $data['result'] = ''; 
+		$dateWhere = $data['result'] = '';
 		$DateToday = $this->my_layout->setDate('', true);
-		//*FILTER SEARCH		
-		$pcfWHere = $data['day'] = $data['date'] =  $data['terms'] = $where = ''; 
+		//*FILTER SEARCH
+		$pcfWHere = $data['day'] = $data['date'] =  $data['terms'] = $where = $where_date = '';
 
 		$data['date_coverage'] = $data['date_today'] = $data['where'] = $data['per_page'] = $data['offset'] = $data['total'] =  $data['result'] = '';				
 				
@@ -78,7 +78,7 @@ class Wrecon extends MX_Controller {
 						$data['date'] =  $date = htmlentities($this->input->get('date', true));
 						$dateWhere = $this->my_lib->setCFDate($date);
 						if(strlen ($date) <= 1){
-							$SPECIFIC_DATE = " AND TRIM( BOTH '}' FROM (TRIM(BOTH '{' FROM pcf.SPECIFIC_DATE))) in (".$date.") "; 
+							$SPECIFIC_DATE = " AND REPLACE(REPLACE(pcf.SPECIFIC_DATE, '{', ''), '}', '') in (".$date.") ";
 						}else {
 							$SPECIFIC_DATE =  ' AND pcf.SPECIFIC_DATE like "%'.$date.'%"'; 
 						}
@@ -165,9 +165,9 @@ class Wrecon extends MX_Controller {
 			if(isset($_POST['date'])  && $_POST['date'] != '' ){
 				$date = htmlentities($this->input->post('date', true));
 				if(strlen ($date) <= 1){						
-					$where .= " AND TRIM( BOTH '}' FROM (TRIM(BOTH '{' FROM pcf.SPECIFIC_DATE))) in (".$date.") "; 
+					$where .= " AND REPLACE(REPLACE(pcf.SPECIFIC_DATE, '{', ''), '}', '') in (".$date.") ";
 				}else{
-					$where .= ' AND pcf.SPECIFIC_DATE like "%'.$date.'%"'; 
+					$where .= ' AND pcf.SPECIFIC_DATE like "%'.$date.'%"';
 				}
 				$where .= $where_date = ' AND DATE_FORMAT(recon.RECON_DATE_TIME, "%Y-%m-%d") <= "'.$this->my_lib->setCFDate($date).'"'; //$this->my_lib->current_date()
 			}	
@@ -234,8 +234,8 @@ class Wrecon extends MX_Controller {
 				if(isset($_POST['date'])  && $_POST['date'] != '' ){
 					$date = htmlentities($this->input->post('date', true));
 					if(strlen ($date) <= 1){
-						$where .= " AND TRIM( BOTH '}' FROM (TRIM(BOTH '{' FROM pcf.SPECIFIC_DATE))) in (".$date.") "; 
-						$whereRefund .= " AND TRIM( BOTH '}' FROM (TRIM(BOTH '{' FROM pcf.SPECIFIC_DATE))) in (".$date.") "; 
+						$where .= " AND REPLACE(REPLACE(pcf.SPECIFIC_DATE, '{', ''), '}', '') in (".$date.") ";
+						$whereRefund .= " AND REPLACE(REPLACE(pcf.SPECIFIC_DATE, '{', ''), '}', '') in (".$date.") ";
 					}else{
 						$where .= ' AND pcf.SPECIFIC_DATE like "%'.$date.'%"'; 
 						$whereRefund .= ' AND pcf.SPECIFIC_DATE like "%'.$date.'%"'; 
@@ -249,7 +249,7 @@ class Wrecon extends MX_Controller {
 			$this->load->helper('my_helper');
 			
 			$PA_ARR = array(); $whereMerchant = $PA_ID = '';
-			for($i=0; $i<=$countProcess; $i++){
+			for($i=0; $i<$countProcess; $i++){
 				if(!empty($toProcess[$i])){
 					/*CREATE PA HEADER*/
 					$whereMerchant = ' AND br.MERCHANT_ID = "'.$toProcess[$i].'"'; 					
@@ -306,7 +306,7 @@ class Wrecon extends MX_Controller {
 									
 									if($row['merAFFCODE'] <> $row['brAFFCODE']){
 										$whereAFFCODE['CP_ID'] =  $row['CPID'];
-										$whereAFFCODE['AffiliateGroupCode'] = trim($row['brAFFCODE']);
+										$whereAFFCODE['AffiliateGroupCode'] = trim((string)$row['brAFFCODE']);
 										$getAFFCODE =  $this->Sys_model->v_agreement($whereAFFCODE, false);	
 										if($getAFFCODE->num_rows() <> 0){
 											$rowAFFCODE = $getAFFCODE->row();													
