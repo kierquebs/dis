@@ -327,7 +327,7 @@ class My_lib extends MX_Controller{
 		if($PAID_Num < $minimum){
 			if($decode == true) $sub_str = ltrim((string)$PAID, '0');
 			else $sub_str = substr_replace($str, (string)$PAID, ($minimum - $PAID_Num), $PAID_Num);
-		}else $sub_str = $PAID;
+		}else  $sub_str = $PAID;
 
 		if($decode == true) return ltrim(strtoupper((string)$sub_str), $prefix);
 		else return $prefix.$sub_str;
