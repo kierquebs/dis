@@ -84,7 +84,8 @@ class Reversal extends MX_Controller {
 						echo "Do not close this window - ONGOING INSERT RECORD : <br />";
 						
 						for($i=0;$i<COUNT($result_data);$i++){
-							$DigitalSettlementType = $u_refund = $i_refund = '';	
+							$DigitalSettlementType = '';
+							$u_refund = $i_refund = [];
 							$arrData = $result_data[$i]; 			
 							$get_TempID = $this->i_tempReverse($arrData, $get_UploadID, $fileArr['filname']); //insert temp reverse
 
@@ -201,7 +202,7 @@ class Reversal extends MX_Controller {
 											$check_Redeem = $this->Sys_model->v_checkRedeem($check_RedeemWhere, false, 'ID');
 											$check_RedeemNum = $check_Redeem->num_rows();
 											if($check_RedeemNum <> 0){
-												$rowRedeem = $check_Recon->row();
+												$rowRedeem = $check_Redeem->row();
 												$REDEEM_TBL_ID	= $rowRedeem->ID;
 												$i_refund['REDEEM_TBL_ID'] = $REDEEM_TBL_ID;
 											}	
