@@ -275,7 +275,8 @@ class Wrecon extends MX_Controller {
 							if(!empty($PA_ID)){		
 								$PA_ARR[] = $PA_ID;
 								foreach ($v as $row) {		
-									$show = $whereAFFCODE = $u_paH = $insert_detail =  $where_paD = '';						
+									$show = $whereAFFCODE = $u_paH = '';
+								$insert_detail = $where_paD = [];
 									/*
 									** fields available for process table **
 										recon.RECON_ID,
