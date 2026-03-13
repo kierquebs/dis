@@ -322,15 +322,15 @@ class My_lib extends MX_Controller{
 		$prefix = 'Z';		 
 		$minimum = 6;
 		$str = str_repeat('0', $minimum);
-		$PAID_Num = strlen($PAID);
-		
+		$PAID_Num = strlen((string)$PAID);
+
 		if($PAID_Num < $minimum){
-			if($decode == true) $sub_str = ltrim($PAID, 0);
-			else $sub_str = substr_replace($str, $PAID,($minimum - $PAID_Num), $PAID_Num);
+			if($decode == true) $sub_str = ltrim((string)$PAID, '0');
+			else $sub_str = substr_replace($str, (string)$PAID, ($minimum - $PAID_Num), $PAID_Num);
 		}else  $sub_str = $PAID;
 
-		if($decode == true) return ltrim(strtoupper($sub_str), $prefix);
-		else return $prefix.$sub_str; 
+		if($decode == true) return ltrim(strtoupper((string)$sub_str), $prefix);
+		else return $prefix.$sub_str;
 	}
 
 	/**
