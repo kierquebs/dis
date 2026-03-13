@@ -41,6 +41,7 @@ class FrameTreeIterator implements Iterator
     /**
      *
      */
+    #[\ReturnTypeWillChange]
     public function rewind()
     {
         $this->_stack = array($this->_root);
@@ -50,6 +51,7 @@ class FrameTreeIterator implements Iterator
     /**
      * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function valid()
     {
         return count($this->_stack) > 0;
@@ -58,6 +60,7 @@ class FrameTreeIterator implements Iterator
     /**
      * @return int
      */
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return $this->_num;
@@ -66,6 +69,7 @@ class FrameTreeIterator implements Iterator
     /**
      * @return Frame
      */
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return end($this->_stack);
@@ -74,6 +78,7 @@ class FrameTreeIterator implements Iterator
     /**
      * @return Frame
      */
+    #[\ReturnTypeWillChange]
     public function next()
     {
         $b = end($this->_stack);
