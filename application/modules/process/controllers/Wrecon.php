@@ -320,17 +320,18 @@ class Wrecon extends MX_Controller {
 									$VAT = $this->my_lib->checkVAT($PA_VAT);								
 									$totalFV = $row['totalAmount'];
 									$percentMF = $this->my_lib->convertMFRATE($PA_MerchantFee, true);
+								$numericMF = (float)($PA_MerchantFee * 100); // numeric % for calculation functions (e.g. 2.0 for a 2% fee)
 									$totalRefund = ($row['refundPostAmount'] == NULL ? 0 : $row['refundPostAmount']); //total amount of refund 																		
 									
 									$totalMFV = $totalFV - $totalRefund;
 									if($totalMFV < 0) $totalMFV = 0;
-									$MF = $this->my_lib->computeMF($totalMFV, $percentMF, '', false);
+									$MF = $this->my_lib->computeMF($totalMFV, $numericMF, '', false);
 									
 									/*BUILD PA DETAIL INFO*/		 	 		
 									$where_paD['PA_ID'] = $insert_detail['PA_ID'] = $PA_ID;
 									$where_paD['RECON_ID'] = $insert_detail['RECON_ID'] = $row['RECON_ID'];		
 									$where_paD['BRANCH_ID'] = $insert_detail['BRANCH_ID'] = $row['BRANCH_ID'];
-									$insert_detail['RATE'] = $percentMF;
+									$insert_detail['RATE'] = $PA_MerchantFee; // store decimal rate (e.g. 0.02), not '2%' string
 									$insert_detail['NUM_PASSES'] = $row['totalPasses'];
 									$insert_detail['TOTAL_FV'] = $totalFV;
 									$insert_detail['TOTAL_REFUND'] = $totalRefund;
@@ -342,8 +343,8 @@ class Wrecon extends MX_Controller {
 										$insert_detail['NET_DUE'] = 0;
 									}else{
 										$insert_detail['MARKETING_FEE'] = $MF; 
-										$insert_detail['VAT'] = $this->my_lib->computeVAT($totalMFV, $percentMF, $VAT, FALSE); 
-										$insert_detail['NET_DUE'] = $this->my_lib->computeNETDUE($totalMFV, $percentMF, $VAT, FALSE);
+										$insert_detail['VAT'] = $this->my_lib->computeVAT($totalMFV, $numericMF, $VAT, FALSE); 
+										$insert_detail['NET_DUE'] = $this->my_lib->computeNETDUE($totalMFV, $numericMF, $VAT, FALSE);
 									}
 																	
 									$checkPAD = $this->Sys_model->v_paD($where_paD, true);									
