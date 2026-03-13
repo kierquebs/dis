@@ -137,7 +137,7 @@ class My_lib extends MX_Controller{
 	}
 	
 	public function convertDate($orgDate, $format = 'mm/dd/YYYY') {
-		if(empty($date)) return '';
+		if(empty($orgDate)) return '';
 		
 		return date($format, strtotime($orgDate));
 	}
@@ -280,10 +280,9 @@ class My_lib extends MX_Controller{
 	*/	
 	public function computeVAT($totalFV, $MF, $vatCond = 0.12, $ROUND = TRUE){
 		$mfRATE = $this->computeMF($totalFV, $MF, '', FALSE);
-		$total = ($mfRATE * $vatCond); 
-		if($ROUND == false) return $total; 
-		else return round($total, 2); 
-		return $total;
+		$total = ($mfRATE * $vatCond);
+		if($ROUND == false) return $total;
+		else return round($total, 2);
 	}
 	public function checkVAT($vatCond){
 		if ($vatCond == 'Taxable') return 0.12;
@@ -322,7 +321,7 @@ class My_lib extends MX_Controller{
 	public function paNumber($PAID, $decode = false){
 		$prefix = 'Z';		 
 		$minimum = 6;
-		$str = str_repeat(0, $minimum);
+		$str = str_repeat('0', $minimum);
 		$PAID_Num = strlen($PAID);
 		
 		if($PAID_Num < $minimum){
@@ -407,7 +406,7 @@ class My_lib extends MX_Controller{
 	 * convert TIN number format
 	 */
 	 public function setTin($TIN){
-		$count = STRLEN($TIN);
+		$count = strlen($TIN);
 		if($count == 12 || $count == 14){
 			$TIN = trim(str_replace('-', '', $TIN));
 			//add "-" every 3 numbers
