@@ -44,6 +44,7 @@ class FrameListIterator implements Iterator
     /**
      *
      */
+    #[\ReturnTypeWillChange]
     public function rewind()
     {
         $this->_cur = $this->_parent->get_first_child();
@@ -53,6 +54,7 @@ class FrameListIterator implements Iterator
     /**
      * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function valid()
     {
         return isset($this->_cur); // && ($this->_cur->get_prev_sibling() === $this->_prev);
@@ -61,6 +63,7 @@ class FrameListIterator implements Iterator
     /**
      * @return int
      */
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return $this->_num;
@@ -69,6 +72,7 @@ class FrameListIterator implements Iterator
     /**
      * @return Frame
      */
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return $this->_cur;
@@ -77,6 +81,7 @@ class FrameListIterator implements Iterator
     /**
      * @return Frame
      */
+    #[\ReturnTypeWillChange]
     public function next()
     {
         $ret = $this->_cur;

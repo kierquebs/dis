@@ -42,3 +42,9 @@ if (!function_exists('now')) {
 
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../application/libraries/My_lib.php';
+
+// Load bundled PHPExcel library for LibraryCompatibilityTest
+require_once __DIR__ . '/../application/libraries/classes/PHPExcel.php';
+
+// Load bundled Dompdf 0.8.3 for LibraryCompatibilityTest
+require_once __DIR__ . '/../system/dompdf/autoload.inc.php';
