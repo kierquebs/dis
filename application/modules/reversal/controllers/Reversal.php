@@ -84,7 +84,8 @@ class Reversal extends MX_Controller {
 						echo "Do not close this window - ONGOING INSERT RECORD : <br />";
 						
 						for($i=0;$i<COUNT($result_data);$i++){
-							$DigitalSettlementType = $u_refund = $i_refund = '';	
+							$DigitalSettlementType = '';
+						$u_refund = $i_refund = [];
 							$arrData = $result_data[$i]; 			
 							$get_TempID = $this->i_tempReverse($arrData, $get_UploadID, $fileArr['filname']); //insert temp reverse
 
