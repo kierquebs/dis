@@ -276,7 +276,7 @@ class Wrecon extends MX_Controller {
 								$PA_ARR[] = $PA_ID;
 								foreach ($v as $row) {		
 									$show = $whereAFFCODE = '';
-								$u_paH = $insert_detail = $where_paD = [];
+									$u_paH = $insert_detail = $where_paD = [];
 									/*
 									** fields available for process table **
 										recon.RECON_ID,
@@ -321,7 +321,7 @@ class Wrecon extends MX_Controller {
 									$VAT = $this->my_lib->checkVAT($PA_VAT);								
 									$totalFV = $row['totalAmount'];
 									$percentMF = $this->my_lib->convertMFRATE($PA_MerchantFee, true);
-								$numericMF = (float)($PA_MerchantFee * 100); // numeric % for calculation functions (e.g. 2.0 for a 2% fee)
+									$numericMF = (float)($PA_MerchantFee * 100); // numeric % for calculation functions (e.g. 2.0 for a 2% fee)
 									$totalRefund = ($row['refundPostAmount'] == NULL ? 0 : $row['refundPostAmount']); //total amount of refund 																		
 									
 									$totalMFV = $totalFV - $totalRefund;
