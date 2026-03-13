@@ -1,0 +1,2 @@
+merchant_name,merchant_id,branch_id,pos_id,pos_txn_id,prod_id,transaction_date_time,transaction_id,voucher_code,transaction_value,stage,api_transaction_id,payment_mode
+Sodexo Fees,677,Dormancy Fee,Dormancy Fee,,1,10/25/2025 10:00,4.5702E+11,,45,RECONCILED,DF457020187673,Fee Deduction
