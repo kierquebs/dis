@@ -1,0 +1,2 @@
+merchant_name,merchant_id,branch_id,pos_id,pos_txn_id,prod_id,transaction_date_time,transaction_id,voucher_code,transaction_value,stage,api_transaction_id,payment_mode
+Test Company - Venus,677,3,1,SDX-ID-1761364427058257,42,10/25/2025 11:53,4.57074E+11,4025983447,300,RECONCILED,RP457074114933,DIGITAL_GC_CODE_VIA_PORTAL

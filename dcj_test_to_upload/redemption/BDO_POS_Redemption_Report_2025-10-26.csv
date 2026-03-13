@@ -1,0 +1,4 @@
+merchant_name,merchant_id,branch_id,pos_id,pos_txn_id,prod_id,transaction_date_time,transaction_id,voucher_code,transaction_value,stage,api_transaction_id,payment_mode,recon_type
+Test Company - Venus,677,3,1,5548_12119_237782,42,25-10-2025 00:32:11,4.57109E+11,2442807841,365,REDEEMED,bf36e018-56ae-4f21-b788-17a5a0a23345,DIGITAL_GC_CODE_VIA_POS,API
+Test Company - Venus,677,3,1,3921004973,42,25-10-2025 07:15:03,4.57016E+11,3663746775,643.08,REDEEMED,b91f4c77-6799-4774-8bcb-1cf86cf89281,BDO EFT,API
+Test Company - Venus,677,3,1,0402100000320251025006438574465,42,25-10-2025 07:24:11,4.57057E+11,1615123465,1611.75,REDEEMED,d5b00472-f05b-4c71-9b76-3685e02d3d72,DIGITAL_GC_CODE_VIA_POS,AUTO
