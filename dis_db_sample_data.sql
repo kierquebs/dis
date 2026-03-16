@@ -147,7 +147,13 @@ VALUES
    'Bank Transfer', 'PAYEE-RR-001', 'Metrobank', '1111-2222-3333', 'Robinsons Retail', 'PID-RR-001',
    0.018000, 'Supermarket', 'Taxable', 'AUTO', 'MBK-ORTIGAS',
    3, 1, '',
-   'RRHI', 'Merchant Dormancy', '');  -- dormancy type for testing dormancy filter
+   'RRHI', 'Merchant Dormancy', ''),  -- dormancy type for testing dormancy filter
+
+(1004, '222-333-444-000', 'Sample Merchant 677 Inc',       'SampleMerchant677', '222-333-444-000', 'SM Group', '677 Sample St, Makati',
+   'Bank Transfer', 'PAYEE-SM-677', 'BDO', '2222-3333-4444', 'Sample Merchant 677', 'PID-SM-677',
+   0.020000, 'Retail', 'Taxable', 'AUTO', 'BDO-MAKATI',
+   3, 1, '',
+   'SMGRP', '', 'NRECON');  -- merchant 677 for Semi-Monthly cutoff testing
 
 
 -- Branches
@@ -156,7 +162,8 @@ INSERT INTO `branches` (`BRANCH_ID`, `MERCHANT_ID`, `BRANCH_NAME`, `CP_ID`, `AFF
 ('BR-MC-002', 2, 'McDo BGC High Street', 1001, 'GADC'),
 ('BR-7E-001', 3, '7-Eleven Ortigas',     1002, 'CVSG'),
 ('BR-7E-002', 4, '7-Eleven Pasig',       1002, 'CVSG'),
-('BR-RR-001', 5, 'Robinsons Galleria',   1003, 'RRHI');
+('BR-RR-001', 5,   'Robinsons Galleria',   1003, 'RRHI'),
+('BR-SM-677', 677, 'SM677 Main Branch',   1004, 'SMGRP');
 
 
 -- Branch–Merchant Mapping
@@ -165,7 +172,8 @@ INSERT INTO `branch_merchant` (`MERCHANT_ID`, `BRANCH_ID`) VALUES
 (2, 'BR-MC-002'),
 (3, 'BR-7E-001'),
 (4, 'BR-7E-002'),
-(5, 'BR-RR-001');
+(5,   'BR-RR-001'),
+(677, 'BR-SM-677');
 
 
 -- Payment Cutoffs
@@ -174,7 +182,8 @@ INSERT INTO `payment_cutoff` (`MERCHANT_ID`, `TYPE`, `SPECIFIC_DAY`, `SPECIFIC_D
 (2, 'Weekly',   'Sunday',   '',    ''),
 (3, 'Monthly',  '',         '[15]', ''),
 (4, 'Monthly',  '',         '[15]', ''),
-(5, 'Weekly',   'Friday',   '',    '');
+(5,   'Weekly',       'Friday', '',        ''),
+(677, 'Semi-Monthly', '',      '{15,31}', 'NRECON');  -- merchant 677: Semi-Monthly, dates 15 & 31
 
 
 -- ============================================================
@@ -217,7 +226,10 @@ VALUES
 (9,  'RED-2026-009', 1, 'McDonalds PH', 'BR-MC-001', 42, 'VOUCH-MC-009',  500.00, 'REDEEMED',   '2026-02-01 10:00:00', 'POS-MC-001', 'POSTXN-MC-009', 'TXN-2026-009', 'DIGITAL', 0, 0, 0),
 (10, 'RED-2026-010', 3, '7-Eleven PH',  'BR-7E-001', 43, 'VOUCH-7E-010', 1000.00, 'REDEEMED',   '2026-02-02 11:00:00', 'POS-7E-001', 'POSTXN-7E-010', 'TXN-2026-010', 'DIGITAL', 0, 0, 0),
 -- Void — cancelled transaction
-(11, 'RED-2026-011', 4, '7-Eleven PH',  'BR-7E-002', 42, 'VOUCH-7E-011',  100.00, 'VOID',       '2026-02-03 12:00:00', 'POS-7E-002', 'POSTXN-7E-011', 'TXN-2026-011', 'DIGITAL', 0, 0, 0);
+(11, 'RED-2026-011', 4,   '7-Eleven PH',       'BR-7E-002', 42, 'VOUCH-7E-011',  100.00, 'VOID',       '2026-02-03 12:00:00', 'POS-7E-002', 'POSTXN-7E-011', 'TXN-2026-011', 'DIGITAL', 0, 0, 0),
+-- Merchant 677 (SM677) — Semi-Monthly date=31, cutoff=2026-02-28; PA_ID=0 so it will be picked up
+(12, 'RED-2026-012', 677, 'SampleMerchant677', 'BR-SM-677', 42, 'VOUCH-SM-001',  800.00, 'RECONCILED', '2026-02-15 10:00:00', 'POS-SM-677', 'POSTXN-SM-001', 'TXN-2026-012', 'DIGITAL', 0, 0, 0),
+(13, 'RED-2026-013', 677, 'SampleMerchant677', 'BR-SM-677', 42, 'VOUCH-SM-002', 1200.00, 'RECONCILED', '2026-02-20 14:00:00', 'POS-SM-677', 'POSTXN-SM-002', 'TXN-2026-013', 'DIGITAL', 0, 0, 0);
 
 
 -- RECONCILIATIONS
