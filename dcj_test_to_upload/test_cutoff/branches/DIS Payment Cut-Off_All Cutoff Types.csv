@@ -1,0 +1,7 @@
+Merchant_ID,Type,Specific_Day,Specific_Date
+10,Monthly,,"{1,5,10,15,30,31}"
+11,Semi-Monthly,,"{5,15,21,30,31}"
+12,Weekly,Wednesday,
+13,Weekly,Wednesday,
+14,Every 10 days,,"{9,10,19,20,29,30}"
+15,Every 10 days,,"{9,10,19,20,29,30}"
