@@ -54,7 +54,7 @@ class Offlineprocess extends MX_Controller {
 		private function _processper_MID($merchantID, $auto=false){
 			if(!empty($merchantID)){
 				$merchantData = $this->_check_merchant($merchantID);
-				$setGetArr = $setGet= ''; 
+				$setGetArr = []; $setGet = ''; 
 				if($merchantData <> ''){				
 					$setGet = "process=".$merchantID;
 					$setGet .= (!empty($setGet) ? "&":"")."terms=".$this->paymentTermsNum($merchantData['POST_terms']); 
@@ -143,7 +143,7 @@ class Offlineprocess extends MX_Controller {
 		private function _processper_Cutoff($merchantID, $auto=true){
 			if(!empty($merchantID)){
 				$merchantData = $this->_check_merchant($merchantID);
-				$setGetArr = $setGet= ''; 
+				$setGetArr = []; $setGet = ''; 
 				if($merchantData <> ''){				
 					$setGet = "process=".$merchantID;
 					$setGet .= (!empty($setGet) ? "&":"")."terms=".$this->paymentTermsNum($merchantData['POST_terms']); 
