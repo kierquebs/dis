@@ -792,32 +792,32 @@ class Offlineprocess extends MX_Controller {
 							}
 						}	
 						
-						$VAT = $this->my_lib->checkVAT($PA_VAT);								
+						$VAT = $this->my_lib->checkVAT($PA_VAT);
 						$totalFV = $row['totalAmount'];
 						$percentMF = $this->my_lib->convertMFRATE($PA_MerchantFee, true);
-						$totalRefund = ($row['refundPostAmount'] == NULL ? 0 : $row['refundPostAmount']); //total amount of refund 																		
-						
+						$totalRefund = ($row['refundPostAmount'] == NULL ? 0 : $row['refundPostAmount']); //total amount of refund
+
 						$totalMFV = $totalFV - $totalRefund;
 						if($totalMFV < 0) $totalMFV = 0;
-						$MF = $this->my_lib->computeMF($totalMFV, $percentMF, '', false);
-						
-						/*BUILD PA DETAIL INFO*/		 	 		
-						$where_paD['PA_ID'] =  $insert_detail['PA_ID'] = $PA_ID;	
+						$MF = $this->my_lib->computeMF($totalMFV, $PA_MerchantFee, '', false);
+
+						/*BUILD PA DETAIL INFO*/
+						$where_paD['PA_ID'] =  $insert_detail['PA_ID'] = $PA_ID;
 						$where_paD['BRANCH_ID'] = $insert_detail['BRANCH_ID'] = $row['BRANCH_ID'];
 						$insert_detail['RATE'] = $percentMF;
 						$insert_detail['NUM_PASSES'] = $row['totalPasses'];
 						$insert_detail['TOTAL_FV'] = $totalFV;
 						$insert_detail['TOTAL_REFUND'] = $totalRefund;
 						$insert_detail['DATE_CREATED'] = $this->my_lib->current_date();
-						
-						if($totalMFV == 0){										
-							$insert_detail['MARKETING_FEE'] = 0; 
-							$insert_detail['VAT'] = 0; 
+
+						if($totalMFV == 0){
+							$insert_detail['MARKETING_FEE'] = 0;
+							$insert_detail['VAT'] = 0;
 							$insert_detail['NET_DUE'] = 0;
 						}else{
-							$insert_detail['MARKETING_FEE'] = $MF; 
-							$insert_detail['VAT'] = $this->my_lib->computeVAT($totalMFV, $percentMF, $VAT, FALSE); 
-							$insert_detail['NET_DUE'] = $this->my_lib->computeNETDUE($totalMFV, $percentMF, $VAT, FALSE);
+							$insert_detail['MARKETING_FEE'] = $MF;
+							$insert_detail['VAT'] = $this->my_lib->computeVAT($totalMFV, $PA_MerchantFee, $VAT, FALSE);
+							$insert_detail['NET_DUE'] = $this->my_lib->computeNETDUE($totalMFV, $PA_MerchantFee, $VAT, FALSE);
 						}
 						
 						$checkPAD = $this->Sys_model->v_paD($where_paD, false);									
