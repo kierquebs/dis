@@ -115,7 +115,7 @@ class Offlineprocess extends MX_Controller {
 		if(isset($_GET['type']) && !empty($_GET['type'])) {
 			$paymentTerms = $this->paymentTermsName($_GET['type']);
 			
-			$where = $output = '';
+			$where = $output = [];
 			$where = 'TYPE = "'.htmlentities($paymentTerms).'"';			
 			if($paymentTerms == 'Weekly'){	
 				if(isset($_GET['date'])  && !empty($_GET['date'])){
@@ -255,7 +255,7 @@ class Offlineprocess extends MX_Controller {
 */	
 	private function _check_merchant($merchantID){
 		if(empty($merchantID)) return false;
-		$output = '';
+		$output = [];
 
 		$where['MERCHANT_ID'] = $toProcess = $merchantID;
 		$v_cutoffResult = $this->Sys_model->v_cutoff($where, false);  
