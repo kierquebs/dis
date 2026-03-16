@@ -26,6 +26,9 @@ class Action_model extends CI_Model{
 	}
 	public function audit_save($moduleID, $actionID, $targetID = 0, $orderID = 0){
 		if(!$actionID) return false;
+		if (isset($actionID['auc_id']) && is_array($actionID['auc_id'])) {
+       		$actionID['auc_id'] = implode(',', $actionID['auc_id']);
+    	}
 		$insert['user_id'] = $this->auth->get_userid();
 		$insert['module_id'] = $moduleID;
 		$insert['target_id'] = $targetID;
@@ -43,37 +46,37 @@ class Action_model extends CI_Model{
 		$this->db->from('ajax_update');
 		if($count == true){
 			$this->db->select('id');
-			return $this->db->count_all_results();	
+			return $this->db->count_all_results();
 		}else return  $this->db->get();
 	}
 	function ajax_update($fromHOME = false){
 		return false;
-		//set new ajax_session after database change	
+		//set new ajax_session after database change
 		$dateTIME = $this->lib_order->current_date();
 		$date = $this->lib_order->setDate($dateTIME, true);
 		$session_id =  $this->auth->encrypt_encode($date);
-				
+
 		$this->db->query('INSERT INTO ajax_update (session_id, date_created, last_update)
 							VALUES ("'.$session_id.'",  "'.$date.'", "'.$dateTIME.'")
 							ON DUPLICATE KEY UPDATE
 								date_created = VALUES(date_created) ,
 								last_update = IF(last_update < VALUES(last_update), VALUES(last_update), last_update),
-								session_id = VALUES(session_id)');			
+								session_id = VALUES(session_id)');
 		if($this->auth->check_session() && $fromHOME == false) $this->auth->set_userdata('ajax_session', $session_id);
 		return $session_id;
 	}
-	function check_ajax(){			
-		$whereNew['date_created'] = $where['date_created'] = $this->lib_order->setDate('', true);		
+	function check_ajax(){
+		$whereNew['date_created'] = $where['date_created'] = $this->lib_order->setDate('', true);
 		$checkAjaxToday = $this->ajax_where($where);
-		
+
 		if($checkAjaxToday->num_rows() != 0){
 			//get new ajax_session to update session_auth
-			$mySession = $this->auth->ajax_session();	
+			$mySession = $this->auth->ajax_session();
 			$session_id = $checkAjaxToday->row('session_id');
 			if($session_id != $mySession){
 				$this->auth->set_userdata('ajax_session', $session_id);
 				return true;
-			}else return false;		
+			}else return false;
 		}else{
 			/* NO EXISTING SESSION TODAY*/
 			$session_id = $this->ajax_update();
@@ -84,7 +87,7 @@ class Action_model extends CI_Model{
 	/*
 	** QUERY ACTION FOR TBL access
 	*/
-	function access_update($access_id, $update){		
+	function access_update($access_id, $update){
 	$this->db->where('access_id',$access_id);
 	$this->db->update('access',$update);
 	}
@@ -111,25 +114,25 @@ class Action_model extends CI_Model{
 		$insert['full_name'] = $this->input->post('full_name', true);
 		$insert['email'] = $this->input->post('email', true);
 		$insert['password'] = $this->auth->default_pass();
-		// $insert['activation_code'] = md5($this->auth->encrypt_encode($insert['email'].$this->lib_order->current_date())); 
+		// $insert['activation_code'] = md5($this->auth->encrypt_encode($insert['email'].$this->lib_order->current_date()));
 		$insert['activation_code'] = md5($this->auth->encrypt_encode($insert['email'] . date('Y-m-d H:i:s')));
 		$insert['status'] = 0;
-		
+
 		$this->db->insert('user',$insert);
 		if($sendEmail == true){
 			$toEmail = $insert['email'];
 			$toName = $insert['user_name'];
 			$this->load->library('queue_email');
-			$this->queue_email->email_account($toEmail, $toName, $insert['activation_code'], $this->auth->default_pass(true));	
+			$this->queue_email->email_account($toEmail, $toName, $insert['activation_code'], $this->auth->default_pass(true));
 		}
-		if($returnID == true) return $this->db->insert_id();		
+		if($returnID == true) return $this->db->insert_id();
 	}
-	
-	function access_update_user($where, $update){		
+
+	function access_update_user($where, $update){
 		$this->db->where($where);
 		$this->db->update('access_permission',$update);
 	}
-	
+
 	function user_update($uid, $post){
 		if(isset($_POST['type'])) $update['utype_id'] = $this->input->post('type', true);
 		$update['user_name'] = $this->input->post('username', true);
@@ -168,7 +171,7 @@ class Action_model extends CI_Model{
 		$this->db->from('statorder')
 				->select('statorder_id')
 				->like('statorder_name', $statorder_name, 'both')
-				->where('module_id', $moduleID); 
+				->where('module_id', $moduleID);
 		$data = $this->db->get();
 		if($data->num_rows() == 0){
 			$insert['statorder_name'] = $statorder_name;
@@ -178,7 +181,7 @@ class Action_model extends CI_Model{
 			return $data->row('statorder_id');
 		}
 	}
-	
+
 	/*
 	** QUERY ACTION FOR TBL statcategory
 	*/
@@ -193,7 +196,7 @@ class Action_model extends CI_Model{
 		$this->db->from('statcategory')
 				->select('statcategory_id')
 				->like('statcategory_name', $statcategory_name, 'both')
-				->where('module_id', $moduleID); 
+				->where('module_id', $moduleID);
 		$data = $this->db->get();
 		if($data->num_rows() == 0){
 			$insert['statcategory_name'] = $statcategory_name;
@@ -207,8 +210,8 @@ class Action_model extends CI_Model{
 	** QUERY ACTION FOR TBL order_list
 	*/
 	function orderlist_add($order_id, $company_id){
-		$order_id = $order_id;		
-		$company_id = $company_id;	
+		$order_id = $order_id;
+		$company_id = $company_id;
 		$this->db->query('INSERT INTO order_list (order_id, company_id) VALUES ('.$order_id.', '.$company_id.')
 		ON DUPLICATE KEY UPDATE order_id = VALUES(order_id), company_id = VALUES(company_id)');
 		return $order_id;
@@ -218,11 +221,11 @@ class Action_model extends CI_Model{
 	*/
 	function companies_add($company_name){
 		//company_name
-		$company_name = $this->db->escape_str($company_name);		
+		$company_name = $this->db->escape_str($company_name);
 		$this->db->query('INSERT INTO companies (company_name) VALUES ("'.$company_name.'")
 		ON DUPLICATE KEY UPDATE company_name = VALUES(company_name)');
 		$new_id =  $this->db->insert_id();
-		
+
 		if($new_id == 0) return $this->db->query('SELECT company_id FROM companies WHERE company_name = "'.$company_name.'"')->row('company_id');
 		else return $new_id;
 	}
@@ -235,7 +238,7 @@ class Action_model extends CI_Model{
 		$this->db->query('INSERT INTO location (location_name) VALUES ("'.$location_name.'")
 		ON DUPLICATE KEY UPDATE location_name = VALUES(location_name)');
 		$new_id =  $this->db->insert_id();
-		
+
 		if($new_id == 0) return $this->db->query('SELECT location_id FROM location WHERE location_name = "'.$location_name.'"')->row('location_id');
 		else return $new_id;
 	}
@@ -252,7 +255,7 @@ class Action_model extends CI_Model{
 		$date_pickup = $insert['date_pickup'];
 		$action = $insert['action'];
 		$user_id = $this->auth->get_userid();
-		
+
 		$this->db->query('INSERT INTO binloc_log
 		  (binloc_id, order_id, location_id, statorder_id, date_release, date_pickup, action, user_id)
 		VALUES
@@ -271,24 +274,24 @@ class Action_model extends CI_Model{
 	}
 	/*
 	** QUERY ACTION FOR TBL binloc
-	*/		
+	*/
 	function binloc_save($arrval, $frmUpload = false){
 		if(empty($arrval)) return false;
 		$company_id = $this->companies_add($arrval['company_name']);
 		$order_id = $this->orderlist_add($arrval['order_id'], $company_id);
 		$location_id = $arrval['location'];
 		$statorder_id = $arrval['status'];
-		
+
 		if($frmUpload == true){
 			if($location_id == 'returned to prod') $location_id = 'production vault';
 			$location_id = $this->location_add($location_id);
 			$statorder_id = $this->bin_statorder($statorder_id, 4);
 		}
 
-		if($location_id && $order_id && $statorder_id){			
+		if($location_id && $order_id && $statorder_id){
 		$arrval['date_released'] = $arrval['date_released'];
 		$arrval['date_pickup'] = $arrval['date_pickup'];
-		
+
 		$order_id = $order_id;
 		$location_id = $location_id;
 		$arrval['date_released'] = $arrval['date_released'];
@@ -319,7 +322,7 @@ class Action_model extends CI_Model{
 	function binloc_update($arrval){
 		if(empty($arrval)) return false;
 		if(empty($arrval['order_id']) || empty($arrval['id'])) return false;
-		
+
 			$update['order_id'] = $arrval['order_id'];
 			if($arrval['location'] != '' && $arrval['location'] != 0) $update['location_id'] = $arrval['location'];
 			if($arrval['status'] != '' && $arrval['status'] != 0) $update['statorder_id'] = $arrval['status'];
@@ -327,8 +330,8 @@ class Action_model extends CI_Model{
 			if($arrval['date_pickup'] != '' && $arrval['date_pickup'] != 0) $update['date_pickup'] = $arrval['date_pickup'];
 			$this->db->where('binloc_id',$arrval['id']);
 		$this->db->update('binloc',$update);
-		
-		/* ADD BINLOC_LOG*/		
+
+		/* ADD BINLOC_LOG*/
 		$insert['binloc_id'] =  $arrval['id'];
 		$insert['order_id'] =  $arrval['order_id'];
 		$insert['location_id'] = $arrval['location'];
@@ -336,7 +339,7 @@ class Action_model extends CI_Model{
 		$insert['date_release'] = $arrval['date_released'];
 		$insert['date_pickup'] = $arrval['date_pickup'];
 		$insert['action'] = 'update';
-			$this->binloc_log_add($insert);			
+			$this->binloc_log_add($insert);
 			$this->audit_save(4, 3, $insert['binloc_id'], $insert['order_id']);
 		return true;
 	}
@@ -344,10 +347,10 @@ class Action_model extends CI_Model{
 	** QUERY ACTION FOR TBL delsched
 	*/
 	function delsched_add($arrval, $date, $returnID  = false, $statorder_id = '', $statcategory_id = ''){
-		$company_id = $this->companies_add($arrval['company_name']);		
+		$company_id = $this->companies_add($arrval['company_name']);
 		if($statorder_id == '') $statorder_id = $this->bin_statorder($arrval['status_order'], 5);
 		if($statcategory_id == '') $statcategory_id = $this->bin_statcategory($arrval['del_mode'], 5);
-		
+
 		if($company_id && $statorder_id && $statcategory_id){
 			$insert['company_id'] = $company_id;
 			$insert['order_id'] = $order_id = $arrval['order_id'];
@@ -357,21 +360,21 @@ class Action_model extends CI_Model{
 			$insert['del_mode'] = $statcategory_id;
 			$insert['p_term'] = $arrval['p_term'];
 			$insert['p_mode'] = $arrval['p_mode'];
-			$insert['statorder_id'] = $statorder_id;						
-			$insert['del_date'] = $arrval['del_date'];						
-			$insert['remarks'] = $arrval['remarks'];				
+			$insert['statorder_id'] = $statorder_id;
+			$insert['del_date'] = $arrval['del_date'];
+			$insert['remarks'] = $arrval['remarks'];
 			$insert['created_by'] = $this->auth->get_userid();
-			
+
 			$this->db->insert('delsched',$insert);
 			$newID = $this->db->insert_id();
 				if($returnID == true) return $newID;
-				$this->audit_save(5, 2, $newID, $order_id); 
+				$this->audit_save(5, 2, $newID, $order_id);
 				/** insert delsched term */
-				$this->delstring_add(1, $arrval['p_mode']); 
-				$this->delstring_add(2, $arrval['p_term']); 
-			return true; 
+				$this->delstring_add(1, $arrval['p_mode']);
+				$this->delstring_add(2, $arrval['p_term']);
+			return true;
 		}else return false;
-	}	
+	}
 	/*
 	** QUERY ACTION FOR TBL delsched_string
 	** mode [ 0: unknown, 1: payment_mode, 2: payment_term, 3: delivery_mode ]
@@ -403,7 +406,7 @@ class Action_model extends CI_Model{
 	*/
 	function transac_add($arrval, $returnID = false){
 		if(empty($arrval)) return false;
-		
+
 		$company_id = $this->companies_add($arrval['company_name']);
 		$order_id = $this->orderlist_add($arrval['order_id'], $company_id);
 		if($company_id && $order_id){
@@ -411,20 +414,20 @@ class Action_model extends CI_Model{
 			$insert['company_id'] = $company_id;
 			$insert['contact_person'] =	$arrval['contact_person'];
 			$insert['created_by'] = $arrval['user_id'];
-			
+
 			/*CHECK BIN LOCATION STATUS*/
 			if($arrval['prod_stat'] != 0){
 				$insert['prod_stat'] = $arrval['prod_stat'];
 				$insert['location_id'] = $arrval['location_id'];
 				$insert['prod_time'] = $arrval['prod_time'];
 			}
-			
+
 			/*CHECK IF RESOA IS NOT YET RETURNED STATUS*/
 			if($arrval['fin_stat'] != 0){
 				$insert['fin_stat'] = $arrval['fin_stat'];
 				$insert['fin_time'] = $arrval['fin_time'];
 			}
-			
+
 			$this->db->insert('transac',$insert);
 			if($returnID == true) return $this->db->insert_id();
 		}
@@ -439,7 +442,7 @@ class Action_model extends CI_Model{
 	*/
 	function adsoa_add($arrval, $returnID = false){
 		if(empty($arrval)) return false;
-		
+
 		$company_id = $this->companies_add($arrval['company_name']);
 		$order_id = $this->orderlist_add($arrval['order_id'], $company_id);
 		if($company_id && $order_id){
@@ -447,7 +450,7 @@ class Action_model extends CI_Model{
 			$insert['company_id'] = $company_id;
 			$insert['contact_person'] =	$arrval['contact_person'];
 			$insert['created_by'] = $arrval['user_id'];
-			
+
 			$this->db->insert('advance_soa',$insert);
 			if($returnID == true) return $this->db->insert_id();
 		}
@@ -468,14 +471,14 @@ class Action_model extends CI_Model{
 			$insert['served_stat'] = 0;
 			$insert['date_received'] = $result->row('date_received');
 			$insert['date_release'] = $result->row('date_release');
-			
+
 			$this->db->insert('release_order',$insert);
 			if($returnID == true) return $this->db->insert_id();
 		}
 	}
 		function released_binloc($order_id, $date_release){
 			if(empty($order_id)) return false;
-			
+
 			$order_id = $order_id;
 			$result = $this->db->query('SELECT binloc_id, order_id, date_release, date_pickup FROM binloc WHERE order_id = "'.$order_id.'"');
 			if($result->num_rows() != 0){
@@ -484,8 +487,8 @@ class Action_model extends CI_Model{
 				$update['date_pickup'] = $date_release;
 				$this->db->where('order_id',$order_id);
 				$this->db->update('binloc',$update);
-				
-				/* ADD BINLOC_LOG*/		
+
+				/* ADD BINLOC_LOG*/
 				$insert['binloc_id'] =  $result->row('binloc_id');
 				$insert['order_id'] =  $order_id;
 				$insert['location_id'] = 3;
@@ -493,7 +496,7 @@ class Action_model extends CI_Model{
 				$insert['date_release'] = $result->row('date_release');
 				$insert['date_pickup'] = $date_release;
 				$insert['action'] = 'update';
-					$this->binloc_log_add($insert);			
+					$this->binloc_log_add($insert);
 					$this->audit_save(4, 3, $insert['binloc_id'], $insert['order_id']);
 			}
 			return true;
@@ -502,7 +505,7 @@ class Action_model extends CI_Model{
 		if(empty($update)) return false;
 		$this->db->where('reorder_id',$reorder_id);
 		$this->db->update('release_order',$update);
-	
+
 		$this->ajax_update(); //update session for AJAX REQUEST
 	}
 	/*
@@ -518,7 +521,7 @@ class Action_model extends CI_Model{
 		$checkSOA = $this->db->query('SELECT resoa_id FROM resoa WHERE transac_id = '.$insert['transac_id'].' AND order_id = '.$insert['order_id'].' ')->num_rows();
 		if($checkSOA == 0){
 			$insert['date_return'] = '0000-00-00 00:00:00';
-			$insert['date_received'] = '0000-00-00 00:00:00';		
+			$insert['date_received'] = '0000-00-00 00:00:00';
 			$this->db->insert('resoa',$insert);
 			if($returnID == true) return $this->db->insert_id();
 		}
@@ -528,7 +531,7 @@ class Action_model extends CI_Model{
 		$this->db->where('resoa_id',$resoa_id);
 		$this->db->update('resoa',$update);
 	}
-	
+
 	/*
 	** QUERY ACTION FOR TBL co_orderinfo
 	*/
@@ -536,19 +539,19 @@ class Action_model extends CI_Model{
 		if(empty($insert)) return false;
 		$this->db->insert('co_orderinfo',$insert);
 		if($returnID == true) return $this->db->insert_id();
-	}	
+	}
 	function co_orderinfo_update($co_id, $update){
 		if(empty($update)) return false;
 		$this->db->where('co_orderinfo_id',$co_id);
 		$this->db->update('co_orderinfo',$update);
 	}
-	
+
 	/*
 	** QUERY ACTION FOR TBL co_transac
 	*/
 	function cotransac_add($arrval, $returnID = false){
 		if(empty($arrval)) return false;
-		
+
 		$company_id = $this->companies_add($arrval['company_name']);
 		$order_id = $this->orderlist_add($arrval['order_id'], $company_id);
 		if($company_id && $order_id){
@@ -556,7 +559,7 @@ class Action_model extends CI_Model{
 			$insert['company_id'] = $company_id;
 			$insert['co_orderinfo_id'] = $arrval['co_orderinfo_id'];
 			$insert['created_by'] = $arrval['user_id'];
-			
+
 			$this->db->insert('co_transac',$insert);
 			if($returnID == true) return $this->db->insert_id();
 		}
@@ -573,19 +576,19 @@ class Action_model extends CI_Model{
 		if(empty($insert)) return false;
 			$this->db->insert('statreason',$insert);
 		if($returnID == true) return $this->db->insert_id();
-	}	
+	}
 	function status_add_data($insert, $tblName, $returnID = false){
 		if(empty($insert) || empty($tblName)) return false;
 			$this->db->insert($tblName,$insert);
 		if($returnID == true) return $this->db->insert_id();
 	}
-	
+
 	/*
 	** QUERY ACTION FOR TBL cor_transac
 	*/
 	function cortransac_add($arrval, $returnID = false){
 		if(empty($arrval)) return false;
-		
+
 		$company_id = $this->companies_add($arrval['company_name']);
 		$order_id = $this->orderlist_add($arrval['order_id'], $company_id);
 		if($company_id && $order_id){
@@ -593,7 +596,7 @@ class Action_model extends CI_Model{
 			$insert['company_id'] = $company_id;
 			$insert['co_orderinfo_id'] = $arrval['co_orderinfo_id'];
 			$insert['created_by'] = $arrval['user_id'];
-			
+
 			$this->db->insert('cor_transac',$insert);
 			if($returnID == true) return $this->db->insert_id();
 		}
@@ -610,8 +613,8 @@ class Action_model extends CI_Model{
         $this->db->select('*');
         $this->db->from('password_history');
         $this->db->where('user_id', $uid);
-		$this->db->order_by('id', 'desc'); 
-		$this->db->limit(12); 
+		$this->db->order_by('id', 'desc');
+		$this->db->limit(12);
         $query = $this->db->get();
 
 		$result = $query->result();
@@ -624,8 +627,8 @@ class Action_model extends CI_Model{
         }
         return false;
     }
-	
-	function access_add($insert, $returnID = false){		
+
+	function access_add($insert, $returnID = false){
 		if(empty($insert)) return false;
 			$this->db->insert('access_permission',$insert);
 		if($returnID == true) return $this->db->insert_id();
