@@ -286,7 +286,7 @@ class Digital extends MX_Controller {
 								$X_NET_BILLABLE -= $BILLABLE_AMOUNT;									
 							}else{							
 								$newRow->VAT_COND = $temp_row->VATCON_TYPENAME;
-								$newRow->VAT_OUTPUT = $this->my_lib->computeBillVAT($BILLABLE_AMOUNT, $temp_row->VAT_PERCENT); 						
+								$newRow->VAT_OUTPUT = $this->my_lib->computeBillVAT($BILLABLE_AMOUNT, $temp_row->VAT_PERCENT ?? 0); 						
 								$newRow->CREDIT_VALUE = $this->my_lib->computeBillIncVAT($BILLABLE_AMOUNT, $newRow->VAT_OUTPUT);
 								
 								$GROSS_BILLABLE += $newRow->CREDIT_VALUE;
@@ -501,7 +501,7 @@ class Digital extends MX_Controller {
 					$TOTAL_DISCOUNT += $BILLABLE_AMOUNT;
 				}else{							
 					$newRow->VAT_COND = $temp_row->VATCON_TYPENAME;
-					$newRow->VAT_OUTPUT = $this->my_lib->computeBillVAT($BILLABLE_AMOUNT, $temp_row->VAT_PERCENT); 						
+					$newRow->VAT_OUTPUT = $this->my_lib->computeBillVAT($BILLABLE_AMOUNT, $temp_row->VAT_PERCENT ?? 0); 						
 					$newRow->CREDIT_VALUE = $this->my_lib->computeBillIncVAT($BILLABLE_AMOUNT, $newRow->VAT_OUTPUT);							
 					$GROSS_BILLABLE += $newRow->CREDIT_VALUE;
 					$NET_BILLABLE += $BILLABLE_AMOUNT;
