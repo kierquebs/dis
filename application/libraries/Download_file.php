@@ -447,7 +447,7 @@ class Download_file extends MX_Controller{
 			
 		$objPHPExcel = $this->_callPHPCLASS($module);
 		$title = $module['filename'];		
-		$x= 1;		
+		$x= 1; $y = 1;		
 
 		
 		$newArr = array();
