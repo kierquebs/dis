@@ -2,14 +2,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 </head>
-<body style="font-family:sans-serif; font-size:11px; margin:0; padding:0;">
+<body style="font-family:Arial,sans-serif; font-size:10px; margin:0; padding:0;">
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 
 <!-- ===== COMPANY HEADER ===== -->
 <tr>
-  <td align="center" style="padding:8px 0;">
-    <strong style="font-size:16px;">Pluxee Philippines Incorporated</strong><br/>
+  <td align="center" style="padding-bottom:6px;">
+    <strong style="font-size:14px;">Pluxee Philippines Incorporated</strong><br/>
     8747 Paseo de Roxas Street, 11TH Floor, B.A. Lepanto Condominium, Makati City (1200), Metro Manila, Philippines<br/>
     Tel. no: 8689-4700. Fax no: 86894777<br/>
     TIN: 223-183-726-00000
@@ -32,7 +32,7 @@
 		$whereAFFCODE['AffiliateGroupCode']= $mer_row->brAffCode;
 		$getAFFCODE = $this->Sys_model->v_agreement($whereAFFCODE, false);
 		if($getAFFCODE->num_rows() <> 0){
-			$rowAFFCODE       = $getAFFCODE->row();
+			$rowAFFCODE        = $getAFFCODE->row();
 			$PayeeName         = $rowAFFCODE->PayeeName;
 			$MeanofPayment     = $rowAFFCODE->MeanofPayment;
 			$BankName          = $rowAFFCODE->BankName;
@@ -49,45 +49,48 @@
 
 <!-- ===== PA NUMBER ===== -->
 <tr>
-  <td align="center" style="padding:6px 0;">
-    <strong style="font-size:14px;">Payment Advice # <?php echo $PA_NUM; ?></strong>
+  <td align="center" style="padding:10px 0 8px 0;">
+    <strong style="font-size:13px;">Payment Advice # <?php echo $PA_NUM; ?></strong>
   </td>
 </tr>
 
 <!-- ===== MERCHANT INFO TABLE ===== -->
 <tr>
-  <td style="padding:4px 0;">
-    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <td style="padding-bottom:6px;">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
       <tr>
-        <!-- Left: stacked merchant details -->
-        <td width="52%" valign="top" style="padding:4px 6px 4px 0;">
-          <table width="100%" border="0" cellspacing="0" cellpadding="3">
-            <tr><td style="font-weight:bold;">Advice To:</td></tr>
-            <tr><td><?php echo $mer_row->LegalName; ?></td></tr>
-            <tr><td style="font-weight:bold;">T.I.N.: <?php echo $mer_row->TIN; ?></td></tr>
-            <tr><td><?php echo $mer_row->TradingName; ?></td></tr>
-            <tr><td><?php echo $Address; ?></td></tr>
-            <tr><td><strong>Reimbursement date:</strong>&nbsp;&nbsp;<?php echo $EXPECTED_DUEDATE; ?></td></tr>
+        <!-- Left column -->
+        <td width="55%" valign="top" style="border:1px solid #000; border-right:none; padding:0;">
+          <table width="100%" border="0" cellspacing="0" cellpadding="4" style="border-collapse:collapse;">
+            <tr><td style="font-weight:bold; border-bottom:1px solid #ccc;">Advice To:</td><td style="border-bottom:1px solid #ccc;"></td></tr>
+            <tr><td colspan="2" style="border-bottom:1px solid #ccc;"><?php echo $LegalName; ?></td></tr>
+            <tr><td colspan="2" style="border-bottom:1px solid #ccc;"><strong>T.I.N.:</strong> <?php echo $TIN; ?></td></tr>
+            <tr><td colspan="2" style="border-bottom:1px solid #ccc;"><?php echo $TradingName; ?></td></tr>
+            <tr><td colspan="2" style="border-bottom:1px solid #ccc;"><?php echo $Address; ?></td></tr>
+            <tr>
+              <td style="font-weight:bold; white-space:nowrap;">Reimbursement date:</td>
+              <td><?php echo $EXPECTED_DUEDATE; ?></td>
+            </tr>
           </table>
         </td>
-        <!-- Right: payee / bank label+value pairs -->
-        <td width="48%" valign="top" style="padding:4px 0;">
-          <table width="100%" border="0" cellspacing="0" cellpadding="3">
+        <!-- Right column -->
+        <td width="45%" valign="top" style="border:1px solid #000; padding:0;">
+          <table width="100%" border="0" cellspacing="0" cellpadding="4" style="border-collapse:collapse;">
             <tr>
-              <td width="44%" style="font-weight:bold; vertical-align:top;">Payee Name:</td>
-              <td width="56%" style="vertical-align:top;"><?php echo $PayeeName; ?></td>
+              <td width="45%" style="font-weight:bold; border-bottom:1px solid #ccc;">Payee Name:</td>
+              <td width="55%" style="border-bottom:1px solid #ccc;"><?php echo $PayeeName; ?></td>
             </tr>
             <tr>
-              <td style="font-weight:bold; vertical-align:top;">Mode of payment:</td>
-              <td style="vertical-align:top;"><?php echo $MeanofPayment; ?></td>
+              <td style="font-weight:bold; border-bottom:1px solid #ccc;">Mode of payment:</td>
+              <td style="border-bottom:1px solid #ccc;"><?php echo $MeanofPayment; ?></td>
             </tr>
             <tr>
-              <td style="font-weight:bold; vertical-align:top;">Bank Name:</td>
-              <td style="vertical-align:top;"><?php echo $BankName; ?></td>
+              <td style="font-weight:bold; border-bottom:1px solid #ccc;">Bank Name:</td>
+              <td style="border-bottom:1px solid #ccc;"><?php echo $BankName; ?></td>
             </tr>
             <tr>
-              <td style="font-weight:bold; vertical-align:top;">Acct number:</td>
-              <td style="vertical-align:top;"><?php echo $BankAccountNumber; ?></td>
+              <td style="font-weight:bold;">Acct number:</td>
+              <td><?php echo $BankAccountNumber; ?></td>
             </tr>
           </table>
         </td>
@@ -100,32 +103,32 @@
 
 <!-- ===== BRANCH DETAIL TABLE(S) ===== -->
 <tr>
-  <td style="padding:6px 0;">
+  <td style="padding-bottom:6px;">
     <?php for ($xy = 1; $xy <= $totalNewPage; $xy++): ?>
-    <table width="100%" border="0" cellspacing="0" cellpadding="4"
-      <?php if(($xy == 1 || $xy % 3 == 0) && $branchNum > 15) echo 'style="page-break-after:always;"'; ?>>
+    <table width="100%" border="0" cellspacing="0" cellpadding="4" style="border-collapse:collapse;"
+      <?php if(($xy == 1 || $xy % 3 == 0) && $branchNum > 15) echo ' style2="page-break-after:always;"'; ?>>
       <?php if(($xy == 1 || $xy % 2 == 0) && !empty($branchLi[$xy])): ?>
-      <tr style="font-weight:bold; border-bottom:1px solid #999;">
-        <td width="120">Branch</td>
-        <td width="30"  align="center">Rate %</td>
-        <td width="55"  align="center">No. of Code/s</td>
-        <td width="65"  align="right">Total Face Value</td>
-        <td width="55"  align="right">Total Refund</td>
-        <td width="60"  align="right">Marketing Fee</td>
-        <td width="40"  align="right">VAT</td>
-        <td width="60"  align="right">Net Due</td>
+      <tr>
+        <td style="font-weight:bold; border-top:1px solid #000; border-bottom:1px solid #000;">Branch</td>
+        <td align="center" style="font-weight:bold; border-top:1px solid #000; border-bottom:1px solid #000; white-space:nowrap;">Rate %</td>
+        <td align="center" style="font-weight:bold; border-top:1px solid #000; border-bottom:1px solid #000;">No. of Code/s</td>
+        <td align="right"  style="font-weight:bold; border-top:1px solid #000; border-bottom:1px solid #000;">Total Face Value</td>
+        <td align="right"  style="font-weight:bold; border-top:1px solid #000; border-bottom:1px solid #000;">Total Refund</td>
+        <td align="right"  style="font-weight:bold; border-top:1px solid #000; border-bottom:1px solid #000;">Marketing Fee</td>
+        <td align="right"  style="font-weight:bold; border-top:1px solid #000; border-bottom:1px solid #000;">VAT</td>
+        <td align="right"  style="font-weight:bold; border-top:1px solid #000; border-bottom:1px solid #000;">Net Due</td>
       </tr>
       <?php endif; ?>
       <?php foreach($branchLi[$xy] as $br_row): ?>
       <tr>
-        <td width="120"><?php echo $br_row->BRANCH_ID.' - '.$br_row->BRANCH_NAME; ?></td>
-        <td width="30"  align="center"><?php echo number_format($br_row->RATE, 2); ?></td>
-        <td width="55"  align="center"><?php echo number_format($br_row->NUM_PASSES); ?></td>
-        <td width="65"  align="right"><?php echo number_format($br_row->TOTAL_FV, 2); ?></td>
-        <td width="55"  align="right"><?php echo number_format($br_row->TOTAL_REFUND, 2); ?></td>
-        <td width="60"  align="right"><?php echo number_format($br_row->MARKETING_FEE, 2); ?></td>
-        <td width="40"  align="right"><?php echo number_format($br_row->VAT, 2); ?></td>
-        <td width="60"  align="right"><?php echo number_format($br_row->NET_DUE, 2); ?></td>
+        <td style="border-bottom:1px solid #ccc;"><?php echo $br_row->BRANCH_ID.' - '.$br_row->BRANCH_NAME; ?></td>
+        <td align="center" style="border-bottom:1px solid #ccc;"><?php echo number_format($br_row->RATE, 2); ?></td>
+        <td align="center" style="border-bottom:1px solid #ccc;"><?php echo number_format($br_row->NUM_PASSES); ?></td>
+        <td align="right"  style="border-bottom:1px solid #ccc;"><?php echo number_format($br_row->TOTAL_FV, 2); ?></td>
+        <td align="right"  style="border-bottom:1px solid #ccc;"><?php echo number_format($br_row->TOTAL_REFUND, 2); ?></td>
+        <td align="right"  style="border-bottom:1px solid #ccc;"><?php echo number_format($br_row->MARKETING_FEE, 2); ?></td>
+        <td align="right"  style="border-bottom:1px solid #ccc;"><?php echo number_format($br_row->VAT, 2); ?></td>
+        <td align="right"  style="border-bottom:1px solid #ccc;"><?php echo number_format($br_row->NET_DUE, 2); ?></td>
       </tr>
       <?php endforeach; ?>
     </table>
@@ -135,25 +138,25 @@
 
 <!-- ===== SUMMARY TABLE ===== -->
 <tr>
-  <td style="padding:6px 0;">
-    <p style="margin:0 0 4px 0; padding:0; font-weight:bold;">Summary:</p>
-    <table width="100%" border="0" cellspacing="0" cellpadding="4">
-      <tr style="font-weight:bold; border-bottom:1px solid #999;">
-        <td width="160">Service</td>
-        <td align="right">Adjustment</td>
-        <td align="right">Marketing Fee</td>
-        <td align="right" width="120">Total Face Value</td>
-        <td align="right">VAT</td>
-        <td align="right">Net Due</td>
+  <td style="padding-bottom:6px;">
+    <strong>Summary:</strong><br/>&nbsp;
+    <table width="100%" border="0" cellspacing="0" cellpadding="4" style="border-collapse:collapse;">
+      <tr>
+        <td style="font-weight:bold; border-top:1px solid #000; border-bottom:1px solid #000;">Service</td>
+        <td align="right" style="font-weight:bold; border-top:1px solid #000; border-bottom:1px solid #000;">Adjustment</td>
+        <td align="right" style="font-weight:bold; border-top:1px solid #000; border-bottom:1px solid #000;">Marketing Fee</td>
+        <td align="right" style="font-weight:bold; border-top:1px solid #000; border-bottom:1px solid #000;">Total Face Value</td>
+        <td align="right" style="font-weight:bold; border-top:1px solid #000; border-bottom:1px solid #000;">VAT</td>
+        <td align="right" style="font-weight:bold; border-top:1px solid #000; border-bottom:1px solid #000;">Net Due</td>
       </tr>
       <?php foreach($serviceSummary as $sr): ?>
       <tr>
-        <td><?php echo $sr['SERVICE_NAME']; ?></td>
-        <td align="right"><?php echo $sr['TOTAL_REFUND']; ?></td>
-        <td align="right"><?php echo $sr['MF']; ?></td>
-        <td align="right"><?php echo $sr['TOTAL_FV']; ?></td>
-        <td align="right"><?php echo $sr['VAT']; ?></td>
-        <td align="right"><?php echo $sr['NET_DUE']; ?></td>
+        <td style="border-bottom:1px solid #ccc;"><?php echo $sr['SERVICE_NAME']; ?></td>
+        <td align="right" style="border-bottom:1px solid #ccc;"><?php echo $sr['TOTAL_REFUND']; ?></td>
+        <td align="right" style="border-bottom:1px solid #ccc;"><?php echo $sr['MF']; ?></td>
+        <td align="right" style="border-bottom:1px solid #ccc;"><?php echo $sr['TOTAL_FV']; ?></td>
+        <td align="right" style="border-bottom:1px solid #ccc;"><?php echo $sr['VAT']; ?></td>
+        <td align="right" style="border-bottom:1px solid #ccc;"><?php echo $sr['NET_DUE']; ?></td>
       </tr>
       <?php endforeach; ?>
     </table>
@@ -162,23 +165,23 @@
 
 <!-- ===== RECEIVED BY + TOTALS ===== -->
 <tr>
-  <td style="padding:6px 0;">
-    <table width="100%" border="0" cellspacing="0" cellpadding="4">
+  <td style="padding-bottom:6px;">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
-
         <!-- Left: Received by -->
-        <td width="55%" style="vertical-align:bottom; padding-left:8px;">
-          <br/>Received by:<br/>
-          <br/><br/>Signature over Printed Name<br/>
-          <br/>Date:&nbsp;&nbsp;______________________
+        <td width="50%" valign="bottom" style="padding-right:10px;">
+          Received by:<br/>
+          <br/><br/>
+          Signature over Printed Name<br/>
+          <br/>
+          Date:&nbsp;&nbsp;______________________
         </td>
-
         <!-- Right: Totals -->
-        <td width="45%" style="vertical-align:top;">
+        <td width="50%" valign="top">
           <table width="100%" border="0" cellspacing="0" cellpadding="3">
-            <tr style="font-weight:bold;">
-              <td>Service</td>
-              <td align="right">Face Value</td>
+            <tr>
+              <td style="font-weight:bold;">Service</td>
+              <td align="right" style="font-weight:bold;">Face Value</td>
             </tr>
             <?php for($zz = 0; $zz < count($prod_arr); $zz++): ?>
             <tr>
@@ -190,7 +193,9 @@
               <td>Refund Adjustment:</td>
               <td align="right">(<?php echo number_format($sumREFV, 2); ?>)</td>
             </tr>
-            <tr><td colspan="2"><hr style="border:0; border-top:1px solid #999; margin:2px 0;"/></td></tr>
+            <tr>
+              <td colspan="2"><hr style="border:0; border-top:1px solid #000; margin:2px 0;"/></td>
+            </tr>
             <tr>
               <td>Total Face Value:</td>
               <td align="right"><?php echo number_format(($sumFV - $sumREFV), 2); ?></td>
@@ -219,13 +224,12 @@
               <td>VAT 12% (A+B+C+D):</td>
               <td align="right"><?php echo number_format($sumVAT, 2); ?></td>
             </tr>
-            <tr style="font-weight:bold;">
-              <td>Total Net Due:</td>
-              <td align="right"><?php echo number_format($sumND, 2); ?></td>
+            <tr>
+              <td style="font-weight:bold;">Total Net Due:</td>
+              <td align="right" style="font-weight:bold;"><?php echo number_format($sumND, 2); ?></td>
             </tr>
           </table>
         </td>
-
       </tr>
     </table>
   </td>
@@ -233,13 +237,13 @@
 
 <!-- ===== GENERATED BY / PRINTED BY ===== -->
 <tr>
-  <td style="padding:4px 0;">
-    <table width="100%" border="0" cellspacing="0" cellpadding="4">
+  <td style="padding-top:4px;">
+    <table width="100%" border="0" cellspacing="0" cellpadding="3">
       <tr>
-        <td width="25%" style="font-weight:bold;">Generated by:</td>
-        <td width="25%"><?php echo $REIMBURSEMENT_USER; ?></td>
-        <td width="25%" style="font-weight:bold;">Printed by:</td>
-        <td width="25%"><?php echo $data_user->full_name; ?></td>
+        <td width="20%" style="font-weight:bold;">Generated by:</td>
+        <td width="30%"><?php echo $REIMBURSEMENT_USER; ?></td>
+        <td width="20%" style="font-weight:bold;">Printed by:</td>
+        <td width="30%"><?php echo $data_user->full_name; ?></td>
       </tr>
       <tr>
         <td style="font-weight:bold;">Date Generated:</td>
@@ -253,7 +257,7 @@
 
 <!-- ===== COPY LABEL ===== -->
 <tr>
-  <td align="center" style="padding:6px 0;">
+  <td align="center" style="padding:8px 0;">
     <?php if($copy == false): ?>
       ORIGINAL COPY OF PAYMENT ADVICE
     <?php else: ?>
@@ -274,8 +278,8 @@
 
 <!-- Company header -->
 <tr>
-  <td align="center" style="padding:8px 0;">
-    <strong style="font-size:16px;">Pluxee Philippines Incorporated</strong><br/>
+  <td align="center" style="padding-bottom:6px;">
+    <strong style="font-size:14px;">Pluxee Philippines Incorporated</strong><br/>
     8747 Paseo de Roxas Street, 11TH Floor, B.A. Lepanto Condominium, Makati City (1200), Metro Manila, Philippines<br/>
     Tel. no: 8689-4700. Fax no: 86894777<br/>
     TIN: 223-183-726-00000
@@ -284,43 +288,46 @@
 
 <!-- PA Number - Refund -->
 <tr>
-  <td align="center" style="padding:6px 0;">
-    <strong style="font-size:14px;">Payment Advice # <?php echo $PA_NUM; ?> - Refund Adjustment details</strong>
+  <td align="center" style="padding:10px 0 8px 0;">
+    <strong style="font-size:13px;">Payment Advice # <?php echo $PA_NUM; ?> - Refund Adjustment details</strong>
   </td>
 </tr>
 
 <!-- Merchant info -->
 <tr>
-  <td style="padding:4px 0;">
-    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <td style="padding-bottom:6px;">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
       <tr>
-        <td width="52%" valign="top" style="padding:4px 6px 4px 0;">
-          <table width="100%" border="0" cellspacing="0" cellpadding="3">
-            <tr><td style="font-weight:bold;">Advice To:</td></tr>
-            <tr><td><?php echo $LegalName; ?></td></tr>
-            <tr><td style="font-weight:bold;">T.I.N.: <?php echo $TIN; ?></td></tr>
-            <tr><td><?php echo $TradingName; ?></td></tr>
-            <tr><td><?php echo $Address; ?></td></tr>
-            <tr><td><strong>Reimbursement date:</strong>&nbsp;&nbsp;<?php echo $EXPECTED_DUEDATE; ?></td></tr>
+        <td width="55%" valign="top" style="border:1px solid #000; border-right:none; padding:0;">
+          <table width="100%" border="0" cellspacing="0" cellpadding="4" style="border-collapse:collapse;">
+            <tr><td style="font-weight:bold; border-bottom:1px solid #ccc;">Advice To:</td><td style="border-bottom:1px solid #ccc;"></td></tr>
+            <tr><td colspan="2" style="border-bottom:1px solid #ccc;"><?php echo $LegalName; ?></td></tr>
+            <tr><td colspan="2" style="border-bottom:1px solid #ccc;"><strong>T.I.N.:</strong> <?php echo $TIN; ?></td></tr>
+            <tr><td colspan="2" style="border-bottom:1px solid #ccc;"><?php echo $TradingName; ?></td></tr>
+            <tr><td colspan="2" style="border-bottom:1px solid #ccc;"><?php echo $Address; ?></td></tr>
+            <tr>
+              <td style="font-weight:bold; white-space:nowrap;">Reimbursement date:</td>
+              <td><?php echo $EXPECTED_DUEDATE; ?></td>
+            </tr>
           </table>
         </td>
-        <td width="48%" valign="top" style="padding:4px 0;">
-          <table width="100%" border="0" cellspacing="0" cellpadding="3">
+        <td width="45%" valign="top" style="border:1px solid #000; padding:0;">
+          <table width="100%" border="0" cellspacing="0" cellpadding="4" style="border-collapse:collapse;">
             <tr>
-              <td width="44%" style="font-weight:bold; vertical-align:top;">Payee Name:</td>
-              <td width="56%" style="vertical-align:top;"><?php echo $PayeeName; ?></td>
+              <td width="45%" style="font-weight:bold; border-bottom:1px solid #ccc;">Payee Name:</td>
+              <td width="55%" style="border-bottom:1px solid #ccc;"><?php echo $PayeeName; ?></td>
             </tr>
             <tr>
-              <td style="font-weight:bold; vertical-align:top;">Mode of payment:</td>
-              <td style="vertical-align:top;"><?php echo $MeanofPayment; ?></td>
+              <td style="font-weight:bold; border-bottom:1px solid #ccc;">Mode of payment:</td>
+              <td style="border-bottom:1px solid #ccc;"><?php echo $MeanofPayment; ?></td>
             </tr>
             <tr>
-              <td style="font-weight:bold; vertical-align:top;">Bank Name:</td>
-              <td style="vertical-align:top;"><?php echo $BankName; ?></td>
+              <td style="font-weight:bold; border-bottom:1px solid #ccc;">Bank Name:</td>
+              <td style="border-bottom:1px solid #ccc;"><?php echo $BankName; ?></td>
             </tr>
             <tr>
-              <td style="font-weight:bold; vertical-align:top;">Acct number:</td>
-              <td style="vertical-align:top;"><?php echo $BankAccountNumber; ?></td>
+              <td style="font-weight:bold;">Acct number:</td>
+              <td><?php echo $BankAccountNumber; ?></td>
             </tr>
           </table>
         </td>
@@ -331,18 +338,18 @@
 
 <!-- Refund branch table -->
 <tr>
-  <td style="padding:6px 0;">
-    <table width="100%" border="0" cellspacing="0" cellpadding="4">
-      <tr style="font-weight:bold; border-bottom:1px solid #999;">
-        <td>Branch</td>
-        <td align="right">Total Passes</td>
-        <td align="right">Total Refund</td>
+  <td style="padding-bottom:6px;">
+    <table width="100%" border="0" cellspacing="0" cellpadding="4" style="border-collapse:collapse;">
+      <tr>
+        <td style="font-weight:bold; border-top:1px solid #000; border-bottom:1px solid #000;">Branch</td>
+        <td align="right" style="font-weight:bold; border-top:1px solid #000; border-bottom:1px solid #000;">Total Passes</td>
+        <td align="right" style="font-weight:bold; border-top:1px solid #000; border-bottom:1px solid #000;">Total Refund</td>
       </tr>
       <?php foreach($refundLi as $ref_row): ?>
       <tr>
-        <td><?php echo $ref_row->BRANCH_NAME; ?></td>
-        <td align="right"><?php echo $ref_row->NUM_PASSES; ?></td>
-        <td align="right"><?php echo number_format($ref_row->TOTALREF_FV, 2); ?></td>
+        <td style="border-bottom:1px solid #ccc;"><?php echo $ref_row->BRANCH_NAME; ?></td>
+        <td align="right" style="border-bottom:1px solid #ccc;"><?php echo $ref_row->NUM_PASSES; ?></td>
+        <td align="right" style="border-bottom:1px solid #ccc;"><?php echo number_format($ref_row->TOTALREF_FV, 2); ?></td>
       </tr>
       <?php endforeach; ?>
     </table>
@@ -351,23 +358,23 @@
 
 <!-- Refund summary -->
 <tr>
-  <td style="padding:6px 0;">
-    <p style="margin:0 0 4px 0; padding:0; font-weight:bold;">Summary:</p>
-    <table width="100%" border="0" cellspacing="0" cellpadding="4">
-      <tr style="font-weight:bold; border-bottom:1px solid #999;">
-        <td width="160">Service</td>
-        <td align="right">Adjustment</td>
-        <td align="right">Marketing Fee</td>
-        <td align="right">VAT</td>
-        <td align="right">Net Due</td>
+  <td style="padding-bottom:6px;">
+    <strong>Summary:</strong><br/>&nbsp;
+    <table width="100%" border="0" cellspacing="0" cellpadding="4" style="border-collapse:collapse;">
+      <tr>
+        <td style="font-weight:bold; border-top:1px solid #000; border-bottom:1px solid #000;">Service</td>
+        <td align="right" style="font-weight:bold; border-top:1px solid #000; border-bottom:1px solid #000;">Adjustment</td>
+        <td align="right" style="font-weight:bold; border-top:1px solid #000; border-bottom:1px solid #000;">Marketing Fee</td>
+        <td align="right" style="font-weight:bold; border-top:1px solid #000; border-bottom:1px solid #000;">VAT</td>
+        <td align="right" style="font-weight:bold; border-top:1px solid #000; border-bottom:1px solid #000;">Net Due</td>
       </tr>
       <?php foreach($serviceREF as $sref_row): $totalREFFV = $sref_row->TOTAL_FV; ?>
       <tr>
-        <td><?php echo $sref_row->SERVICE_NAME; ?></td>
-        <td align="right"><?php echo number_format($totalREFFV, 2); ?></td>
-        <td align="right"></td>
-        <td align="right"></td>
-        <td align="right"><?php echo number_format($totalREFFV, 2); ?></td>
+        <td style="border-bottom:1px solid #ccc;"><?php echo $sref_row->SERVICE_NAME; ?></td>
+        <td align="right" style="border-bottom:1px solid #ccc;"><?php echo number_format($totalREFFV, 2); ?></td>
+        <td align="right" style="border-bottom:1px solid #ccc;"></td>
+        <td align="right" style="border-bottom:1px solid #ccc;"></td>
+        <td align="right" style="border-bottom:1px solid #ccc;"><?php echo number_format($totalREFFV, 2); ?></td>
       </tr>
       <?php endforeach; ?>
     </table>
@@ -376,13 +383,13 @@
 
 <!-- Footer -->
 <tr>
-  <td style="padding:4px 0;">
-    <table width="100%" border="0" cellspacing="0" cellpadding="4">
+  <td style="padding-top:4px;">
+    <table width="100%" border="0" cellspacing="0" cellpadding="3">
       <tr>
-        <td width="25%" style="font-weight:bold;">Generated by:</td>
-        <td width="25%"><?php echo $REIMBURSEMENT_USER; ?></td>
-        <td width="25%" style="font-weight:bold;">Printed by:</td>
-        <td width="25%"><?php echo $data_user->full_name; ?></td>
+        <td width="20%" style="font-weight:bold;">Generated by:</td>
+        <td width="30%"><?php echo $REIMBURSEMENT_USER; ?></td>
+        <td width="20%" style="font-weight:bold;">Printed by:</td>
+        <td width="30%"><?php echo $data_user->full_name; ?></td>
       </tr>
       <tr>
         <td style="font-weight:bold;">Date Generated:</td>
@@ -395,7 +402,7 @@
 </tr>
 
 <tr>
-  <td align="center" style="padding:6px 0;">
+  <td align="center" style="padding:8px 0;">
     <?php if($copy == false): ?>
       ORIGINAL COPY OF PAYMENT ADVICE
     <?php else: ?>
