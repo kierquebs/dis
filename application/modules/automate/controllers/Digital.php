@@ -56,7 +56,7 @@ class Digital extends MX_Controller {
 	   if($result->num_rows() != 0 ){
 		   $arr = $this->_interface_si_result($result); 		
 		   
-		   $module['filename'] = 'SI_'.date('mdY',now()).'_001'; //CIC_SOA_MMDDYYYY_01.csv 
+		   $module['filename'] = 'SI_'.date('mdY',time()).'_001'; //CIC_SOA_MMDDYYYY_01.csv 
 		   return $this->download_file->_cic_si_remittance($module, $arr, $serverDl);
 	   }
 	} 
@@ -143,7 +143,7 @@ class Digital extends MX_Controller {
 		$result =  $this->Corepass_model->getQueryDigitalClients($where);	
 		if($result->num_rows() != 0 ){
 			$arr = $this->_interface_client_result($result);			
-			$module['filename'] = 'DC_'.date('mdY',now()).'_01'; //CIC_CLIENT_MMDDYYYY_01.csv
+			$module['filename'] = 'DC_'.date('mdY',time()).'_01'; //CIC_CLIENT_MMDDYYYY_01.csv
 			return $this->download_file->_cic_client($module, $arr, $serverDl);
 		}
 	 }
@@ -213,7 +213,7 @@ class Digital extends MX_Controller {
 			
 			// log_message('error', json_encode($arr, JSON_PRETTY_PRINT));		
 			
-			$module['filename'] = 'DO_'.date('mdY',now()).'_001'; //CIC_SOA_MMDDYYYY_01.csv 
+			$module['filename'] = 'DO_'.date('mdY',time()).'_001'; //CIC_SOA_MMDDYYYY_01.csv 
 			//echo '<pre>';print_r($arr); echo '</pre>';die();
 			return $this->download_file->_cic_soa_remittance($module, $arr, $serverDl);
 		}
@@ -254,7 +254,7 @@ class Digital extends MX_Controller {
 		return $arr;
 	}
 			private function _detail_result($result, $SERVICE_ID, $ACCOUNT_MANAGER, $DELIVERED_DATE){
-				if($result->num_rows() == 0) return "";				
+				if($result->num_rows() == 0) return [];				
 				
 				$GROSS_BILLABLE = $NET_BILLABLE = $TOTAL_DISCOUNT = 0;
 				$X_GROSS_BILLABLE = $X_NET_BILLABLE = 0;
@@ -279,7 +279,7 @@ class Digital extends MX_Controller {
 							
 							$BILLABLE_AMOUNT = $temp_row->BILLABLE_AMOUNT;
 							if($temp_row->B_CREDIT == 'T'){ //DISCOUNT BILLABLES
-								$newRow->CREDIT_VALUE = intval('-'.$BILLABLE_AMOUNT);
+								$newRow->CREDIT_VALUE = -1 * (float)$BILLABLE_AMOUNT;
 								$GROSS_BILLABLE -= $BILLABLE_AMOUNT;
 								$NET_BILLABLE -= $BILLABLE_AMOUNT;		
 								$X_GROSS_BILLABLE -= $BILLABLE_AMOUNT;	
@@ -353,7 +353,7 @@ class Digital extends MX_Controller {
 		
 		if($result->num_rows() != 0 ){
 			$arr = $this->_interface_merchant_result($result);			
-			$module['filename'] = 'CM_'.date('mdY',now()).'_01'; //DM_MMDDYYYY_01.csv
+			$module['filename'] = 'CM_'.date('mdY',time()).'_01'; //DM_MMDDYYYY_01.csv
 			//echo '<pre>'; print_r($arr); echo '</pre>'; die();
 			return $this->download_file->_cic_merchant($module, $arr, $serverDl);
 		}
@@ -426,7 +426,7 @@ class Digital extends MX_Controller {
 	   $result =  $this->Corepass_model->getQueryMerRemittance($where);	
 	   if($result->num_rows() != 0 ){
 		   $arr = $this->_interface_remittance_result($result); 
-		   $module['filename'] = 'CI_'.date('mdY',now()).'_01'; //DR_MMDDYYYY_01.csv 
+		   $module['filename'] = 'CI_'.date('mdY',time()).'_01'; //DR_MMDDYYYY_01.csv 
 		//echo '<pre>';print_r($arr); echo '</pre>';die();
 		   return $this->download_file->_cic_mer_remittance($module, $arr, $serverDl);
 	   }
@@ -470,7 +470,7 @@ class Digital extends MX_Controller {
 	}
 
 	private function _remittance_detail_result($result, $SERVICE_ID, $ACCOUNT_MANAGER, $DELIVERED_DATE){
-		if($result->num_rows() == 0) return "";				
+		if($result->num_rows() == 0) return [];				
 		
 		/*
 		Record Type
