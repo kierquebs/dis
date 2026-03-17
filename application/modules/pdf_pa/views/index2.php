@@ -125,7 +125,7 @@
         <td align="center" style="border-bottom:1px solid #ccc;"><?php echo number_format($br_row->RATE, 2); ?></td>
         <td align="center" style="border-bottom:1px solid #ccc;"><?php echo number_format($br_row->NUM_PASSES); ?></td>
         <td align="right"  style="border-bottom:1px solid #ccc;"><?php echo number_format($br_row->TOTAL_FV, 2); ?></td>
-        <td align="right"  style="border-bottom:1px solid #ccc;"><?php echo number_format($br_row->TOTAL_REFUND, 2); ?></td>
+        <td align="right"  style="border-bottom:1px solid #ccc;"><?php echo number_format($br_row->TOTAL_REFUND ?? 0, 2); ?></td>
         <td align="right"  style="border-bottom:1px solid #ccc;"><?php echo number_format($br_row->MARKETING_FEE, 2); ?></td>
         <td align="right"  style="border-bottom:1px solid #ccc;"><?php echo number_format($br_row->VAT, 2); ?></td>
         <td align="right"  style="border-bottom:1px solid #ccc;"><?php echo number_format($br_row->NET_DUE, 2); ?></td>
