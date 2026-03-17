@@ -1,7 +1,138 @@
 <html>
 <head>
-<base href="<?php echo base_url();?>"/>
-<link rel="stylesheet" href="assets/css/mpdf2.css?<?php echo time(); ?>">  
+<style>
+* {
+    padding:0;
+    margin:0;
+}
+html, body {
+    line-height: 1;
+    font-family: sans-serif;
+}
+.page-break{
+	page-break-after: always;
+}
+.page-break-before{
+	page-break-before: always;
+}
+.main{
+	margin: 2% 0;
+}
+.center{
+	text-align: center;
+}
+.row{
+    display: block;
+    width: 98%;
+    margin: 10px auto 10px;
+    padding: 6px 0;
+}
+.block_row{
+    display: block;
+    width: 98%;
+    margin: 10px auto 10px;
+}
+p{
+    font-weight: normal;
+    font-size: 12px;
+    padding-bottom: 12px;
+}
+.title{
+    font-weight: bold;
+    font-size: 18px;
+    padding-top: 5px;
+}
+.tbl{
+    width: 98%;
+    margin: 0 auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 11px;
+}
+.tbl tr td {
+    display: table-cell;
+    vertical-align: top;
+    padding: 5px 0;
+}
+.tbl tr td.tbl_title {
+    font-weight: bold;
+}
+.tbl_2{
+    width: 100%;
+    margin: 0 auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 11px;
+}
+.tbl_2 thead tr td {
+    font-weight: bold;
+    padding: 5px 7px;
+}
+.tbl_2 tr td {
+    display: table-cell;
+    vertical-align: top;
+    padding: 5px;
+    word-wrap: break-word;
+}
+.tbl_3{
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 11px;
+}
+.tbl_3 tr td {
+    display: table-cell;
+    vertical-align: top;
+    padding: 3px;
+}
+.number{
+    text-align: right;
+}
+.block_row p{
+    padding-left: 10px;
+}
+.sum_table{
+    width: 98%;
+    margin: 0 auto;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+.sum_left_cell{
+    width: 55%;
+    vertical-align: bottom;
+    padding: 0 10px;
+    font-size: 11px;
+}
+.sum_right_cell{
+    width: 40%;
+    vertical-align: top;
+    padding-top: 10px;
+}
+.sign_box{
+    margin-top: 20px;
+    padding-top: 2px;
+    width: 250px;
+    font-size: 11px;
+}
+.sum_center{
+    display: block;
+    width: 98%;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 11px;
+}
+.toRight{
+    text-align: left;
+    padding-left: 60px;
+    font-weight: normal;
+}
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+</style>
 </head>
 <body>
 <div class="main">
@@ -15,46 +146,45 @@
 		$REIMBURSEMENT_DATE = $mer_row->REIMBURSEMENT_DATE;
 		$EXPECTED_DUEDATE = $mer_row->ExpectedDueDate;
 		$REIMBURSEMENT_USER = $mer_row->full_name;
-		//$date_printed = $this->my_lib->setDate($mer_row->DATE_CREATED, FALSE, FALSE);
-		
+
 		$PayeeName = $mer_row->PayeeName;
 		$MeanofPayment = $mer_row->MeanofPayment;
 		$BankName = $mer_row->BankName;
 		$BankAccountNumber = $mer_row->BankAccountNumber;
 		$Address = $mer_row->Address;
-		
+
 		if($mer_row->AffiliateGroupCode <> $mer_row->brAffCode){
 			$whereAFFCODE['CP_ID'] = $mer_row->CP_ID;
 			$whereAFFCODE['AffiliateGroupCode'] = $mer_row->brAffCode;
-			$getAFFCODE =  $this->Sys_model->v_agreement($whereAFFCODE, false);	
-		
-			if($getAFFCODE->num_rows() <> 0){ 
-				$rowAFFCODE = $getAFFCODE->row();	
+			$getAFFCODE =  $this->Sys_model->v_agreement($whereAFFCODE, false);
+
+			if($getAFFCODE->num_rows() <> 0){
+				$rowAFFCODE = $getAFFCODE->row();
 				$PayeeName = $rowAFFCODE->PayeeName;
 				$MeanofPayment = $rowAFFCODE->MeanofPayment;
-				$BankName = $rowAFFCODE->BankName; 
+				$BankName = $rowAFFCODE->BankName;
 				$BankAccountNumber = $rowAFFCODE->BankAccountNumber;
 				$Address = $rowAFFCODE->Address;
 			}
 		}
-		
+
 		$PA_NUM = $this->my_lib->paNumber($mer_row->PA_ID);
 		$LegalName = $mer_row->LegalName;
 		$TIN = $mer_row->TIN;
 		$TradingName = $mer_row->TradingName;
-		
+
 	?>
 	<div class="row center">
 		<p class="title">Payment Advice # <?php echo $PA_NUM?> </p>
 	</div>
-	
+
 	<div class="row">
 		<table class="tbl">
 		<tr>
 			<td class="tbl_title">Advice To:</td>
 			<td class="tbl_title">Payee Name:</td>
 			<td><?php echo $PayeeName?></td>
-		</tr>	
+		</tr>
 		<tr>
 			<td><?php echo $mer_row->LegalName?></td>
 			<td colspan="2"></td>
@@ -63,7 +193,7 @@
 			<td>T.I.N.: <?php echo $mer_row->TIN?></td>
 			<td class="tbl_title">Mode of payment:</td>
 			<td><?php echo $MeanofPayment?></td>
-		</tr>		
+		</tr>
 		<tr>
 			<td><?php echo $mer_row->TradingName?></td>
 			<td colspan="2"></td>
@@ -81,78 +211,78 @@
 		</table>
 	</div>
 	<?php endforeach;?>
-	
+
 	<div class="block_row">
-	<?php 	
+	<?php
 	for ($xy = 1; $xy <= $totalNewPage; $xy++) :
 	?>
-		<table class="tbl_2 <?php if(($xy == 1 || $xy % 3 == 0) && $branchNum > 15) echo 'page-break';?>"> 
+		<table class="tbl_2 <?php if(($xy == 1 || $xy % 3 == 0) && $branchNum > 15) echo 'page-break';?>">
 			<?php if(($xy == 1 || $xy % 2 == 0) && !empty($branchLi[$xy])):?>
 			<thead>
 				<tr>
-					<td width=120>Branch</td>
-					<td width=20 class="center">Rate %</td>
-					<td width=60 class="center">No. of Code/s</td>
-					<td width=60 class="number">Total Face Value</td>
-					<td width=60 class="number">Total Refund</td>
-					<td width=60 class="number">Marketing Fee</td>
-					<td width=60 class="number">VAT</td>
-					<td width=60 class="number"">Net Due</td>
+					<td width="120">Branch</td>
+					<td width="20" class="center">Rate %</td>
+					<td width="60" class="center">No. of Code/s</td>
+					<td width="60" class="number">Total Face Value</td>
+					<td width="60" class="number">Total Refund</td>
+					<td width="60" class="number">Marketing Fee</td>
+					<td width="60" class="number">VAT</td>
+					<td width="60" class="number">Net Due</td>
 				</tr>
 			</thead>
 			<?php endif;?>
 			<tbody>
-			<?php 
+			<?php
 			foreach($branchLi[$xy]  as $br_row):
 			?>
 			<tr>
-				<td width=120><?php echo $br_row->BRANCH_ID.' - '.$br_row->BRANCH_NAME?></td>
-				<td width=20 class="center"><?php echo number_format($br_row->RATE, 2)?></td>
-				<td width=60 class="center"><?php echo number_format($br_row->NUM_PASSES)?></td>
-				<td width=60 class="number"><?php echo number_format($br_row->TOTAL_FV, 2)?></td>
-				<td width=60 class="number"><?php echo number_format($br_row->TOTAL_REFUND, 2)?></td>
-				<td width=60 class="number"><?php echo number_format($br_row->MARKETING_FEE, 2) ?></td>
-				<td width=60 class="number"><?php echo number_format($br_row->VAT, 2)?></td>
-				<td width=60 class="number"><?php echo number_format($br_row->NET_DUE, 2)?></td>
+				<td width="120"><?php echo $br_row->BRANCH_ID.' - '.$br_row->BRANCH_NAME?></td>
+				<td width="20" class="center"><?php echo number_format($br_row->RATE, 2)?></td>
+				<td width="60" class="center"><?php echo number_format($br_row->NUM_PASSES)?></td>
+				<td width="60" class="number"><?php echo number_format($br_row->TOTAL_FV, 2)?></td>
+				<td width="60" class="number"><?php echo number_format($br_row->TOTAL_REFUND, 2)?></td>
+				<td width="60" class="number"><?php echo number_format($br_row->MARKETING_FEE, 2) ?></td>
+				<td width="60" class="number"><?php echo number_format($br_row->VAT, 2)?></td>
+				<td width="60" class="number"><?php echo number_format($br_row->NET_DUE, 2)?></td>
 			</tr>
 			<?php endforeach; ?>
 			</tbody>
 		</table>
 	<?php endfor;?>
 	</div>
-<?php 
+<?php
 $sumREFV = 0;
 if($refundRow <> 0):
-	foreach($refundLi as $ref_row): 
+	foreach($refundLi as $ref_row):
 		$sumREFV += $ref_row->TOTALREF_FV;
-	endforeach;	
+	endforeach;
 endif;
 ?>
-	
+
 	<div class="block_row">
 		<p>Summary:</p>
 		<table class="tbl_2">
 			<thead>
 				<tr>
-					<td width=120>Service</td>
+					<td width="120">Service</td>
 					<td class="number">Adjustment</td>
 					<td class="number">Marketing Fee</td>
-					<td width=100 class="number">Total Face Value</td>
+					<td width="100" class="number">Total Face Value</td>
 					<td class="number center">VAT</td>
 					<td class="number center">Net Due</td>
 				</tr>
 			</thead>
 			<tbody>
-			<?php 
-			$prod_arr = array(); 			
+			<?php
+			$prod_arr = array();
 			$sumVAT = $sumND = $sumMF = $sumFV = 0;
 			foreach($serviceLi as $sr_row):
 				$totalFV = $sr_row->TOTAL_FV;
-				$TOTAL_REFUND = $sr_row->TOTAL_REFUND;				
-				$totalMFV = $totalFV - $TOTAL_REFUND; //$totalMFV = $totalFV;
+				$TOTAL_REFUND = $sr_row->TOTAL_REFUND;
+				$totalMFV = $totalFV - $TOTAL_REFUND;
 				$vatcond = $this->my_lib->checkVAT($sr_row->vatcond);
-				$percentMF = $this->my_lib->convertMFRATE($sr_row->MerchantFee, TRUE); 								
-				$MF = $this->my_lib->computeMF($totalMFV, $percentMF, '', FALSE); //$MF = $this->my_lib->computeMF($totalMFV, $percentMF, 2, false); 
+				$percentMF = $this->my_lib->convertMFRATE($sr_row->MerchantFee, TRUE);
+				$MF = $this->my_lib->computeMF($totalMFV, $percentMF, '', FALSE);
 				$VAT = $this->my_lib->computeVAT($totalMFV, $percentMF, $vatcond, FALSE);
 				$NET_DUE = $this->my_lib->computeNETDUE($totalMFV, $percentMF, $vatcond, FALSE);
 			?>
@@ -164,86 +294,90 @@ endif;
 				<td class="number"><?php echo number_format($VAT, 2) ?></td>
 				<td class="number"><?php echo number_format($NET_DUE, 2)?></td>
 			</tr>
-			<?php 
+			<?php
 				$arr['name'] = $sr_row->SERVICE_NAME;
 				$arr['fv'] = number_format($totalFV, 2);
-				$sumFV += $totalFV;				
+				$sumFV += $totalFV;
 				$sumMF += $MF;
 				$sumND +=  $NET_DUE;
 				$sumVAT += $VAT;
 			$prod_arr[] = $arr;
-			endforeach;					
+			endforeach;
 			?>
 			</tbody>
 		</table>
 	</div>
-	
+
 	<div class="row">
-		<div class="sum_left">
-			<p>Received by:</p>
-			<p class="sign_box">Signature over Printed Name</p>
-		</div>
-		<div class="sum_right">
-			<table class="tbl_3">
-				<thead>
-					<tr>
-						<td>Service</td>
-						<td class="number">Face Value</td>
-					</tr>
-				</thead>				
-				<tbody>
-				<?php 
-				for($zz=0;$zz<count($prod_arr);$zz++):					
-				?>
-				<tr>
-					<td><?php echo $prod_arr[$zz]['name'] ?></td>
-					<td class="number"><?php echo $prod_arr[$zz]['fv'] ?></td>
-				</tr>
-				<?php endfor;?>		
-				<tr>
-					<td>Refund Adjustment:</td>
-					<td class="number">(<?php echo number_format($sumREFV, 2);?>)</td>
-				</tr>			
-				</tbody>
-			</table>
-			<table class="tbl_3">		
-				<tr> 
-					<td>Total Face Value:</td>
-					<td class="number"><?php echo number_format(($sumFV - $sumREFV) , 2);?></td>
-				</tr>
-				<tr>
-					<td>(A)Marketing Fee:</td>
-					<td class="number"><?php echo number_format($sumMF, 2);?></td>
-				</tr>
-				<tr>
-					<td>(B)Delivery Fee:</td>
-					<td class="number"><?php echo number_format(0, 2);?></td>
-				</tr>
-				<tr>
-					<td>(C)Voucher Pick Up Fee:</td>
-					<td class="number"><?php echo number_format(0, 2);?></td>
-				</tr>
-				<tr>
-					<td>(D)Other Fees:</td>
-					<td class="number"><?php echo number_format(0, 2);?></td>
-				</tr>
-				<tr>
-					<td>(E)Other Non Vat Fees:</td>
-					<td class="number"><?php echo number_format(0, 2);?></td>
-				</tr>
-				<tr>
-					<td>VAT 12% (A+B+C+D):</td>
-					<td class="number"><?php echo number_format($sumVAT, 2);?></td>
-				</tr>
-				<tr>
-					<td>Total Net Due:</td>
-					<td class="number"><?php echo number_format($sumND, 2);?></td>
-				</tr>
-			</table>
-		</div>
-		<div class="sum_center"> <p>Date: <span>______________________</span></p></div>
-	</div>	
-	
+		<table class="sum_table">
+			<tr>
+				<td class="sum_left_cell">
+					<p>Received by:</p>
+					<p class="sign_box">Signature over Printed Name</p>
+				</td>
+				<td class="sum_right_cell">
+					<table class="tbl_3">
+						<thead>
+							<tr>
+								<td>Service</td>
+								<td class="number">Face Value</td>
+							</tr>
+						</thead>
+						<tbody>
+						<?php
+						for($zz=0;$zz<count($prod_arr);$zz++):
+						?>
+						<tr>
+							<td><?php echo $prod_arr[$zz]['name'] ?></td>
+							<td class="number"><?php echo $prod_arr[$zz]['fv'] ?></td>
+						</tr>
+						<?php endfor;?>
+						<tr>
+							<td>Refund Adjustment:</td>
+							<td class="number">(<?php echo number_format($sumREFV, 2);?>)</td>
+						</tr>
+						</tbody>
+					</table>
+					<table class="tbl_3">
+						<tr>
+							<td>Total Face Value:</td>
+							<td class="number"><?php echo number_format(($sumFV - $sumREFV) , 2);?></td>
+						</tr>
+						<tr>
+							<td>(A)Marketing Fee:</td>
+							<td class="number"><?php echo number_format($sumMF, 2);?></td>
+						</tr>
+						<tr>
+							<td>(B)Delivery Fee:</td>
+							<td class="number"><?php echo number_format(0, 2);?></td>
+						</tr>
+						<tr>
+							<td>(C)Voucher Pick Up Fee:</td>
+							<td class="number"><?php echo number_format(0, 2);?></td>
+						</tr>
+						<tr>
+							<td>(D)Other Fees:</td>
+							<td class="number"><?php echo number_format(0, 2);?></td>
+						</tr>
+						<tr>
+							<td>(E)Other Non Vat Fees:</td>
+							<td class="number"><?php echo number_format(0, 2);?></td>
+						</tr>
+						<tr>
+							<td>VAT 12% (A+B+C+D):</td>
+							<td class="number"><?php echo number_format($sumVAT, 2);?></td>
+						</tr>
+						<tr>
+							<td>Total Net Due:</td>
+							<td class="number"><?php echo number_format($sumND, 2);?></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<div class="sum_center"><p>Date: <span style="color:#b3b3b3;">______________________</span></p></div>
+	</div>
+
 	<div class="row">
 		<table class="tbl">
 		<tr>
@@ -251,7 +385,7 @@ endif;
 			<td><?php echo $REIMBURSEMENT_USER?></td>
 			<td class="tbl_title">Printed by:</td>
 			<td><?php echo $data_user->full_name;?></td>
-		</tr>	
+		</tr>
 		<tr>
 			<td class="tbl_title">Date Generated:</td>
 			<td><?php echo $REIMBURSEMENT_DATE?></td>
@@ -260,14 +394,14 @@ endif;
 		</tr>
 		</table>
 	</div>
-	
+
 	<div class="row">
 		<p class="center">
 		<?php if($copy == false):?>
 			ORIGINAL COPY OF PAYMENT ADVICE
-		<?php else:?>		
+		<?php else:?>
 			PRINTED COPY OF PAYMENT ADVICE
-		<?php endif;?>	
+		<?php endif;?>
 		</p>
 	</div>
 </div>
@@ -285,14 +419,14 @@ endif;
 	</div>
 	<div class="row center">
 		<p class="title">Payment Advice # <?php echo $PA_NUM;?> - Refund Adjustment details </p>
-	</div>	
+	</div>
 	<div class="row">
 		<table class="tbl">
 		<tr>
 			<td class="tbl_title">Advice To:</td>
 			<td class="tbl_title">Payee Name:</td>
 			<td><?php echo $PayeeName?></td>
-		</tr>	
+		</tr>
 		<tr>
 			<td><?php echo $LegalName?></td>
 			<td colspan="2"></td>
@@ -301,7 +435,7 @@ endif;
 			<td>T.I.N.: <?php echo $TIN?></td>
 			<td class="tbl_title">Mode of payment:</td>
 			<td><?php echo $MeanofPayment?></td>
-		</tr>		
+		</tr>
 		<tr>
 			<td><?php echo $TradingName?></td>
 			<td colspan="2"></td>
@@ -318,7 +452,7 @@ endif;
 		</tr>
 		</table>
 	</div>
-	
+
 	<div class="block_row">
 		<table class="tbl_2">
 			<thead>
@@ -335,9 +469,9 @@ endif;
 				<td class="number"><?php echo $ref_row->NUM_PASSES?></td>
 				<td class="number"><?php echo number_format($ref_row->TOTALREF_FV, 2)?></td>
 			</tr>
-			<?php 
+			<?php
 			$sumREFV += $ref_row->TOTALREF_FV;
-			endforeach;					
+			endforeach;
 			?>
 			</tbody>
 		</table>
@@ -348,7 +482,7 @@ endif;
 		<table class="tbl_2">
 			<thead>
 				<tr>
-					<td width=120>Service</td>
+					<td width="120">Service</td>
 					<td class="number">Adjustment</td>
 					<td class="number">Marketing Fee</td>
 					<td class="number center">VAT</td>
@@ -356,7 +490,7 @@ endif;
 				</tr>
 			</thead>
 			<tbody>
-			<?php 
+			<?php
 			foreach($serviceREF as $sref_row):
 				$totalREFFV = $sref_row->TOTAL_FV;
 			?>
@@ -371,7 +505,7 @@ endif;
 			</tbody>
 		</table>
 	</div>
-	
+
 	<div class="row">
 		<table class="tbl">
 		<tr>
@@ -379,7 +513,7 @@ endif;
 			<td><?php echo $REIMBURSEMENT_USER?></td>
 			<td class="tbl_title">Printed by:</td>
 			<td><?php echo $data_user->full_name;?></td>
-		</tr>	
+		</tr>
 		<tr>
 			<td class="tbl_title">Date Generated:</td>
 			<td><?php echo $REIMBURSEMENT_DATE?></td>
@@ -388,17 +522,18 @@ endif;
 		</tr>
 		</table>
 	</div>
-	
+
 	<div class="row">
 		<p class="center">
 		<?php if($copy == false):?>
 			ORIGINAL COPY OF PAYMENT ADVICE
-		<?php else:?>		
+		<?php else:?>
 			PRINTED COPY OF PAYMENT ADVICE
-		<?php endif;?>	
+		<?php endif;?>
 		</p>
 	</div>
 </div>
 <?php endif;?>
 
 </body>
+</html>
