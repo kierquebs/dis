@@ -53,7 +53,7 @@ class Digital extends MX_Controller {
 	   
 	   $result =  $this->Corepass_model->getDigitalSOAOrder($where);
 	   
-	   if($result->num_rows() != 0 ){
+	   if($result && $result->num_rows() != 0 ){
 		   $arr = $this->_interface_si_result($result); 		
 		   
 		   $module['filename'] = 'SI_'.date('mdY',time()).'_001'; //CIC_SOA_MMDDYYYY_01.csv 
@@ -67,7 +67,7 @@ class Digital extends MX_Controller {
 			$newRow = new stdClass();
 			$newRow->RECORD_TYPE = 'H';
 			$newRow->SOA = 'SI';
-			$newRow->TIN = $this->my_lib->setTin($temp_row->TIN);
+			$newRow->TIN = $this->my_lib->setTin($temp_row->TIN) ?: $temp_row->TIN;
 			$newRow->LegalName = $temp_row->LEGALNAME;
 			$newRow->SOA_NUMBER = $temp_row->SOA_NUMBER;
 			$newRow->ORDER_ID = $this->my_lib->paNumber($temp_row->ORDER_ID, false, ''); 
@@ -224,7 +224,7 @@ class Digital extends MX_Controller {
 			$newRow = new stdClass();
 			$newRow->RECORD_TYPE = 'H';
 			$newRow->SOA = 'SOA';
-			$newRow->TIN = $this->my_lib->setTin($temp_row->TIN);
+			$newRow->TIN = $this->my_lib->setTin($temp_row->TIN) ?: $temp_row->TIN;
 			$newRow->LegalName = $temp_row->LEGALNAME;
 			$newRow->SOA_NUMBER = $temp_row->SOA_NUMBER;
 			$newRow->ORDER_ID = $this->my_lib->paNumber($temp_row->ORDER_ID, false, ''); 
@@ -254,7 +254,7 @@ class Digital extends MX_Controller {
 		return $arr;
 	}
 			private function _detail_result($result, $SERVICE_ID, $ACCOUNT_MANAGER, $DELIVERED_DATE){
-				if($result->num_rows() == 0) return [];				
+				if(!$result || $result->num_rows() == 0) return [];				
 				
 				$GROSS_BILLABLE = $NET_BILLABLE = $TOTAL_DISCOUNT = 0;
 				$X_GROSS_BILLABLE = $X_NET_BILLABLE = 0;
@@ -438,7 +438,7 @@ class Digital extends MX_Controller {
 			$newRow = new stdClass();
 			$newRow->RECORD_TYPE = 'H';
 			$newRow->CI = 'CI';
-			$newRow->TIN = $this->my_lib->setTin($temp_row->TIN);
+			$newRow->TIN = $this->my_lib->setTin($temp_row->TIN) ?: $temp_row->TIN;
 			$newRow->LegalName = $temp_row->LEGALNAME;
 			$newRow->REMITTANCE_ID = $temp_row->REMITTANCE_ID;
 			$newRow->RS_NUMBER = $temp_row->RS_NUMBER; 
