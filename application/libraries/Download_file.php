@@ -370,7 +370,7 @@ class Download_file extends MX_Controller{
 					->setCellValue("B$y",$detail->PROD_ID)
 					->setCellValue("C$y",'Marketing fee')
 					->setCellValue("D$y",str_replace(',','',$row->MERCHANT_FEE))
-					->setCellValue("E$y",str_replace(',','',$row->VAT_OUTPUT))
+					->setCellValue("E$y",str_replace(',','', $row->VAT_OUTPUT ?? ''))
 					->setCellValue("F$y",$row->VAT_COND);				
 				$objPHPExcel->getActiveSheet()->getRowDimension($y)->setRowHeight(-1);	
 				$objPHPExcel->getActiveSheet()->getStyle("A$y:F$y")->getAlignment()->setWrapText(true);
@@ -456,13 +456,14 @@ class Download_file extends MX_Controller{
 			//CHECK IF NAV DETAILS IS NOT NULL
 			
 			//log_message('error', json_encode($row, JSON_PRETTY_PRINT));		
-			if(count($navDetail) > 0){
+			if(is_array($navDetail) && count($navDetail) > 0){
 				foreach($navDetail as $key => $detail){ //FACE VALUE
 
 					//if($key == 1){
 
 						
-						if (strpos($detail->BILLABLE_ITEM, "Fee") !== false) {
+						$billableItem = $detail->BILLABLE_ITEM ?? '';
+						if (strpos($billableItem, "Fee") !== false) {
 							$y++;
 							$vat = 0;
 							
@@ -491,13 +492,13 @@ class Download_file extends MX_Controller{
 				->setCellValue("B$x",$row->SOA)
 				->setCellValue("C$x",$row->TIN)
 				->setCellValue("D$x",'"'.$row->LegalName.'"')
-				->setCellValue("E$x",$row->nav_detail[0]->SI_NUMBER)
+				->setCellValue("E$x", $row->nav_detail[0]->SI_NUMBER ?? '')
 				->setCellValue("F$x",$row->ORDER_ID) 
 				->setCellValue("G$x",$row->ORDER_DATE) 
 				->setCellValue("H$x",$row->DELIVERED_DATE)
 				->setCellValue("I$x",$row->AMOUNT)
-				->setCellValue("J$x",str_replace(',','',$row->DISCOUNT))
-				->setCellValue("K$x",str_replace(',','',$row->AMOUNT))
+				->setCellValue("J$x",str_replace(',','', $row->DISCOUNT ?? ''))
+				->setCellValue("K$x",str_replace(',','', $row->AMOUNT ?? ''))
 				->setCellValue("L$x",$row->CUSTOMER_TYPE)
 				->setCellValue("M$x",$row->SERVICE_ID)
 				->setCellValue("S$x",$row->ACCOUNT_MANAGER)
@@ -513,9 +514,10 @@ class Download_file extends MX_Controller{
 				$y = $x;
 				foreach($navDetail as $key => $detail){ //FACE VALUE	
 				
-					if ( strpos($detail->BILLABLE_ITEM, "Fee") !== false || 
-						 strpos($detail->BILLABLE_ITEM, "(credit)") !== false ||
-						 strpos(strtolower($detail->BILLABLE_ITEM), "bank charge") !== false // Add Bank Charge to Billable Items SI 
+					$billableItem2 = $detail->BILLABLE_ITEM ?? '';
+					if ( strpos($billableItem2, "Fee") !== false || 
+						 strpos($billableItem2, "(credit)") !== false ||
+						 strpos(strtolower($billableItem2), "bank charge") !== false // Add Bank Charge to Billable Items SI 
 						 ) {
 						$y++;
 						$vat = 0;
@@ -529,7 +531,7 @@ class Download_file extends MX_Controller{
 						$detail->CREDIT_VALUE = $row->TOTAL_AMOUNT;
 						
 						if($detail->VAT_COND !== "Exempt"){
-							$vat = str_replace(',','',$detail->VAT_OUTPUT);
+							$vat = str_replace(',','', $detail->VAT_OUTPUT ?? '');
 							$detail->CREDIT_VALUE = $detail->CREDIT_VALUE;
 							$unit_cost = $unit_cost + $vat;
 						}
@@ -541,7 +543,7 @@ class Download_file extends MX_Controller{
 							// ->setCellValue("C$y",$detail->ISSUANCE_DATE)
 							// ->setCellValue("D$y",$detail->BILLABLE_ITEM)
 							// ->setCellValue("E$y",str_replace(',','',$detail->CREDIT_VALUE))
-							// ->setCellValue("F$y",str_replace(',','',$detail->VAT_OUTPUT))
+							// ->setCellValue("F$y",str_replace(',','', $detail->VAT_OUTPUT ?? ''))
 							// ->setCellValue("G$y",$detail->VAT_COND)
 							// ->setCellValue("H$y",$detail->ACCOUNT_MANAGER);	
 							->setCellValue("A$y",$detail->RECORD_TYPE)
@@ -629,7 +631,8 @@ class Download_file extends MX_Controller{
 					
 					// log_message('error', $detail->BILLABLE_ITEM);
 
-					if (!strpos($detail->BILLABLE_ITEM, "Fee") !== false) {
+					$billableItem3 = $detail->BILLABLE_ITEM ?? '';
+					if (strpos($billableItem3, "Fee") === false) {
 						
 						$y++;
 						$objPHPExcel->setActiveSheetIndex(0);
@@ -639,7 +642,7 @@ class Download_file extends MX_Controller{
 							->setCellValue("C$y",$detail->ISSUANCE_DATE)
 							->setCellValue("D$y",$detail->BILLABLE_ITEM)
 							->setCellValue("E$y",str_replace(',','',$detail->CREDIT_VALUE))
-							->setCellValue("F$y",str_replace(',','',$detail->VAT_OUTPUT))
+							->setCellValue("F$y",str_replace(',','', $detail->VAT_OUTPUT ?? ''))
 							->setCellValue("G$y",$detail->VAT_COND)
 							->setCellValue("H$y",$detail->ACCOUNT_MANAGER);				
 						$objPHPExcel->getActiveSheet()->getRowDimension($y)->setRowHeight(-1);	
@@ -790,7 +793,7 @@ class Download_file extends MX_Controller{
 						->setCellValue("C$y",'')//$detail->ISSUANCE_DATE
 						->setCellValue("D$y",'')//$detail->BILLABLE_ITEM
 						->setCellValue("E$y",str_replace(',','',$detail->CREDIT_VALUE))
-						->setCellValue("F$y",str_replace(',','',$detail->VAT_OUTPUT))
+						->setCellValue("F$y",str_replace(',','', $detail->VAT_OUTPUT ?? ''))
 						->setCellValue("G$y",$detail->VAT_COND)
 						->setCellValue("H$y",$detail->ACCOUNT_MANAGER);				
 					$objPHPExcel->getActiveSheet()->getRowDimension($y)->setRowHeight(-1);	
@@ -864,7 +867,7 @@ class Download_file extends MX_Controller{
 					->setCellValue("B$y",$detail->PROD_ID)
 					->setCellValue("C$y",'Marketing fee')
 					->setCellValue("D$y",str_replace(',','',$row->MERCHANT_FEE))
-					->setCellValue("E$y",str_replace(',','',$row->VAT_OUTPUT))
+					->setCellValue("E$y",str_replace(',','', $row->VAT_OUTPUT ?? ''))
 					->setCellValue("F$y",$row->VAT_COND);				
 				$objPHPExcel->getActiveSheet()->getRowDimension($y)->setRowHeight(-1);	
 				$objPHPExcel->getActiveSheet()->getStyle("A$y:F$y")->getAlignment()->setWrapText(true);
