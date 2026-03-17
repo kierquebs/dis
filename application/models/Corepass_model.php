@@ -1175,6 +1175,7 @@ return $result;
 	 * QUERY ACTION FOR 
 	 */
 	public function getDigitalSOAOrder($where = ''){
+			if (!$this->oracle_db) return null;
 			$result = $this->oracle_db->query("SELECT
 				ORDER_ID,
 				ORDER_DATE,
