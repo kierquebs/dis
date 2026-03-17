@@ -437,7 +437,7 @@ class Sys_model extends CI_Model{
 		select 
 			".$select."
 		from
-			pa_detail pad,
+			pa_detail paD,
 			pa_header paH, 
 			(
 				select 
@@ -489,7 +489,7 @@ class Sys_model extends CI_Model{
 		select 
 			".$select."
 		from
-			pa_detail pad,
+			pa_detail paD,
 			pa_header paH, 
 			(
 				select 
@@ -537,7 +537,7 @@ class Sys_model extends CI_Model{
 		select 
 			".$select."
 		from
-			pa_detail pad,
+			pa_detail paD,
 			pa_header paH, 
 			branches br,
 			cp_merchant mer		
@@ -918,7 +918,7 @@ class Sys_model extends CI_Model{
 			select 
 			".$select."
 			from
-			pa_detail pad,
+			pa_detail paD,
 			pa_header paH,
 			reconcilation recon
 			where
@@ -945,7 +945,7 @@ class Sys_model extends CI_Model{
 			select 
 			".$select."
 			from
-			pa_detail pad,
+			pa_detail paD,
 			pa_header paH,
 			refund ref,
 			reconcilation recon
@@ -974,7 +974,7 @@ class Sys_model extends CI_Model{
 			select 
 			".$select."
 			from
-			pa_detail pad,
+			pa_detail paD,
 			pa_header paH,
 			refund ref,
 			reconcilation recon
@@ -1808,7 +1808,7 @@ class Sys_model extends CI_Model{
 				".$select."
 			from
 				pa_header paH,
-				pa_detail pad,
+				pa_detail paD,
 				branches br
 			where paH.PA_ID = paD.PA_ID
 				and br.BRANCH_ID = paD.BRANCH_ID
@@ -1849,7 +1849,7 @@ class Sys_model extends CI_Model{
 			from
 				pa_header paH,
 				reconcilation recon,
-				pa_detail pad,
+				pa_detail paD,
 				branches br
 			where 
 				paH.PA_ID = recon.PA_ID 
