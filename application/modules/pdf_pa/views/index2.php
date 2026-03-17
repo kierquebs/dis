@@ -9,10 +9,10 @@
 <!-- ===== COMPANY HEADER ===== -->
 <tr>
   <td align="center" style="padding:8px 0;">
-    <p style="font-weight:bold; font-size:16px; margin:0; padding:0;">Pluxee Philippines Incorporated</p>
-    <p style="margin:4px 0 0 0; padding:0;">8747 Paseo de Roxas Street, 11TH Floor, B.A. Lepanto Condominium, Makati City (1200), Metro Manila, Philippines</p>
-    <p style="margin:2px 0 0 0; padding:0;">Tel. no: 8689-4700. Fax no: 86894777</p>
-    <p style="margin:2px 0 0 0; padding:0;">TIN: 223-183-726-00000</p>
+    <strong style="font-size:16px;">Pluxee Philippines Incorporated</strong><br/>
+    8747 Paseo de Roxas Street, 11TH Floor, B.A. Lepanto Condominium, Makati City (1200), Metro Manila, Philippines<br/>
+    Tel. no: 8689-4700. Fax no: 86894777<br/>
+    TIN: 223-183-726-00000
   </td>
 </tr>
 
@@ -133,15 +133,6 @@
   </td>
 </tr>
 
-<?php
-$sumREFV = 0;
-if($refundRow <> 0){
-	foreach($refundLi as $ref_row){
-		$sumREFV += $ref_row->TOTALREF_FV;
-	}
-}
-?>
-
 <!-- ===== SUMMARY TABLE ===== -->
 <tr>
   <td style="padding:6px 0;">
@@ -155,37 +146,16 @@ if($refundRow <> 0){
         <td align="right">VAT</td>
         <td align="right">Net Due</td>
       </tr>
-      <?php
-      $prod_arr = array();
-      $sumVAT = $sumND = $sumMF = $sumFV = 0;
-      foreach($serviceLi as $sr_row):
-        $totalFV      = $sr_row->TOTAL_FV;
-        $TOTAL_REFUND = $sr_row->TOTAL_REFUND;
-        $totalMFV     = $totalFV - $TOTAL_REFUND;
-        $vatcond      = $this->my_lib->checkVAT($sr_row->vatcond);
-        $percentMF    = $this->my_lib->convertMFRATE($sr_row->MerchantFee, TRUE);
-        $MF           = $this->my_lib->computeMF($totalMFV, $percentMF, '', FALSE);
-        $VAT          = $this->my_lib->computeVAT($totalMFV, $percentMF, $vatcond, FALSE);
-        $NET_DUE      = $this->my_lib->computeNETDUE($totalMFV, $percentMF, $vatcond, FALSE);
-      ?>
+      <?php foreach($serviceSummary as $sr): ?>
       <tr>
-        <td><?php echo $sr_row->SERVICE_NAME; ?></td>
-        <td align="right"><?php echo number_format($TOTAL_REFUND, 2); ?></td>
-        <td align="right"><?php echo number_format($MF, 2); ?></td>
-        <td align="right"><?php echo number_format($totalFV, 2); ?></td>
-        <td align="right"><?php echo number_format($VAT, 2); ?></td>
-        <td align="right"><?php echo number_format($NET_DUE, 2); ?></td>
+        <td><?php echo $sr['SERVICE_NAME']; ?></td>
+        <td align="right"><?php echo $sr['TOTAL_REFUND']; ?></td>
+        <td align="right"><?php echo $sr['MF']; ?></td>
+        <td align="right"><?php echo $sr['TOTAL_FV']; ?></td>
+        <td align="right"><?php echo $sr['VAT']; ?></td>
+        <td align="right"><?php echo $sr['NET_DUE']; ?></td>
       </tr>
-      <?php
-        $arr['name'] = $sr_row->SERVICE_NAME;
-        $arr['fv']   = number_format($totalFV, 2);
-        $sumFV      += $totalFV;
-        $sumMF      += $MF;
-        $sumND      += $NET_DUE;
-        $sumVAT     += $VAT;
-        $prod_arr[]  = $arr;
-      endforeach;
-      ?>
+      <?php endforeach; ?>
     </table>
   </td>
 </tr>
@@ -198,9 +168,9 @@ if($refundRow <> 0){
 
         <!-- Left: Received by -->
         <td width="55%" style="vertical-align:bottom; padding-left:8px;">
-          <p style="margin:0; padding:0;">Received by:</p>
-          <p style="margin:20px 0 0 0; padding:0;">Signature over Printed Name</p>
-          <p style="margin:10px 0 0 0; padding:0;">Date:&nbsp;&nbsp;______________________</p>
+          <br/>Received by:<br/>
+          <br/><br/>Signature over Printed Name<br/>
+          <br/>Date:&nbsp;&nbsp;______________________
         </td>
 
         <!-- Right: Totals -->
@@ -305,10 +275,10 @@ if($refundRow <> 0){
 <!-- Company header -->
 <tr>
   <td align="center" style="padding:8px 0;">
-    <p style="font-weight:bold; font-size:16px; margin:0; padding:0;">Pluxee Philippines Incorporated</p>
-    <p style="margin:4px 0 0 0; padding:0;">8747 Paseo de Roxas Street, 11TH Floor, B.A. Lepanto Condominium, Makati City (1200), Metro Manila, Philippines</p>
-    <p style="margin:2px 0 0 0; padding:0;">Tel. no: 8689-4700. Fax no: 86894777</p>
-    <p style="margin:2px 0 0 0; padding:0;">TIN: 223-183-726-00000</p>
+    <strong style="font-size:16px;">Pluxee Philippines Incorporated</strong><br/>
+    8747 Paseo de Roxas Street, 11TH Floor, B.A. Lepanto Condominium, Makati City (1200), Metro Manila, Philippines<br/>
+    Tel. no: 8689-4700. Fax no: 86894777<br/>
+    TIN: 223-183-726-00000
   </td>
 </tr>
 
@@ -368,13 +338,13 @@ if($refundRow <> 0){
         <td align="right">Total Passes</td>
         <td align="right">Total Refund</td>
       </tr>
-      <?php $sumREFV = 0; foreach($refundLi as $ref_row): ?>
+      <?php foreach($refundLi as $ref_row): ?>
       <tr>
         <td><?php echo $ref_row->BRANCH_NAME; ?></td>
         <td align="right"><?php echo $ref_row->NUM_PASSES; ?></td>
         <td align="right"><?php echo number_format($ref_row->TOTALREF_FV, 2); ?></td>
       </tr>
-      <?php $sumREFV += $ref_row->TOTALREF_FV; endforeach; ?>
+      <?php endforeach; ?>
     </table>
   </td>
 </tr>
