@@ -57,36 +57,40 @@
 <!-- ===== MERCHANT INFO TABLE ===== -->
 <tr>
   <td style="padding:4px 0;">
-    <table width="100%" border="0" cellspacing="0" cellpadding="4">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
-        <td width="34%" style="font-weight:bold; vertical-align:top;">Advice To:</td>
-        <td width="22%" style="font-weight:bold; vertical-align:top;">Payee Name:</td>
-        <td width="44%" style="vertical-align:top;"><?php echo $PayeeName; ?></td>
-      </tr>
-      <tr>
-        <td style="vertical-align:top;"><?php echo $mer_row->LegalName; ?></td>
-        <td colspan="2"></td>
-      </tr>
-      <tr>
-        <td style="vertical-align:top;">T.I.N.: <?php echo $mer_row->TIN; ?></td>
-        <td style="font-weight:bold; vertical-align:top;">Mode of payment:</td>
-        <td style="vertical-align:top;"><?php echo $MeanofPayment; ?></td>
-      </tr>
-      <tr>
-        <td style="vertical-align:top;"><?php echo $mer_row->TradingName; ?></td>
-        <td colspan="2"></td>
-      </tr>
-      <tr>
-        <td style="vertical-align:top;"><?php echo $Address; ?></td>
-        <td style="font-weight:bold; vertical-align:top;">Bank Name:</td>
-        <td style="vertical-align:top;"><?php echo $BankName; ?></td>
-      </tr>
-      <tr>
-        <td style="vertical-align:top;">
-          <strong>Reimbursement date:</strong>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $EXPECTED_DUEDATE; ?>
+        <!-- Left: stacked merchant details -->
+        <td width="52%" valign="top" style="padding:4px 6px 4px 0;">
+          <table width="100%" border="0" cellspacing="0" cellpadding="3">
+            <tr><td style="font-weight:bold;">Advice To:</td></tr>
+            <tr><td><?php echo $mer_row->LegalName; ?></td></tr>
+            <tr><td style="font-weight:bold;">T.I.N.: <?php echo $mer_row->TIN; ?></td></tr>
+            <tr><td><?php echo $mer_row->TradingName; ?></td></tr>
+            <tr><td><?php echo $Address; ?></td></tr>
+            <tr><td><strong>Reimbursement date:</strong>&nbsp;&nbsp;<?php echo $EXPECTED_DUEDATE; ?></td></tr>
+          </table>
         </td>
-        <td style="font-weight:bold; vertical-align:top;">Acct number:</td>
-        <td style="vertical-align:top;"><?php echo $BankAccountNumber; ?></td>
+        <!-- Right: payee / bank label+value pairs -->
+        <td width="48%" valign="top" style="padding:4px 0;">
+          <table width="100%" border="0" cellspacing="0" cellpadding="3">
+            <tr>
+              <td width="44%" style="font-weight:bold; vertical-align:top;">Payee Name:</td>
+              <td width="56%" style="vertical-align:top;"><?php echo $PayeeName; ?></td>
+            </tr>
+            <tr>
+              <td style="font-weight:bold; vertical-align:top;">Mode of payment:</td>
+              <td style="vertical-align:top;"><?php echo $MeanofPayment; ?></td>
+            </tr>
+            <tr>
+              <td style="font-weight:bold; vertical-align:top;">Bank Name:</td>
+              <td style="vertical-align:top;"><?php echo $BankName; ?></td>
+            </tr>
+            <tr>
+              <td style="font-weight:bold; vertical-align:top;">Acct number:</td>
+              <td style="vertical-align:top;"><?php echo $BankAccountNumber; ?></td>
+            </tr>
+          </table>
+        </td>
       </tr>
     </table>
   </td>
@@ -196,6 +200,7 @@ if($refundRow <> 0){
         <td width="55%" style="vertical-align:bottom; padding-left:8px;">
           <p style="margin:0; padding:0;">Received by:</p>
           <p style="margin:20px 0 0 0; padding:0;">Signature over Printed Name</p>
+          <p style="margin:10px 0 0 0; padding:0;">Date:&nbsp;&nbsp;______________________</p>
         </td>
 
         <!-- Right: Totals -->
@@ -253,13 +258,6 @@ if($refundRow <> 0){
 
       </tr>
     </table>
-  </td>
-</tr>
-
-<!-- ===== DATE LINE ===== -->
-<tr>
-  <td align="center" style="padding:4px 0; font-size:11px;">
-    Date: ______________________
   </td>
 </tr>
 
@@ -324,36 +322,38 @@ if($refundRow <> 0){
 <!-- Merchant info -->
 <tr>
   <td style="padding:4px 0;">
-    <table width="100%" border="0" cellspacing="0" cellpadding="4">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
-        <td width="34%" style="font-weight:bold; vertical-align:top;">Advice To:</td>
-        <td width="22%" style="font-weight:bold; vertical-align:top;">Payee Name:</td>
-        <td width="44%" style="vertical-align:top;"><?php echo $PayeeName; ?></td>
-      </tr>
-      <tr>
-        <td style="vertical-align:top;"><?php echo $LegalName; ?></td>
-        <td colspan="2"></td>
-      </tr>
-      <tr>
-        <td style="vertical-align:top;">T.I.N.: <?php echo $TIN; ?></td>
-        <td style="font-weight:bold; vertical-align:top;">Mode of payment:</td>
-        <td style="vertical-align:top;"><?php echo $MeanofPayment; ?></td>
-      </tr>
-      <tr>
-        <td style="vertical-align:top;"><?php echo $TradingName; ?></td>
-        <td colspan="2"></td>
-      </tr>
-      <tr>
-        <td style="vertical-align:top;"><?php echo $Address; ?></td>
-        <td style="font-weight:bold; vertical-align:top;">Bank Name:</td>
-        <td style="vertical-align:top;"><?php echo $BankName; ?></td>
-      </tr>
-      <tr>
-        <td style="vertical-align:top;">
-          <strong>Reimbursement date:</strong>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $EXPECTED_DUEDATE; ?>
+        <td width="52%" valign="top" style="padding:4px 6px 4px 0;">
+          <table width="100%" border="0" cellspacing="0" cellpadding="3">
+            <tr><td style="font-weight:bold;">Advice To:</td></tr>
+            <tr><td><?php echo $LegalName; ?></td></tr>
+            <tr><td style="font-weight:bold;">T.I.N.: <?php echo $TIN; ?></td></tr>
+            <tr><td><?php echo $TradingName; ?></td></tr>
+            <tr><td><?php echo $Address; ?></td></tr>
+            <tr><td><strong>Reimbursement date:</strong>&nbsp;&nbsp;<?php echo $EXPECTED_DUEDATE; ?></td></tr>
+          </table>
         </td>
-        <td style="font-weight:bold; vertical-align:top;">Acct number:</td>
-        <td style="vertical-align:top;"><?php echo $BankAccountNumber; ?></td>
+        <td width="48%" valign="top" style="padding:4px 0;">
+          <table width="100%" border="0" cellspacing="0" cellpadding="3">
+            <tr>
+              <td width="44%" style="font-weight:bold; vertical-align:top;">Payee Name:</td>
+              <td width="56%" style="vertical-align:top;"><?php echo $PayeeName; ?></td>
+            </tr>
+            <tr>
+              <td style="font-weight:bold; vertical-align:top;">Mode of payment:</td>
+              <td style="vertical-align:top;"><?php echo $MeanofPayment; ?></td>
+            </tr>
+            <tr>
+              <td style="font-weight:bold; vertical-align:top;">Bank Name:</td>
+              <td style="vertical-align:top;"><?php echo $BankName; ?></td>
+            </tr>
+            <tr>
+              <td style="font-weight:bold; vertical-align:top;">Acct number:</td>
+              <td style="vertical-align:top;"><?php echo $BankAccountNumber; ?></td>
+            </tr>
+          </table>
+        </td>
       </tr>
     </table>
   </td>
