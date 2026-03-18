@@ -194,7 +194,7 @@ class Navision extends MX_Controller {
 				$newRow->BankAccountNumber = $temp_row->BankAccountNumber;
 				$newRow->ExpectedDueDate = $this->my_lib->convertDate($temp_row->ExpectedDueDate); 
 				//check billable marketing fee with vat condition and vat output
-					$percentMF = $this->my_lib->convertMFRATE($temp_row->MERCHANT_FEE, true);
+					$percentMF = $temp_row->MERCHANT_FEE;
 					$VAT = $this->my_lib->checkVAT($temp_row->vatCond);
 					$totalFV = $temp_row->TOTAL_FV;
 				$newRow->VAT_COND = $temp_row->vatCond;		
@@ -224,7 +224,7 @@ class Navision extends MX_Controller {
 					$newRow->RECORD_TYPE = 'D';	
 					$newRow->PROD_ID = $temp_row->PROD_ID;
 					$newRow->FV = $temp_row->FV;							
-						$percentMF = $this->my_lib->convertMFRATE($temp_row->MERCHANT_FEE, true);
+						$percentMF = $temp_row->MERCHANT_FEE;
 					$newRow->VAT_COND = $temp_row->vatCond;		
 					$newRow->VAT_OUTPUT = $this->my_lib->computeVAT($temp_row->FV, $percentMF, $this->my_lib->checkVAT($newRow->VAT_COND));	
 					$arr[] = $newRow;
@@ -303,7 +303,7 @@ class Navision extends MX_Controller {
 				$newRow->BankAccountNumber = $temp_row->BankAccountNumber;
 				$newRow->ExpectedDueDate = $this->my_lib->convertDate($temp_row->ExpectedDueDate); 
 				//check billable marketing fee with vat condition and vat output
-					$percentMF = $this->my_lib->convertMFRATE($temp_row->MERCHANT_FEE, true);
+					$percentMF = $temp_row->MERCHANT_FEE;
 					$VAT = $this->my_lib->checkVAT($temp_row->vatCond);
 					$totalFV = $temp_row->TOTAL_FV;
 				$newRow->VAT_COND = $temp_row->vatCond;		
