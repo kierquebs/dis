@@ -47,7 +47,7 @@ class Navision extends MX_Controller {
 		 
 		$date = new DateTime();		
 		$previousDate = $date->modify("-1 days")->format('Y-m-d');
-			if(isset($_GET['date'])) $previousDate = $_GET['date'];
+			if(isset($_GET['date'])) $previousDate = date('Y-m-d', strtotime($_GET['date']));
 		$where = "date_format(DATE_CREATED, '%Y-%m-%d') = '".$previousDate."' and InsertType= 'I'";
 		//$where = "date_format(DATE_CREATED, '%Y-%m-%d') >= '2020-09-14' and date_format(DATE_CREATED, '%Y-%m-%d') <= '2020-09-16' and InsertType= 'I'";
 		if(isset($_GET['month'])){
@@ -136,7 +136,7 @@ class Navision extends MX_Controller {
 		 */		
 		$date = new DateTime();
 		$previousDate = $date->modify("-1 days")->format('Y-m-d'); 
-			if(isset($_GET['date'])) $previousDate = $_GET['date'];
+			if(isset($_GET['date'])) $previousDate = date('Y-m-d', strtotime($_GET['date']));
 			$where = "AND date_format(paH.DATE_CREATED, '%Y-%m-%d') = '".$previousDate."'";			
 			//$where = " AND date_format(paH.DATE_CREATED, '%Y-%m-%d') >= '2020-09-14' AND date_format(paH.DATE_CREATED, '%Y-%m-%d') <= '2020-09-16'";
 			
@@ -243,7 +243,7 @@ class Navision extends MX_Controller {
 		*/		
 	   $date = new DateTime();
 	   $previousDate = $date->modify("-1 days")->format('Y-m-d'); 
-		   if(isset($_GET['date'])) $previousDate = $_GET['date'];
+		   if(isset($_GET['date'])) $previousDate = date('Y-m-d', strtotime($_GET['date']));
 		   $where = "AND date_format(paH.DATE_CREATED, '%Y-%m-%d') = '".$previousDate."'";			
 		   //$where = " AND date_format(paH.DATE_CREATED, '%Y-%m-%d') >= '2020-09-14' AND date_format(paH.DATE_CREATED, '%Y-%m-%d') <= '2020-09-16'";
 		   
