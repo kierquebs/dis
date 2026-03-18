@@ -232,7 +232,7 @@ class My_lib extends MX_Controller{
 		if($selectedDate > date("d")) $YM = date("Y-m", strtotime('-1 month', now()));
 		
 		if($selectedDate == 31){
-			return date('Y-m-t', strtotime($YM.'-01')); 
+			return $YM."-".cal_days_in_month(CAL_GREGORIAN, date('m', strtotime($YM)), date('Y', strtotime($YM))); 
 		}else{			
 			return $YM."-".$selectedDate;
 		}
