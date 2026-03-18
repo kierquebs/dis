@@ -537,8 +537,8 @@ class Offlineprocess extends MX_Controller {
 								$insert_detail['NET_DUE'] = 0;
 							}else{
 								$insert_detail['MARKETING_FEE'] = $MF; 
-								$insert_detail['VAT'] = $this->my_lib->computeVAT($totalMFV, $percentMF, $VAT, FALSE); 
-								$insert_detail['NET_DUE'] = $this->my_lib->computeNETDUE($totalMFV, $percentMF, $VAT, FALSE);
+								$insert_detail['VAT'] = $this->my_lib->computeVAT($totalMFV, $PA_MerchantFee, $VAT, FALSE); 
+								$insert_detail['NET_DUE'] = $this->my_lib->computeNETDUE($totalMFV, $PA_MerchantFee, $VAT, FALSE);
 							}
 															
 							$checkPAD = $this->Sys_model->v_paD($where_paD, true);									
@@ -719,8 +719,8 @@ class Offlineprocess extends MX_Controller {
 								$insert_detail['NET_DUE'] = 0;
 							}else{
 								$insert_detail['MARKETING_FEE'] = $MF; 
-								$insert_detail['VAT'] = $this->my_lib->computeVAT($totalMFV, $percentMF, $VAT, FALSE); 
-								$insert_detail['NET_DUE'] = $this->my_lib->computeNETDUE($totalMFV, $percentMF, $VAT, FALSE);
+								$insert_detail['VAT'] = $this->my_lib->computeVAT($totalMFV, $PA_MerchantFee, $VAT, FALSE); 
+								$insert_detail['NET_DUE'] = $this->my_lib->computeNETDUE($totalMFV, $PA_MerchantFee, $VAT, FALSE);
 							}
 															
 							$checkPAD = $this->Sys_model->v_paD($where_paD, true);									
@@ -882,7 +882,7 @@ class Offlineprocess extends MX_Controller {
 					$VAT = $this->my_lib->checkVAT($PA_VAT);								
 					$totalFV = $row['totalAmount'];
 					$percentMF = $this->my_lib->convertMFRATE($PA_MerchantFee, true);
-					$MF = $this->my_lib->computeMF($totalFV, $percentMF);
+					$MF = $this->my_lib->computeMF($totalFV, $PA_MerchantFee);
 					
 					/*BUILD PA DETAIL INFO*/		 			
 					$where_paD['PA_ID'] = $PA_ID;	
@@ -899,15 +899,15 @@ class Offlineprocess extends MX_Controller {
 								$update_detail['NUM_PASSES'] = $row['totalPasses'];
 								$update_detail['TOTAL_FV'] = $totalFV;
 								$update_detail['MARKETING_FEE'] = $MF; 
-								$update_detail['VAT'] = $this->my_lib->computeVAT($totalFV, $percentMF, $VAT);
-								$update_detail['NET_DUE'] = $this->my_lib->computeNETDUE($totalFV, $percentMF, $VAT);
+								$update_detail['VAT'] = $this->my_lib->computeVAT($totalFV, $PA_MerchantFee, $VAT);
+								$update_detail['NET_DUE'] = $this->my_lib->computeNETDUE($totalFV, $PA_MerchantFee, $VAT);
 								$update_detail['DATE_CREATED'] = $rowPAD->DATE_CREATED;
 							
 							$this->Sys_model->u_paD($whereUpdate, $update_detail);						
 							echo '<pre> 1 UPDATE RECORD : PA_DID '.$rowPAD->PA_DID.' Branch:'.$rowPAD->BRANCH_ID.'<br />'; print_r($update_detail); echo '</pre>';
 							
 						}else if($rowPAD->NET_DUE == 99999.99999 && $rowPAD->TOTAL_FV == $totalFV){							
-							$update_detail['NET_DUE'] = $this->my_lib->computeNETDUE($totalFV, $percentMF, $VAT);							
+							$update_detail['NET_DUE'] = $this->my_lib->computeNETDUE($totalFV, $PA_MerchantFee, $VAT);							
 							
 							 $this->Sys_model->u_paD($whereUpdate, $update_detail);	 					
 							echo '<pre> 2 UPDATE RECORD NET_DUE : PA_DID '.$rowPAD->PA_DID.' Branch:'.$rowPAD->BRANCH_ID.'<br />'; print_r($update_detail); echo '</pre>';
