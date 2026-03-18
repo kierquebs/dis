@@ -312,10 +312,8 @@ class Navision extends MX_Controller {
 				$newRow->MERCHANT_FEE = $this->my_lib->computeMFVATINCL($totalFV, $percentMF, $newRow->VAT_OUTPUT);	
 			
 				$bankDetails = $this->Corepass_model->getBankDetailsByTIN($temp_row->TIN);
-				
-				log_message('error', json_encode($bankDetails->result(), JSON_PRETTY_PRINT));
-				
-				if($bankDetails->num_rows() > 0){
+
+				if($bankDetails && $bankDetails->num_rows() > 0){
 					
 					$bankDetailsResult = $bankDetails->result();
 					$object = $bankDetailsResult[0];
