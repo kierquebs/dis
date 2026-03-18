@@ -42,9 +42,9 @@ class Digital extends MX_Controller {
 		/**
 		   date coverage -> all transaction of previous day
 		*/		
-	   $date = new DateTime(); 
-	   $previousDate = $date->modify("-1 days")->format('m/d/yy'); 
-		   if(isset($_GET['date'])) $previousDate = $_GET['date']; 
+	   $date = new DateTime();
+	   $previousDate = $date->modify("-1 days")->format('m/d/Y');
+		   if(isset($_GET['date'])) $previousDate = $_GET['date'];
 	   $where = " AND TO_CHAR(cs.START_DATE, 'mm/dd/yyyy') ='".$previousDate."'";
 		   if(isset($_GET['month'])){
 			   $previousDate = $_GET['month'];  
@@ -125,7 +125,7 @@ class Digital extends MX_Controller {
 	 
 	 private function _interface_client($serverDl = true){
 		$date = new DateTime();
-		$previousDate = $date->modify("-1 days")->format('m/d/yy');
+		$previousDate = $date->modify("-1 days")->format('m/d/Y');
 			if(isset($_GET['date'])) $previousDate = $_GET['date'];
 			
 			if(isset($_GET['cpid'])) $where = " AND EC.COMPANY_ID = '".$_GET['cpid']."'";
@@ -192,7 +192,7 @@ class Digital extends MX_Controller {
 			date coverage -> all transaction of previous day
 		 */		
 		$date = new DateTime(); 
-		$previousDate = $date->modify("-1 days")->format('m/d/yy'); 
+		$previousDate = $date->modify("-1 days")->format('m/d/Y'); 
 			if(isset($_GET['date'])) $previousDate = $_GET['date']; 
 		$where = " AND TO_CHAR(cs.START_DATE, 'mm/dd/yyyy') ='".$previousDate."'";
 			if(isset($_GET['month'])){
@@ -345,7 +345,7 @@ class Digital extends MX_Controller {
 		$where = "AND ECG.COMPANYGROUPTYPE_ID = 308 AND ECG.COMPANYGROUP_ID = 1262"; //PROD 
 		
 		$date = new DateTime();
-		$previousDate = $date->modify("-1 days")->format('m/d/yy');
+		$previousDate = $date->modify("-1 days")->format('m/d/Y');
 			if(isset($_GET['date'])) $previousDate = $_GET['date'];
 		$where .= " AND to_char(ECGD.CREATION_DATE, 'mm/dd/yyyy') ='".$previousDate."'";	 
 		//$where .= " AND to_char(ECGD.CREATION_DATE, 'mm/dd/yyyy') >= '09/14/2020' AND to_char(ECGD.CREATION_DATE, 'mm/dd/yyyy') <= '09/16/2020'";
@@ -419,7 +419,7 @@ class Digital extends MX_Controller {
 		*/
 	   
 	   $date = new DateTime();
-	   $previousDate = $date->modify("-1 days")->format('m/d/yy');
+	   $previousDate = $date->modify("-1 days")->format('m/d/Y');
 			if(isset($_GET['date'])) $previousDate = $_GET['date'];
 	   $where = "to_char(remrhph.d_expected, 'mm/dd/yyyy') ='".$previousDate."'";  
 	   //$where = "to_char(remrhph.d_expected, 'mm/dd/yyyy') >= '09/14/2020' AND to_char(remrhph.d_expected, 'mm/dd/yyyy') <= '09/16/2020'";
