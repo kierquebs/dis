@@ -520,7 +520,7 @@ class Offlineprocess extends MX_Controller {
 							
 							$totalMFV = $totalFV - $totalRefund;
 							if($totalMFV < 0) $totalMFV = 0;
-							$MF = $this->my_lib->computeMF($totalMFV, $percentMF, '', false);
+							$MF = $this->my_lib->computeMF($totalMFV, $PA_MerchantFee, '', false);
 							
 							/*BUILD PA DETAIL INFO*/		 	 		
 							$where_paD['PA_ID'] =  $insert_detail['PA_ID'] = $PA_ID;	
@@ -701,7 +701,7 @@ class Offlineprocess extends MX_Controller {
 							
 							$totalMFV = $totalFV - $totalRefund;
 							if($totalMFV < 0) $totalMFV = 0;
-							$MF = $this->my_lib->computeMF($totalMFV, $percentMF, '', false);
+							$MF = $this->my_lib->computeMF($totalMFV, $PA_MerchantFee, '', false);
 							
 							/*BUILD PA DETAIL INFO*/		 	 		
 							$where_paD['PA_ID'] = $insert_detail['PA_ID'] = $PA_ID;
