@@ -122,13 +122,13 @@
       <?php foreach($branchLi[$xy] as $br_row): ?>
       <tr>
         <td style="border-bottom:1px solid #ccc;"><?php echo $br_row->BRANCH_ID.' - '.$br_row->BRANCH_NAME; ?></td>
-        <td align="center" style="border-bottom:1px solid #ccc;"><?php echo number_format($br_row->RATE, 2); ?></td>
-        <td align="center" style="border-bottom:1px solid #ccc;"><?php echo number_format($br_row->NUM_PASSES); ?></td>
-        <td align="right"  style="border-bottom:1px solid #ccc;"><?php echo number_format($br_row->TOTAL_FV, 2); ?></td>
+        <td align="center" style="border-bottom:1px solid #ccc;"><?php echo number_format($br_row->RATE ?? 0, 2); ?></td>
+        <td align="center" style="border-bottom:1px solid #ccc;"><?php echo number_format($br_row->NUM_PASSES ?? 0); ?></td>
+        <td align="right"  style="border-bottom:1px solid #ccc;"><?php echo number_format($br_row->TOTAL_FV ?? 0, 2); ?></td>
         <td align="right"  style="border-bottom:1px solid #ccc;"><?php echo number_format($br_row->TOTAL_REFUND ?? 0, 2); ?></td>
-        <td align="right"  style="border-bottom:1px solid #ccc;"><?php echo number_format($br_row->MARKETING_FEE, 2); ?></td>
-        <td align="right"  style="border-bottom:1px solid #ccc;"><?php echo number_format($br_row->VAT, 2); ?></td>
-        <td align="right"  style="border-bottom:1px solid #ccc;"><?php echo number_format($br_row->NET_DUE, 2); ?></td>
+        <td align="right"  style="border-bottom:1px solid #ccc;"><?php echo number_format($br_row->MARKETING_FEE ?? 0, 2); ?></td>
+        <td align="right"  style="border-bottom:1px solid #ccc;"><?php echo number_format($br_row->VAT ?? 0, 2); ?></td>
+        <td align="right"  style="border-bottom:1px solid #ccc;"><?php echo number_format($br_row->NET_DUE ?? 0, 2); ?></td>
       </tr>
       <?php endforeach; ?>
     </table>
@@ -349,7 +349,7 @@
       <tr>
         <td style="border-bottom:1px solid #ccc;"><?php echo $ref_row->BRANCH_NAME; ?></td>
         <td align="right" style="border-bottom:1px solid #ccc;"><?php echo $ref_row->NUM_PASSES; ?></td>
-        <td align="right" style="border-bottom:1px solid #ccc;"><?php echo number_format($ref_row->TOTALREF_FV, 2); ?></td>
+        <td align="right" style="border-bottom:1px solid #ccc;"><?php echo number_format($ref_row->TOTALREF_FV ?? 0, 2); ?></td>
       </tr>
       <?php endforeach; ?>
     </table>
