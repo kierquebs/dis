@@ -332,7 +332,7 @@ class Download_file extends MX_Controller{
 				->setCellValue("G$x",$row->paymentAdvice) 
 				->setCellValue("H$x",$row->paGenDate)
 				->setCellValue("I$x",$row->ExpectedDueDate)
-				->setCellValue("J$x",str_replace(',','',$row->TOTAL_FV))
+				->setCellValue("J$x",str_replace(',', '', $row->TOTAL_FV ?? ''))
 				->setCellValue("K$x",$row->PROD_ID)
 				->setCellValue("L$x",$row->PayeeCode)
 				->setCellValue("M$x",'"'.$row->PayeeName.'"')//$row->PayeeName
@@ -834,7 +834,7 @@ class Download_file extends MX_Controller{
 				->setCellValue("G$x",$row->paymentAdvice) 
 				->setCellValue("H$x",$row->paGenDate)
 				->setCellValue("I$x",$row->ExpectedDueDate)
-				->setCellValue("J$x",str_replace(',','',$row->TOTAL_FV))
+				->setCellValue("J$x",str_replace(',', '', $row->TOTAL_FV ?? ''))
 				->setCellValue("K$x",$row->PROD_ID)
 				->setCellValue("L$x",$row->PayeeCode)
 				->setCellValue("M$x",'"'.$row->PayeeName.'"')//$row->PayeeName
