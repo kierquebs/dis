@@ -208,12 +208,12 @@ class Digital extends MX_Controller {
 		
 		// return true;
 		
-		if($result->num_rows() != 0 ){
-			$arr = $this->_interface_soa_result($result); 
-			
-			// log_message('error', json_encode($arr, JSON_PRETTY_PRINT));		
-			
-			$module['filename'] = 'DO_'.date('mdY',time()).'_001'; //CIC_SOA_MMDDYYYY_01.csv 
+		if($result && $result->num_rows() != 0 ){
+			$arr = $this->_interface_soa_result($result);
+
+			// log_message('error', json_encode($arr, JSON_PRETTY_PRINT));
+
+			$module['filename'] = 'DO_'.date('mdY',time()).'_001'; //CIC_SOA_MMDDYYYY_01.csv
 			//echo '<pre>';print_r($arr); echo '</pre>';die();
 			return $this->download_file->_cic_soa_remittance($module, $arr, $serverDl);
 		}
@@ -240,16 +240,16 @@ class Digital extends MX_Controller {
 			$whereD = 'AND ECD.N_ACCOUNTINGDOCUMENT = '.$temp_row->SOA_NUMBER.' AND TCO.N_CREDITORDER = '.$temp_row->ORDER_ID.' AND EA.SERVICE_ID = '.$temp_row->SERVICE_ID;	
 			$resultDetail = $this->Corepass_model->getDigitalSOAOrderBillable($whereD);				
 			$return_detail = $this->_detail_result($resultDetail, $temp_row->SERVICE_ID,  $temp_row->ACCOUNT_MANAGER, $newRow->DELIVERED_DATE);	
-			$newRow->nav_detail = $return_detail['nav_detail'];
+			$newRow->nav_detail = $return_detail['nav_detail'] ?? [];
 			/*
 			* get computation from the _detail_result
 			* NET_BILLABLE sumOfBillablItem  = without tax
-			* GROSS_BILLABLE sumOfBillablItem = with tax 
-			*/	
-			$newRow->DISCOUNT = $return_detail['TOTAL_DISCOUNT']; //DISCOUNT CALCULATION  -- change to total amount of rebate billable item
-			$newRow->AMOUNT =  ($newRow->DISCOUNT <> 0 ? $return_detail['X_GROSS_BILLABLE'] : $return_detail['GROSS_BILLABLE']); //TOTAL PAYMENT (SUM of base amount per billable ITEM less Discount Billable)
-			$newRow->TOTAL_AMOUNT = ($newRow->DISCOUNT <> 0 ? $return_detail['X_NET_BILLABLE'] : $return_detail['NET_BILLABLE']); //NET AMOUNT CALCULATION
-			$arr[] = $newRow; 
+			* GROSS_BILLABLE sumOfBillablItem = with tax
+			*/
+			$newRow->DISCOUNT = $return_detail['TOTAL_DISCOUNT'] ?? 0; //DISCOUNT CALCULATION  -- change to total amount of rebate billable item
+			$newRow->AMOUNT =  ($newRow->DISCOUNT <> 0 ? ($return_detail['X_GROSS_BILLABLE'] ?? 0) : ($return_detail['GROSS_BILLABLE'] ?? 0)); //TOTAL PAYMENT (SUM of base amount per billable ITEM less Discount Billable)
+			$newRow->TOTAL_AMOUNT = ($newRow->DISCOUNT <> 0 ? ($return_detail['X_NET_BILLABLE'] ?? 0) : ($return_detail['NET_BILLABLE'] ?? 0)); //NET AMOUNT CALCULATION
+			$arr[] = $newRow;
 		}
 		return $arr;
 	}
