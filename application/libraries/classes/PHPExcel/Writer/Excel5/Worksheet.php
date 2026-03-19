@@ -1008,7 +1008,7 @@ class PHPExcel_Writer_Excel5_Worksheet extends PHPExcel_Writer_Excel5_BIFFwriter
         $options     = pack("V", 0x03);
 
         // Convert URL to a null terminated wchar string
-        $url         = join("\0", preg_split("''", $url, -1, PREG_SPLIT_NO_EMPTY));
+        $url         = join("\0", preg_split('//', $url, -1, PREG_SPLIT_NO_EMPTY));
         $url         = $url . "\0\0\0";
 
         // Pack the length of the URL
@@ -2671,7 +2671,7 @@ class PHPExcel_Writer_Excel5_Worksheet extends PHPExcel_Writer_Excel5_BIFFwriter
      *
      * @param PHPExcel_Shared_Escher $pValue
      */
-    public function setEscher(PHPExcel_Shared_Escher $pValue = null)
+    public function setEscher(?PHPExcel_Shared_Escher $pValue = null)
     {
         $this->escher = $pValue;
     }
