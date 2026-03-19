@@ -81,8 +81,8 @@ class Navision extends MX_Controller {
 						
 						$result = $data->result();
 						$object = $result[0];
-						$row->BankBranchCode = $object->{"BANKCODE"};
-						$row->BankAccountNumber = $object->{"BANKACCOUNTNUMBER"};
+						$row->BankBranchCode = $object->BANKCODE;
+						$row->BankAccountNumber = $object->BANKACCOUNTNUMBER;
 					}else{
 						unset($arr[$key]); 
 					}
