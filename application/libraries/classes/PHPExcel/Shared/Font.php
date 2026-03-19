@@ -287,7 +287,7 @@ class PHPExcel_Shared_Font
         }
 
         // Convert from pixel width to column width
-        $columnWidth = PHPExcel_Shared_Drawing::pixelsToCellDimension($columnWidth, $defaultFont);
+        $columnWidth = PHPExcel_Shared_Drawing::pixelsToCellDimension($defaultFont, $columnWidth);
 
         // Return
         return round($columnWidth, 6);
