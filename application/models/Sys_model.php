@@ -551,11 +551,11 @@ class Sys_model extends CI_Model{
 	/*
 	** QUERY ACTION FOR TBL cp_product
 	*/
-	public function v_product($where = null, $count = false, $select = null){
-		$this->db->from('cp_product');	
-		if(!empty($where)) $this->db->where($where);	
-		
-		if($select <> null) $this->db->select($select);
+	public function v_product(mixed $where = null, bool $count = false, mixed $select = null){
+		$this->db->from('cp_product');
+		if(!empty($where)) $this->db->where($where);
+
+		if($select !== null) $this->db->select($select);
 		if($count == true){
 			$this->db->select('SERVICE_ID');
 			$result =  $this->db->count_all_results();
