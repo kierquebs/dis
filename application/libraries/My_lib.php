@@ -126,7 +126,7 @@ class My_lib extends MX_Controller{
 	 * @param boolean $dateOnly
 	 * @return datetime
 	 */
-	public function setDate($date = null, $dateOnly = false, $completeDate = false) {
+	public function setDate(?string $date = null, bool $dateOnly = false, bool $completeDate = false): string {
 		$time = now();	
 		if($completeDate == true) $format = ('%Y-%m-%d %H:%i:%s %A');	
 		else  $format = ('%Y-%m-%d %H:%i:%s');	
@@ -354,9 +354,9 @@ class My_lib extends MX_Controller{
 		 */
 		$str = explode(',', trim($panum));
 		if(count($str) !=0){
-			$arr = array(); 
-			for($x=0; $x < count($str); $x++){ 
-				if($not_pa <> false) $arr[] = str_replace('+','',urlencode($str[$x])); 
+			$arr = array();
+			for($x=0; $x < count($str); $x++){
+				if($not_pa != false) $arr[] = str_replace('+','',urlencode($str[$x]));
 				else $arr[] = $this->paNumber(str_replace('+','',urlencode($str[$x])), true);
 			}	
 			$str = implode(',', $arr);
@@ -463,7 +463,7 @@ class My_lib extends MX_Controller{
 	 */
 	public function read_barcode($BARCODE, $lookFor = ''){
 		//CHECK LENGTH OF BARCODE = must be 20 CHAR
-		if(empty($BARCODE) || strlen($BARCODE) <> 20) return false;
+		if(empty($BARCODE) || strlen($BARCODE) != 20) return false;
 
 		$BARCODE = trim($BARCODE);
 		$return['VID_EXT'] = substr($BARCODE,0,4);
