@@ -276,10 +276,11 @@ class Pdf_pa extends MX_Controller {
 				$totalFV      = (float)($sr_row->TOTAL_FV ?? 0);
 				$TOTAL_REFUND = (float)($sr_row->TOTAL_REFUND ?? 0);
 				$totalMFV     = $totalFV - $TOTAL_REFUND;
-				$vatcond   = $this->my_lib->checkVAT($sr_row->vatcond);
-				$MF        = $this->my_lib->computeMF($totalMFV, $sr_row->MerchantFee, '', FALSE);
-				$VAT       = $this->my_lib->computeVAT($totalMFV, $sr_row->MerchantFee, $vatcond, FALSE);
-				$NET_DUE   = $this->my_lib->computeNETDUE($totalMFV, $sr_row->MerchantFee, $vatcond, FALSE);
+				$vatcond            = $this->my_lib->checkVAT($sr_row->vatcond);
+				$merchantFeePercent = (float)($sr_row->MerchantFee ?? 0) * 100;
+				$MF        = $this->my_lib->computeMF($totalMFV, $merchantFeePercent, '', FALSE);
+				$VAT       = $this->my_lib->computeVAT($totalMFV, $merchantFeePercent, $vatcond, FALSE);
+				$NET_DUE   = $this->my_lib->computeNETDUE($totalMFV, $merchantFeePercent, $vatcond, FALSE);
 				$serviceSummary[] = array(
 					'SERVICE_NAME' => $sr_row->SERVICE_NAME,
 					'TOTAL_FV'     => number_format($totalFV, 2),
