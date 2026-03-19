@@ -864,7 +864,7 @@ class PHPExcel_Writer_HTML extends PHPExcel_Writer_Abstract implements PHPExcel_
 
             // col elements, loop through columnDimensions and set width
             foreach ($sheet->getColumnDimensions() as $columnDimension) {
-                if (($width = PHPExcel_Shared_Drawing::cellDimensionToPixels($columnDimension->getWidth(), $this->defaultFont)) >= 0) {
+                if (($width = PHPExcel_Shared_Drawing::cellDimensionToPixels($this->defaultFont, $columnDimension->getWidth())) >= 0) {
                     $width = PHPExcel_Shared_Drawing::pixelsToPoints($width);
                     $column = PHPExcel_Cell::columnIndexFromString($columnDimension->getColumnIndex()) - 1;
                     $this->columnWidths[$sheetIndex][$column] = $width;
