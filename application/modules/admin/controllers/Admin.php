@@ -96,7 +96,7 @@ class Admin extends MX_Controller {
 		
 		$userID = $_POST['id'];
 		$checkRow = $this->User_model->user_info(array('user_id'=>$userID));
-		if($userID && count($checkRow) != 0){			
+		if($userID && $checkRow->num_rows() !== 0){
 			$passWORD = $this->Action_model->reset_pass($userID);	
 				$toEmail = $checkRow->row('email');
 				$toName = (empty($checkRow->row('full_name')) ? $checkRow->row('user_name') : $checkRow->row('full_name'));
