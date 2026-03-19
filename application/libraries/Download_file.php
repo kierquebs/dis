@@ -357,7 +357,7 @@ class Download_file extends MX_Controller{
 						->setCellValue("A$y",$detail->RECORD_TYPE)
 						->setCellValue("B$y",$detail->PROD_ID)
 						->setCellValue("C$y",'') //Face value (Credits)
-						->setCellValue("D$y",str_replace(',','',$detail->FV));
+						->setCellValue("D$y",str_replace(',','', $detail->FV ?? ''));
 						/*->setCellValue("E$y",$detail->VAT_OUTPUT)
 						->setCellValue("F$y",$detail->VAT_COND);*/				
 					$objPHPExcel->getActiveSheet()->getRowDimension($y)->setRowHeight(-1);	
@@ -369,7 +369,7 @@ class Download_file extends MX_Controller{
 					->setCellValue("A$y",'D')
 					->setCellValue("B$y",$detail->PROD_ID)
 					->setCellValue("C$y",'Marketing fee')
-					->setCellValue("D$y",str_replace(',','',$row->MERCHANT_FEE))
+					->setCellValue("D$y",str_replace(',','', $row->MERCHANT_FEE ?? ''))
 					->setCellValue("E$y",str_replace(',','', $row->VAT_OUTPUT ?? ''))
 					->setCellValue("F$y",$row->VAT_COND);				
 				$objPHPExcel->getActiveSheet()->getRowDimension($y)->setRowHeight(-1);	
@@ -854,7 +854,7 @@ class Download_file extends MX_Controller{
 						->setCellValue("A$y",$detail->RECORD_TYPE)
 						->setCellValue("B$y",$detail->PROD_ID)
 						->setCellValue("C$y",'') //Face value (Credits)
-						->setCellValue("D$y",str_replace(',','',$detail->FV));
+						->setCellValue("D$y",str_replace(',','', $detail->FV ?? ''));
 						/*->setCellValue("E$y",$detail->VAT_OUTPUT)
 						->setCellValue("F$y",$detail->VAT_COND);*/				
 					$objPHPExcel->getActiveSheet()->getRowDimension($y)->setRowHeight(-1);	
@@ -866,7 +866,7 @@ class Download_file extends MX_Controller{
 					->setCellValue("A$y",'D')
 					->setCellValue("B$y",$detail->PROD_ID)
 					->setCellValue("C$y",'Marketing fee')
-					->setCellValue("D$y",str_replace(',','',$row->MERCHANT_FEE))
+					->setCellValue("D$y",str_replace(',','', $row->MERCHANT_FEE ?? ''))
 					->setCellValue("E$y",str_replace(',','', $row->VAT_OUTPUT ?? ''))
 					->setCellValue("F$y",$row->VAT_COND);				
 				$objPHPExcel->getActiveSheet()->getRowDimension($y)->setRowHeight(-1);	

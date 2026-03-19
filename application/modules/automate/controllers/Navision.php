@@ -75,7 +75,7 @@ class Navision extends MX_Controller {
 					// echo json_encode($data->result(), JSON_PRETTY_PRINT);
 					// echo '</pre>';
 
-					if($data->num_rows() != 0 && $data->num_rows > 0){
+					if($data->num_rows() > 0){
 						
 						
 						
@@ -89,7 +89,7 @@ class Navision extends MX_Controller {
 					
 			}
 			
-			$module['filename'] = 'DM_'.date('mdY',now()).'_01'; //DM_MMDDYYYY_01.csv
+			$module['filename'] = 'DM_'.date('mdY', time()).'_01'; //DM_MMDDYYYY_01.csv
 			//echo '<pre>';print_r($arr); echo '</pre>';die(); commented out talaga
 			return $this->download_file->_nav_merchant($module, $arr, $serverDl);
 		}else{
@@ -98,7 +98,7 @@ class Navision extends MX_Controller {
 			$result =  $this->Sys_model->v_merchant($where);
 			if($result->num_rows() != 0 ){
 				$arr = $this->_interface_merchant_result($result);
-				$module['filename'] = 'DM_'.date('mdY',now()).'_01'; //DM_MMDDYYYY_01.csv
+				$module['filename'] = 'DM_'.date('mdY', time()).'_01'; //DM_MMDDYYYY_01.csv
 				//echo '<pre>';print_r($arr); echo '</pre>';die();
 				return $this->download_file->_nav_merchant($module, $arr, $serverDl);
 			}
@@ -161,7 +161,7 @@ class Navision extends MX_Controller {
 		$where .= " AND paH.vatcond <> ''";		
 		$result =  $this->Sys_model->v_navH($where);	
 		if($result->num_rows() != 0 ){
-			$module['filename'] = 'DR_'.date('mdY',now()).'_01'; //DR_MMDDYYYY_01.csv			
+			$module['filename'] = 'DR_'.date('mdY', time()).'_01'; //DR_MMDDYYYY_01.csv			
 			$arr_pa = $this->_interface_remittance_result($result); 
 			
 			/*$result_reversal =  $this->Sys_model->v_navH_reversal($where);	
@@ -267,7 +267,7 @@ class Navision extends MX_Controller {
 	   $where .= " AND paH.vatcond <> ''";		
 	   $result =  $this->Sys_model->v_navH_NRecon($where);	
 	   if($result->num_rows() != 0 ){
-		   $module['filename'] = 'DR_'.date('mdY',now()).'_001'; //DR_MMDDYYYY_01.csv			
+		   $module['filename'] = 'DR_'.date('mdY', time()).'_001'; //DR_MMDDYYYY_01.csv			
 		   $arr_pa = $this->_interface_remittance_result_norecon($result);
 		   
 		   /*$result_reversal =  $this->Sys_model->v_navH_reversal_NRecon($where);	
