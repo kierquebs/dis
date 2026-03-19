@@ -612,8 +612,8 @@ class Download_file extends MX_Controller{
 				->setCellValue("G$x",$row->ORDER_DATE) 
 				->setCellValue("H$x",$row->DELIVERED_DATE)
 				->setCellValue("I$x",$row->AMOUNT)
-				->setCellValue("J$x",str_replace(',','',$row->DISCOUNT))
-				->setCellValue("K$x",str_replace(',','',$row->TOTAL_AMOUNT))
+				->setCellValue("J$x",str_replace(',', '', (string)($row->DISCOUNT ?? 0)))
+				->setCellValue("K$x",str_replace(',', '', (string)($row->TOTAL_AMOUNT ?? 0)))
 				->setCellValue("L$x",$row->CUSTOMER_TYPE)
 				->setCellValue("M$x",$row->SERVICE_ID)
 				->setCellValue("N$x",$row->ACCOUNT_MANAGER)
@@ -641,7 +641,7 @@ class Download_file extends MX_Controller{
 							->setCellValue("B$y",$detail->SERVICE_ID)
 							->setCellValue("C$y",$detail->ISSUANCE_DATE)
 							->setCellValue("D$y",$detail->BILLABLE_ITEM)
-							->setCellValue("E$y",str_replace(',','',$detail->CREDIT_VALUE))
+							->setCellValue("E$y",str_replace(',', '', (string)($detail->CREDIT_VALUE ?? 0)))
 							->setCellValue("F$y",str_replace(',','', $detail->VAT_OUTPUT ?? ''))
 							->setCellValue("G$y",$detail->VAT_COND)
 							->setCellValue("H$y",$detail->ACCOUNT_MANAGER);				
@@ -769,8 +769,8 @@ class Download_file extends MX_Controller{
 				->setCellValue("G$x",$row->CREATION_DATE) 
 				->setCellValue("H$x",$row->CREDITED_DATE)
 				->setCellValue("I$x",$row->AMOUNT)
-				->setCellValue("J$x",str_replace(',','',$row->DISCOUNT))
-				->setCellValue("K$x",str_replace(',','',$row->TOTAL_AMOUNT))
+				->setCellValue("J$x",str_replace(',', '', (string)($row->DISCOUNT ?? 0)))
+				->setCellValue("K$x",str_replace(',', '', (string)($row->TOTAL_AMOUNT ?? 0)))
 				->setCellValue("L$x",$row->CUSTOMER_TYPE)
 				->setCellValue("M$x",$row->SERVICE_ID)
 				->setCellValue("N$x",$row->ACCOUNT_MANAGER)
@@ -792,7 +792,7 @@ class Download_file extends MX_Controller{
 						->setCellValue("B$y",$detail->SERVICE_ID)
 						->setCellValue("C$y",'')//$detail->ISSUANCE_DATE
 						->setCellValue("D$y",'')//$detail->BILLABLE_ITEM
-						->setCellValue("E$y",str_replace(',','',$detail->CREDIT_VALUE))
+						->setCellValue("E$y",str_replace(',', '', (string)($detail->CREDIT_VALUE ?? 0)))
 						->setCellValue("F$y",str_replace(',','', $detail->VAT_OUTPUT ?? ''))
 						->setCellValue("G$y",$detail->VAT_COND)
 						->setCellValue("H$y",$detail->ACCOUNT_MANAGER);				

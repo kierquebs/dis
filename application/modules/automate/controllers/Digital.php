@@ -97,15 +97,15 @@ class Digital extends MX_Controller {
 			$newRow->nav_detail = array();
 			if($return_detail){
 				//log_message('error', 'With SI ' . $newRow->ORDER_ID);
-				$newRow->nav_detail = $return_detail['nav_detail'];
+				$newRow->nav_detail = $return_detail['nav_detail'] ?? [];
 				/*
 				* get computation from the _detail_result
 				* NET_BILLABLE sumOfBillablItem  = without tax
 				  * GROSS_BILLABLE sumOfBillablItem = with tax 
 				*/	
 				$newRow->DISCOUNT = $return_detail['TOTAL_DISCOUNT']; //DISCOUNT CALCULATION  -- change to total amount of rebate billable item
-				$newRow->AMOUNT =  ($newRow->DISCOUNT <> 0 ? $return_detail['X_GROSS_BILLABLE'] : $return_detail['GROSS_BILLABLE']); //TOTAL PAYMENT (SUM of base amount per billable ITEM less Discount Billable)
-				$newRow->TOTAL_AMOUNT = ($newRow->DISCOUNT <> 0 ? $return_detail['X_NET_BILLABLE'] : $return_detail['NET_BILLABLE']); //NET AMOUNT CALCULATION
+				$newRow->AMOUNT =  ($newRow->DISCOUNT != 0 ? $return_detail['X_GROSS_BILLABLE'] : $return_detail['GROSS_BILLABLE']); //TOTAL PAYMENT (SUM of base amount per billable ITEM less Discount Billable)
+				$newRow->TOTAL_AMOUNT = ($newRow->DISCOUNT != 0 ? $return_detail['X_NET_BILLABLE'] : $return_detail['NET_BILLABLE']); //NET AMOUNT CALCULATION
 			}else{
 				//log_message('error', 'WITHOUT SI ' . $newRow->ORDER_ID . ' <<<<');
 			}
@@ -156,7 +156,7 @@ class Digital extends MX_Controller {
 			foreach($temp_transac->result() as $data){
 				$newRow = new stdClass();
 				foreach ($fields as $field){
-					if($field <> 'AGREEMENT_ID'){
+					if($field != 'AGREEMENT_ID'){
 						if($field == 'CP_ID' && $data->$field != '') $newRow->$field =  $this->my_lib->digitalID($data->$field);
 						else if(($field == 'TIN' || $field == 'GROUPTIN') && $data->$field != '') $newRow->$field = $this->my_lib->setTin($data->$field);
 						else $newRow->$field =  $data->$field;	
@@ -168,7 +168,7 @@ class Digital extends MX_Controller {
 				$ContactNumber = 'ContactNumber';
 				$InsertType = 'InsertType';
 				$contact = $this->Corepass_model->getQueryAgreementDigitalRole($AGREEMENT_ID); //Digital POC
-				if($contact->num_rows() <> 0){
+				if($contact->num_rows() != 0){
 					$contact = $contact->result();
 					$newRow->$ContactPerson = $contact[0]->FULLNAME;
 					$newRow->$ContactNumber = $contact[0]->CONTACT;
@@ -247,8 +247,8 @@ class Digital extends MX_Controller {
 			* GROSS_BILLABLE sumOfBillablItem = with tax
 			*/
 			$newRow->DISCOUNT = $return_detail['TOTAL_DISCOUNT'] ?? 0; //DISCOUNT CALCULATION  -- change to total amount of rebate billable item
-			$newRow->AMOUNT =  ($newRow->DISCOUNT <> 0 ? ($return_detail['X_GROSS_BILLABLE'] ?? 0) : ($return_detail['GROSS_BILLABLE'] ?? 0)); //TOTAL PAYMENT (SUM of base amount per billable ITEM less Discount Billable)
-			$newRow->TOTAL_AMOUNT = ($newRow->DISCOUNT <> 0 ? ($return_detail['X_NET_BILLABLE'] ?? 0) : ($return_detail['NET_BILLABLE'] ?? 0)); //NET AMOUNT CALCULATION
+			$newRow->AMOUNT =  ($newRow->DISCOUNT != 0 ? ($return_detail['X_GROSS_BILLABLE'] ?? 0) : ($return_detail['GROSS_BILLABLE'] ?? 0)); //TOTAL PAYMENT (SUM of base amount per billable ITEM less Discount Billable)
+			$newRow->TOTAL_AMOUNT = ($newRow->DISCOUNT != 0 ? ($return_detail['X_NET_BILLABLE'] ?? 0) : ($return_detail['NET_BILLABLE'] ?? 0)); //NET AMOUNT CALCULATION
 			$arr[] = $newRow;
 		}
 		return $arr;
@@ -274,7 +274,7 @@ class Digital extends MX_Controller {
 						
 						$newRow->ISSUANCE_DATE = $newRow->VAT_COND =  $newRow->VAT_OUTPUT = '';					
 						
-						if($temp_row->B_FACEVALUE <> 'T'){
+						if($temp_row->B_FACEVALUE != 'T'){
 							$newRow->BILLABLE_ITEM = $temp_row->BILLABLE_CATEG_NAME;//.'_'.$temp_row->BILLABLE_CATEG_ID;
 							
 							$BILLABLE_AMOUNT = $temp_row->BILLABLE_AMOUNT;
@@ -378,7 +378,7 @@ class Digital extends MX_Controller {
 						$fields2 = $getAgreement->list_fields(); 							
 						foreach($getAgreement->result() as $data2){
 							foreach ($fields2 as $field2){
-								if($field2 <> 'AGREEMENT_ID'){
+								if($field2 != 'AGREEMENT_ID'){
 									if($field2 == 'ADDRESS'){
 										$address = $this->Corepass_model->getQueryAddress($data2->$field2)->result();
 										$arrMerchantData->$field2 = $address[0]->ADDRESS;
@@ -389,7 +389,7 @@ class Digital extends MX_Controller {
 							}						
 						}	
 						$contact = $this->Corepass_model->getQueryAgreementRole($AGREEMENT_ID);
-						if($contact->num_rows() <> 0){
+						if($contact->num_rows() != 0){
 							$ContactPerson = 'ContactPerson';
 							$ContactNumber = 'ContactNumber';
 							$contact = $contact->result();
@@ -454,24 +454,24 @@ class Digital extends MX_Controller {
 			$whereD = 'AND RT.n_remittancerequest = '.$temp_row->REMITTANCE_ID.' AND EA.SERVICE_ID = '.$temp_row->SERVICE_ID;	
 			$resultDetail = $this->Corepass_model->getDigitalRemittanceBillable($whereD);				
 			$return_detail = $this->_remittance_detail_result($resultDetail, $newRow->SERVICE_ID,  $temp_row->ACCOUNT_MANAGER, $newRow->CREDITED_DATE);	
-			$newRow->nav_detail = $return_detail['nav_detail'];
+			$newRow->nav_detail = $return_detail['nav_detail'] ?? [];
 			
 			/*
 			* get computation from the _detail_result
 			* NET_BILLABLE sumOfBillablItem  = without tax
 			* GROSS_BILLABLE sumOfBillablItem = with tax
 			*/	
-			$newRow->DISCOUNT = $return_detail['TOTAL_DISCOUNT']; //DISCOUNT CALCULATION
-			$newRow->AMOUNT = $return_detail['GROSS_BILLABLE']; //TOTAL PAYMENT (SUM of base amount per billable ITEM less Discount Billable)
-			$newRow->TOTAL_AMOUNT = $return_detail['NET_BILLABLE']; //NET AMOUNT CALCULATION
+			$newRow->DISCOUNT     = $return_detail['TOTAL_DISCOUNT'] ?? 0; //DISCOUNT CALCULATION
+			$newRow->AMOUNT       = $return_detail['GROSS_BILLABLE'] ?? 0; //TOTAL PAYMENT (SUM of base amount per billable ITEM less Discount Billable)
+			$newRow->TOTAL_AMOUNT = $return_detail['NET_BILLABLE']   ?? 0; //NET AMOUNT CALCULATION
 			$arr[] = $newRow; 
 		}
 		return $arr;
 	}
 
 	private function _remittance_detail_result($result, $SERVICE_ID, $ACCOUNT_MANAGER, $DELIVERED_DATE){
-		if($result->num_rows() == 0) return [];				
-		
+		if(!$result || $result->num_rows() == 0) return [];
+
 		/*
 		Record Type
 		Service ID
@@ -492,7 +492,7 @@ class Digital extends MX_Controller {
 			
 			$newRow->ISSUANCE_DATE = $newRow->VAT_COND =  $newRow->VAT_OUTPUT = '';					
 			
-			if($temp_row->B_FACEVALUE <> 'T'){
+			if($temp_row->B_FACEVALUE != 'T'){
 				$newRow->BILLABLE_ITEM = str_replace('(remittance)','',$temp_row->BILLABLE_CATEG_NAME);  //$temp_row->BILLABLE_CATEG_NAME;
 				
 				$BILLABLE_AMOUNT = $temp_row->BILLABLE_AMOUNT;
