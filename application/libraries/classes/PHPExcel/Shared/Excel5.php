@@ -48,12 +48,12 @@ class PHPExcel_Shared_Excel5
             // then we have column dimension with explicit width
             $columnDimension = $columnDimensions[$col];
             $width = $columnDimension->getWidth();
-            $pixelWidth = PHPExcel_Shared_Drawing::cellDimensionToPixels($width, $font);
+            $pixelWidth = PHPExcel_Shared_Drawing::cellDimensionToPixels($font, $width);
         } elseif ($sheet->getDefaultColumnDimension()->getWidth() != -1) {
             // then we have default column dimension with explicit width
             $defaultColumnDimension = $sheet->getDefaultColumnDimension();
             $width = $defaultColumnDimension->getWidth();
-            $pixelWidth = PHPExcel_Shared_Drawing::cellDimensionToPixels($width, $font);
+            $pixelWidth = PHPExcel_Shared_Drawing::cellDimensionToPixels($font, $width);
         } else {
             // we don't even have any default column dimension. Width depends on default font
             $pixelWidth = PHPExcel_Shared_Font::getDefaultColumnWidthByFont($font, true);

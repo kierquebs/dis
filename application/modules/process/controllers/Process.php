@@ -13,7 +13,7 @@ class Process extends MX_Controller {
 		$this->form_validation->run($this);
 		if($this->auth->role_all($this->MODULE_ID) == false) redirect('404_override');
 		
-		$this->checkUpload = 1;//getenv('checkUpload'); //UPLOADS
+		$this->checkUpload = getenv('checkUpload') !== false ? getenv('checkUpload') : 1; //UPLOADS
 	}
 	
 	public function getReimbursementUserIds(){
@@ -118,8 +118,8 @@ class Process extends MX_Controller {
 				if(isset($_POST['date'])  && $_POST['date'] != '' ){
 					$date = htmlentities($this->input->post('date', true));
 					if(strlen ($date) <= 1){
-						$where .= " AND TRIM( BOTH '}' FROM (TRIM(BOTH '{' FROM pcf.SPECIFIC_DATE))) in (".$date.") "; 
-						$whereRefund .= " AND TRIM( BOTH '}' FROM (TRIM(BOTH '{' FROM pcf.SPECIFIC_DATE))) in (".$date.") "; 
+						$where .= " AND REPLACE(REPLACE(pcf.SPECIFIC_DATE, '{', ''), '}', '') in (".$date.") "; 
+						$whereRefund .= " AND REPLACE(REPLACE(pcf.SPECIFIC_DATE, '{', ''), '}', '') in (".$date.") "; 
 					}else{
 						$where .= ' AND pcf.SPECIFIC_DATE like "%'.$date.'%"'; 
 						$whereRefund .= ' AND pcf.SPECIFIC_DATE like "%'.$date.'%"'; 
@@ -133,7 +133,7 @@ class Process extends MX_Controller {
 			$this->load->helper('my_helper');
 			
 			$PA_ARR = array(); $whereMerchant = $PA_ID = '';
-			for($i=0; $i<=$countProcess; $i++){
+			for($i=0; $i<$countProcess; $i++){
 				if(!empty($toProcess[$i])){
 					/*CREATE PA HEADER*/
 					$whereMerchant = ' AND br.MERCHANT_ID = "'.$toProcess[$i].'"'; 					
@@ -298,7 +298,7 @@ class Process extends MX_Controller {
 						$data['date'] =  $date = htmlentities($this->input->get('date', true));
 						$dateWhere = $this->my_lib->setCFDate($date);
 						if(strlen ($date) <= 1){
-							$SPECIFIC_DATE = " AND TRIM( BOTH '}' FROM (TRIM(BOTH '{' FROM pcf.SPECIFIC_DATE))) in (".$date.") "; 
+							$SPECIFIC_DATE = " AND REPLACE(REPLACE(pcf.SPECIFIC_DATE, '{', ''), '}', '') in (".$date.") "; 
 						}else {
 							$SPECIFIC_DATE =  ' AND pcf.SPECIFIC_DATE like "%'.$date.'%"'; 
 						}
@@ -325,7 +325,7 @@ class Process extends MX_Controller {
 		exit();
 	}
 	
-		private function arr_result($temp_transac, $export = false, $where_date, $dateWhere){
+		private function arr_result($temp_transac, $export, $where_date, $dateWhere){
 			$arr = array();
 			foreach($temp_transac as $temp_row){ 
 				$newRow = new stdClass(); 						
@@ -385,7 +385,7 @@ class Process extends MX_Controller {
 			if(isset($_POST['date'])  && $_POST['date'] != '' ){
 				$date = htmlentities($this->input->post('date', true));
 				if(strlen ($date) <= 1){						
-					$where .= " AND TRIM( BOTH '}' FROM (TRIM(BOTH '{' FROM pcf.SPECIFIC_DATE))) in (".$date.") "; 
+					$where .= " AND REPLACE(REPLACE(pcf.SPECIFIC_DATE, '{', ''), '}', '') in (".$date.") "; 
 				}else{
 					$where .= ' AND pcf.SPECIFIC_DATE like "%'.$date.'%"'; 
 				}

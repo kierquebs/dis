@@ -326,8 +326,10 @@ class PHPExcel_Writer_CSV extends PHPExcel_Writer_Abstract implements PHPExcel_W
             $line = '';
 
             foreach ($pValues as $element) {
-                // Escape enclosures
-                $element = str_replace($this->enclosure, $this->enclosure . $this->enclosure, $element);
+                // Escape enclosures (PHP 8.1+: guard against null enclosure and null cell values)
+                $element = ($this->enclosure !== null)
+                    ? str_replace($this->enclosure, $this->enclosure . $this->enclosure, (string)($element ?? ''))
+                    : (string)($element ?? '');
 
                 // Add delimiter
                 if ($writeDelimiter) {
@@ -337,7 +339,7 @@ class PHPExcel_Writer_CSV extends PHPExcel_Writer_Abstract implements PHPExcel_W
                 }
 
                 // Add enclosed string
-                $line .= $this->enclosure . $element . $this->enclosure;
+                $line .= ($this->enclosure ?? '') . $element . ($this->enclosure ?? '');
             }
 
             // Add line ending

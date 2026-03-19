@@ -20,7 +20,7 @@ class Pdf_pa extends MX_Controller {
 		$this->load->helper('download');
 		$this->load->library('zip');
 		$this->zipName = 'zipFIle_'.$this->auth->get_userid().'.zip';
-		$this->zipLocation = 'C:/xampp/htdocs/generated_payment_advice/';
+		$this->zipLocation = FCPATH.'generated_payment_advice/';
     }
 	
 	public function index(){
@@ -114,8 +114,7 @@ class Pdf_pa extends MX_Controller {
 			$xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
 			$xlsx->saveAs($fileName); 
 
-			// rename("C:\laragon\www\mp_dis/".$fileName, "C:/xampp/htdocs/generated_payment_advice/". date('Ymd') . '/' . $fileName); // local
-			rename("C:/xampp/htdocs/mp_dis/".$fileName, "C:/xampp/htdocs/generated_payment_advice/". date('Ymd') . '/' . $fileName); // uat
+			rename(FCPATH.$fileName, $this->my_lib->makeDIR($this->zipLocation, date('Ymd')).$fileName);
 		
 		}
 
@@ -154,7 +153,7 @@ class Pdf_pa extends MX_Controller {
 		//$generatedPA =  $this->Sys_model->v_paH($whereU, false, 'pa_id');
 		
 		if($generatedPA->num_rows() != 0){
-			$PA_ARR = '';
+			$PA_ARR = [];
 			foreach($generatedPA->result() as $row){
 				$PA_ARR[] = $PA_ID= $row->PA_ID;
 				$this->generate($row->PA_ID, '', false, true, true);	
@@ -269,10 +268,47 @@ class Pdf_pa extends MX_Controller {
 					$result_servicesREF =  ($norecon <> "" ? $this->Sys_model->servicesREFNrecon($where, false) : $this->Sys_model->servicesREF($where, false));
 				$data['serviceREF'] = $this->arr_result($result_servicesREF);		
 			}
+			// Pre-compute service summary to avoid library calls in view (DOMPDF captures PHP errors)
+			$sumFV = $sumMF = $sumVAT = $sumND = $sumREFV = 0;
+			$serviceSummary = array();
+			$prod_arr = array();
+			foreach($data['serviceLi'] as $sr_row){
+				$totalFV      = $sr_row->TOTAL_FV;
+				$TOTAL_REFUND = $sr_row->TOTAL_REFUND;
+				$totalMFV     = $totalFV - $TOTAL_REFUND;
+				$vatcond   = $this->my_lib->checkVAT($sr_row->vatcond);
+				$MF        = $this->my_lib->computeMF($totalMFV, $sr_row->MerchantFee, '', FALSE);
+				$VAT       = $this->my_lib->computeVAT($totalMFV, $sr_row->MerchantFee, $vatcond, FALSE);
+				$NET_DUE   = $this->my_lib->computeNETDUE($totalMFV, $sr_row->MerchantFee, $vatcond, FALSE);
+				$serviceSummary[] = array(
+					'SERVICE_NAME' => $sr_row->SERVICE_NAME,
+					'TOTAL_FV'     => number_format($totalFV, 2),
+					'TOTAL_REFUND' => number_format($TOTAL_REFUND, 2),
+					'MF'           => number_format($MF, 2),
+					'VAT'          => number_format($VAT, 2),
+					'NET_DUE'      => number_format($NET_DUE, 2),
+				);
+				$prod_arr[] = array('name' => $sr_row->SERVICE_NAME, 'fv' => number_format($totalFV, 2));
+				$sumFV  += $totalFV;
+				$sumMF  += $MF;
+				$sumVAT += $VAT;
+				$sumND  += $NET_DUE;
+			}
+			foreach($data['refundLi'] as $ref_row){
+				$sumREFV += $ref_row->TOTALREF_FV;
+			}
+			$data['serviceSummary'] = $serviceSummary;
+			$data['prod_arr']       = $prod_arr;
+			$data['sumFV']          = $sumFV;
+			$data['sumMF']          = $sumMF;
+			$data['sumVAT']         = $sumVAT;
+			$data['sumND']          = $sumND;
+			$data['sumREFV']        = $sumREFV;
+
 				$whereU['user.user_id'] = $this->auth->get_userid();
 			$data['data_user'] = $row_info = $this->User_model->user_info($whereU)->row();
 			$data['copy'] = $copy;
-			$data['date_printed'] = $this->my_lib->setDate(); 
+			$data['date_printed'] = $this->my_lib->setDate();
 			$html = $this->load->view('index2', $data, true); //index
 			$filename = $this->my_lib->paNumber($pa_id).'_'.trim($result_merchantPA->row('LegalName')).'_'.date("Ymd");
 			return $this->loadPDF($html, $filename, $copy, $download, $serverDL, $zip);	

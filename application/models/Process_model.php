@@ -729,7 +729,7 @@ class Process_model extends CI_Model{
 		else return $result;
 	}	
 
-	public function getPCFNRecon_PADetail($PA_ID){
+	public function getPCFNRecon_PADetail($PA_ID, $count = false){
 		if(empty($PA_ID)) return false;
 
 		$result = $this->db->query("(select 

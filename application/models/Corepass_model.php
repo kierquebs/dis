@@ -4,11 +4,24 @@ class Corepass_model extends CI_Model{
 	public function __construct(){
 		parent::__construct();
 		// -- reminder: connection uat environment -- //
-		$this->oracle_db = $this->load->database('oracle', TRUE);
+		if (extension_loaded('oci8')) {
+			$this->oracle_db = $this->load->database('oracle', TRUE);
+		} else {
+			log_message('error', 'Corepass_model: Oracle oci8 extension not loaded.');
+			$this->oracle_db = null;
+		}
 	}
 	
+	private function _oracle_query($sql){
+		if (!$this->oracle_db){
+			log_message('error', 'Corepass_model: oracle_db unavailable, query skipped.');
+			return null;
+		}
+		return $this->oracle_db->query($sql);
+	}
+
 	public function testing(){
-		$result = $this->oracle_db->query("
+		$result = $this->_oracle_query("
 			SELECT DISTINCT TOR.N_ORDER OrderID,
 NVL(TOR.Q_ESTIMATEDVOUCHERS, NOT_CONFIRMEDORDER_VOUCHER_QTY.VOUCHER_QUANTITY) VouchersQTY,
 TOH.A_EXPECTEDAMOUNT VouchersAMOUNT
@@ -43,7 +56,7 @@ AND TOR.N_ORDER = 390350
 		
 		$tin = str_replace('-', '', $tin);
 		
-		$result = $this->oracle_db->query("
+		$result = $this->_oracle_query("
 			SELECT EMLS_EBCTP.DEFAULTVALUE AS bankCode,
 			EBA.BANKACCOUNTNUMBER AS bankAccountNo,
 			EBA.BANKACCOUNTNAME AS bankAccountName,
@@ -95,7 +108,7 @@ AND TOR.N_ORDER = 390350
 	
 	public function cptestquery($where = ''){
 		
-		$result = $this->oracle_db->query("
+		$result = $this->_oracle_query("
 			SELECT 
 			ECD.N_ACCOUNTINGDOCUMENT AS SI_NUMBER,
 			ECD.RELATEDENTITIESIDS AS ORDER_NUMBER,
@@ -147,7 +160,7 @@ AND TOR.N_ORDER = 390350
 /**
  * ECGDP.TAXAPPLICATIONTYPE_ID as VATCond,
  */
-$result = $this->oracle_db->query("SELECT 
+$result = $this->_oracle_query("SELECT 
                 CP_ID,
                 TIN,
                 LegalName,
@@ -341,7 +354,7 @@ return $result;
 		/**
 		 * 
 		 */
-		$result = $this->oracle_db->query("SELECT contactDataId, ADDRESS
+		$result = $this->_oracle_query("SELECT contactDataId, ADDRESS
 				FROM
 				(
 					SELECT ECD.CONTACTDATA_ID AS contactDataId,
@@ -379,7 +392,7 @@ return $result;
 		/**
 		 * 
 		 */
-		$result = $this->oracle_db->query("SELECT peopleId, ADDRESS
+		$result = $this->_oracle_query("SELECT peopleId, ADDRESS
 				FROM
 				(
 					SELECT distinct ECP.PEOPLE_ID peopleId,
@@ -404,7 +417,7 @@ return $result;
 		//$id = preg_replace('/[a-zA-Z]/', '', $CP_ID) ;
 		//$bankaccountno = str_replace('-', '', $bankAccountNo);
 		
-		$result = $this->oracle_db->query("
+		$result = $this->_oracle_query("
 			select 
 			ea.AGREEMENT_ID as AgreementId,
 			ECOMGD.FISCAL_ID as TIN,
@@ -467,7 +480,7 @@ return $result;
 	public function getBankCode($bankAccountNo, $CP_ID, $agreement_id){
 		$id = preg_replace('/[a-zA-Z]/', '', $CP_ID) ;
 
-			$result = $this->oracle_db->query("
+			$result = $this->_oracle_query("
 			select 
 			ea.AGREEMENT_ID as AgreementId,
 			ECOMGD.FISCAL_ID as TIN,
@@ -527,7 +540,7 @@ return $result;
 	 * QUERY ACTION FOR COREPASS SERVICE
 	 */
 	public function getQueryService(){
-		$result = $this->oracle_db->query("SELECT 
+		$result = $this->_oracle_query("SELECT 
 			s.SERVICE_ID AS service_id
 			,mls.DEFAULTVALUE AS service_name
 		FROM
@@ -549,7 +562,7 @@ return $result;
 	 */
 	public function getQueryPaymentCon($agrID){
 		if(empty($agrID)) return '';
-		$result = $this->oracle_db->query("SELECT 
+		$result = $this->_oracle_query("SELECT 
 				CP_ID,
 				TIN,
 				LegalName, 
@@ -714,7 +727,7 @@ return $result;
 	 */
 	 public function getQueryCompanyInfo($cpID){
 		if(empty($cpID)) return '';
-			$result = $this->oracle_db->query("SELECT 
+			$result = $this->_oracle_query("SELECT 
 					ecg.FISCAL_ID AS TIN, 
 					ecg.LEGALNAME, 
 					ecg.CREATION_DATE,  
@@ -743,7 +756,7 @@ return $result;
 	 */
 	public function getQueryDelPoint($agrID){
 		if(empty($agrID)) return '';
-		$result = $this->oracle_db->query("select 
+		$result = $this->_oracle_query("select 
 			EDN2.DELIVERYNODE_ID AS deliveryPointsId,
 			EDN2.DELIVERYNODENAME AS deliveryPointsName
 			from
@@ -764,7 +777,7 @@ return $result;
 	 */
 	public function getQueryAgrSpRole($agrID){
 		if(empty($agrID)) return '';
-		$result = $this->oracle_db->query("SELECT 
+		$result = $this->_oracle_query("SELECT 
 			EA.AGREEMENT_ID AGREEMENT_ID, SUB4_ar.AGREEMENTROLE_ID SPROLE_ID
 			FROM
 			E_COMPANY EC,
@@ -795,7 +808,7 @@ return $result;
 	 */
 	public function getQueryAcctPeopleID($acctID){
 		if(empty($acctID)) return '';
-		$result = $this->oracle_db->query("SELECT 
+		$result = $this->_oracle_query("SELECT 
 		CP.COMPANY_ID, 
 		CP.PEOPLE_ID AS PEOPLE_ID, 
 		FP.NAME AS FIRST_NAME, FP.LASTNAME AS LAST_NAME
@@ -812,7 +825,7 @@ return $result;
 	 */
 	public function getQueryAcctSpRoleID($acctID){
 		if(empty($acctID)) return '';
-		$result = $this->oracle_db->query("SELECT 
+		$result = $this->_oracle_query("SELECT 
 			EC.COMPANY_ID,
 			SUB4_AR.AGREEMENTROLE_ID SP_ROLEID,
 			SUB4_PP.NAME || ' ' || SUB4_PP.LASTNAME NAME,
@@ -846,7 +859,7 @@ return $result;
 	 */
 	public function getQueryContactDataID($acctID){
 		if(empty($acctID)) return '';
-		$result = $this->oracle_db->query("SELECT DISTINCT ECD.CONTACTDATA_ID AS contactDataId,
+		$result = $this->_oracle_query("SELECT DISTINCT ECD.CONTACTDATA_ID AS contactDataId,
 			EC.COMPANY_ID as companyId,
 			ECD.CONTACTDATATYPE_ID as contactDataTypeId,
 			EMLS_ECD.DEFAULTVALUE AS contactDataTypeName,
@@ -901,7 +914,7 @@ return $result;
 		/**
 		 * 
 		 */		 
-		$result = $this->oracle_db->query("SELECT EA.AGREEMENT_ID,
+		$result = $this->_oracle_query("SELECT EA.AGREEMENT_ID,
 				EAR.X_AGREEMENTROLE,
 				EAR.COMMENTS,
 				EGP.PEOPLE_ID,
@@ -954,7 +967,7 @@ return $result;
 			/**
 			 * ECGDP.TAXAPPLICATIONTYPE_ID as VATCond,
 			 */
-			$result = $this->oracle_db->query("SELECT 
+			$result = $this->_oracle_query("SELECT 
 			CP_ID,
 			AGREEMENT_ID,
 			TIN,
@@ -1121,7 +1134,7 @@ return $result;
 		/**
 		 * 
 		 */		 
-		$result = $this->oracle_db->query("SELECT EA.AGREEMENT_ID,
+		$result = $this->_oracle_query("SELECT EA.AGREEMENT_ID,
 				EAR.X_AGREEMENTROLE,
 				EAR.COMMENTS,
 				EGP.PEOPLE_ID,
@@ -1170,7 +1183,7 @@ return $result;
 	 * QUERY ACTION FOR 
 	 */
 	public function getDigitalSOAOrder($where = ''){
-			$result = $this->oracle_db->query("SELECT
+			$result = $this->_oracle_query("SELECT
 				ORDER_ID,
 				ORDER_DATE,
 				QTYOFDAYS,
@@ -1314,7 +1327,7 @@ return $result;
 	 * QUERY ACTION FOR orders billable items
 	 */
 	public function getDigitalSOAOrderBillable($where = ''){ 
-		$result = $this->oracle_db->query("SELECT   
+		$result = $this->_oracle_query("SELECT   
 				MLS_BIC.DEFAULTVALUE AS BILLABLE_CATEG_NAME,		   
 				BIGD.VALUE AS BILLABLE_AMOUNT,
 				BIC.BILLABLEITEMCATEGORY_ID AS BILLABLE_CATEG_ID,
@@ -1403,7 +1416,7 @@ return $result;
 	}
 
 	public function checkConnect($where = ''){
-		$result = $this->oracle_db->query("SELECT * FROM E_SERVICE WHERE SERVICE_ID = 1");
+		$result = $this->_oracle_query("SELECT * FROM E_SERVICE WHERE SERVICE_ID = 1");
 		return $result;
 	}
 
@@ -1416,7 +1429,7 @@ return $result;
 		/**
 		 * ECGDP.TAXAPPLICATIONTYPE_ID as VATCond,
 		 */
-		$result = $this->oracle_db->query("SELECT 
+		$result = $this->_oracle_query("SELECT 
 				EC.COMPANY_ID as CP_ID,
 				ECGD.FISCAL_ID as TIN,
 				ECGD.LEGALNAME as LegalName, 
@@ -1458,7 +1471,7 @@ return $result;
 		/**
 		 * ECGDP.TAXAPPLICATIONTYPE_ID as VATCond,
 		 */
-		$result = $this->oracle_db->query("SELECT 
+		$result = $this->_oracle_query("SELECT 
 				AGREEMENT_ID,
 				VATCond,
 				MeanofPayment,
@@ -1611,7 +1624,7 @@ return $result;
 		 * ECGDP.TAXAPPLICATIONTYPE_ID as VATCond,
 		 CLIENT_TYPE = 103
 		 */
-		$result = $this->oracle_db->query("select distinct * from (
+		$result = $this->_oracle_query("select distinct * from (
 			select 
 			REMITTANCE_ID,
 				CP_ID,
@@ -1733,7 +1746,7 @@ return $result;
 	 * QUERY ACTION FOR orders billable items
 	 */
 	public function getDigitalRemittanceBillable($where = ''){
-		$result = $this->oracle_db->query("SELECT   
+		$result = $this->_oracle_query("SELECT   
 			MLS_BIC.DEFAULTVALUE AS BILLABLE_CATEG_NAME,		   
 			BIGD.VALUE AS BILLABLE_AMOUNT,
 			BIC.BILLABLEITEMCATEGORY_ID AS BILLABLE_CATEG_ID,
@@ -1777,7 +1790,7 @@ return $result;
 	 * QUERY ACTION FOR COREPASS AGREEMENTS
 	 */
 	public function getQueryAgreements($where = ''){
-		$result = $this->oracle_db->query("SELECT 
+		$result = $this->_oracle_query("SELECT 
 				AGREEMENT_ID,
 				CP_ID,
 				MerchantFee,
@@ -1906,7 +1919,7 @@ return $result;
 /**
  * ECGDP.TAXAPPLICATIONTYPE_ID as VATCond,
  */
-$result = $this->oracle_db->query("SELECT 
+$result = $this->_oracle_query("SELECT 
 CP_ID,
 TIN,
 LegalName, 

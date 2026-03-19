@@ -32,7 +32,7 @@ class Recon extends MX_Controller {
 	public function upload_recon($otherFolder = 'reconciliation'){
 		$map = directory_map('./to_upload/'.$otherFolder.'/', FALSE, TRUE);
 		
-		if(count($map) == 0){
+		if(!is_array($map) || count($map) == 0){
 			log_message('info', 'RECON:: EMPTY FOLDER');
 			echo 'EMPTY FOLDER'; exit();
 		}
@@ -53,7 +53,8 @@ class Recon extends MX_Controller {
 			
 				echo "Do not close this window - ONGOING INSERT RECORD : <br /> <pre>";
 				for($i=0;$i<count($result_data);$i++){
-					$DigitalSettlementType = $checkRefund = $recordResult = $whereRefund = $where = '';
+					$DigitalSettlementType = $checkRefund = $recordResult = '';
+				$whereRefund = $where = [];
 				
 					/** *** UPDATE Reversal Table *** **/						
 						$whereRefund2['REDEEM_ID'] = $result_data[$i]['REDEEM_ID'];

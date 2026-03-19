@@ -7,7 +7,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class OfflineProcess extends MX_Controller {
+class Offlineprocess extends MX_Controller {
 	private $get_userid;
 	
 	public function	__construct(){
@@ -39,8 +39,9 @@ class OfflineProcess extends MX_Controller {
 	}
 	
 	public function group_merchantID(){
-		$group = explode(',',getenv('group_merchantID'));
-		if(!empty($group)){
+		$group_merchantID = getenv('group_merchantID') !== false ? getenv('group_merchantID') : '';
+		$group = explode(',', $group_merchantID);
+		if(!empty($group) && !empty($group_merchantID)){
 			for($i=0; $i < count($group); $i++){
 				if(!empty($group[$i])){
 					$this->_processper_MID($group[$i], true);		
@@ -53,7 +54,7 @@ class OfflineProcess extends MX_Controller {
 		private function _processper_MID($merchantID, $auto=false){
 			if(!empty($merchantID)){
 				$merchantData = $this->_check_merchant($merchantID);
-				$setGetArr = $setGet= ''; 
+				$setGetArr = []; $setGet = ''; 
 				if($merchantData <> ''){				
 					$setGet = "process=".$merchantID;
 					$setGet .= (!empty($setGet) ? "&":"")."terms=".$this->paymentTermsNum($merchantData['POST_terms']); 
@@ -63,7 +64,8 @@ class OfflineProcess extends MX_Controller {
 
 					if(!empty($merchantData['POST_date']) && is_array($merchantData['POST_date'])){
 						$merchantDataPOST_date = "";
-						for($i = 0; $i<count($merchantData['POST_date']);$i++){
+						$countDate = count($merchantData['POST_date']);
+						for($i = 0; $i<$countDate;$i++){
 							//echo $merchantData['POST_date'][$i].' '.date("d");
 							if($merchantData['POST_date'][$i] <= date("d")){
 								$merchantDataPOST_date = $merchantData['POST_date'][$i] ;
@@ -113,7 +115,7 @@ class OfflineProcess extends MX_Controller {
 		if(isset($_GET['type']) && !empty($_GET['type'])) {
 			$paymentTerms = $this->paymentTermsName($_GET['type']);
 			
-			$where = $output = '';
+			$where = $output = [];
 			$where = 'TYPE = "'.htmlentities($paymentTerms).'"';			
 			if($paymentTerms == 'Weekly'){	
 				if(isset($_GET['date'])  && !empty($_GET['date'])){
@@ -141,7 +143,7 @@ class OfflineProcess extends MX_Controller {
 		private function _processper_Cutoff($merchantID, $auto=true){
 			if(!empty($merchantID)){
 				$merchantData = $this->_check_merchant($merchantID);
-				$setGetArr = $setGet= ''; 
+				$setGetArr = []; $setGet = ''; 
 				if($merchantData <> ''){				
 					$setGet = "process=".$merchantID;
 					$setGet .= (!empty($setGet) ? "&":"")."terms=".$this->paymentTermsNum($merchantData['POST_terms']); 
@@ -151,7 +153,8 @@ class OfflineProcess extends MX_Controller {
 
 					if(!empty($merchantData['POST_date']) && is_array($merchantData['POST_date'])){
 						$merchantDataPOST_date = "";
-						for($i = 0; $i<count($merchantData['POST_date']);$i++){
+						$countDate = count($merchantData['POST_date']);
+						for($i = 0; $i<$countDate;$i++){
 							//echo $merchantData['POST_date'][$i].' '.date("d");
 							if($merchantData['POST_date'][$i] <= date("d")){
 								$merchantDataPOST_date = $merchantData['POST_date'][$i] ;
@@ -207,7 +210,8 @@ class OfflineProcess extends MX_Controller {
 					if(isset($_GET['cfdate']) && !empty($_GET['cfdate'])){
 						$merchantData['POST_date'] = $_GET['cfdate'];
 					}else{
-						for($i = 0; $i<count($merchantData['POST_date']);$i++){
+						$countDate = count($merchantData['POST_date']);
+						for($i = 0; $i<$countDate;$i++){
 							if($merchantData['POST_date'][$i] >= date("d")) $merchantData['POST_date'] = $merchantData['POST_date'][$i] ;
 						}	
 					}				
@@ -251,7 +255,7 @@ class OfflineProcess extends MX_Controller {
 */	
 	private function _check_merchant($merchantID){
 		if(empty($merchantID)) return false;
-		$output = '';
+		$output = [];
 
 		$where['MERCHANT_ID'] = $toProcess = $merchantID;
 		$v_cutoffResult = $this->Sys_model->v_cutoff($where, false);  
@@ -262,11 +266,11 @@ class OfflineProcess extends MX_Controller {
 			$output['POST_terms'] = $rowField->TYPE; 
 			$output['POST_day'] = $rowField->SPECIFIC_DAY;
 			$output['POST_date'] =  (!empty($rowField->SPECIFIC_DATE) ? explode(",",substr($rowField->SPECIFIC_DATE, 1, -1)) : ''); 
-				if(count($output['POST_date']) == 1) $output['POST_date'] = $output['POST_date'][0];
+				if(is_array($output['POST_date']) && count($output['POST_date']) == 1) $output['POST_date'] = $output['POST_date'][0];
 			$output['POST_SETTLE'] = $rowField->DigitalSettlementType; 
 			
 			
-			if(!empty($rowField->SPECIFIC_DATE) && count($output['POST_date']) <> 1) rsort($output['POST_date']);
+			if(!empty($rowField->SPECIFIC_DATE) && is_array($output['POST_date']) && count($output['POST_date']) <> 1) rsort($output['POST_date']);
 			return $output;
 		}
 	}
@@ -478,7 +482,8 @@ class OfflineProcess extends MX_Controller {
 					if(!empty($PA_ID)){		
 						$PA_ARR[] = $PA_ID;
 						foreach ($v as $row) {		
-							$show = $whereAFFCODE = $u_paH = $insert_detail =  $where_paD = '';											
+							$show = '';
+							$whereAFFCODE = $u_paH = $insert_detail = $where_paD = [];
 				
 							/**
 							* IF branch - AFFILIATIONCODE is not null then get data from cp_agreement
@@ -515,7 +520,7 @@ class OfflineProcess extends MX_Controller {
 							
 							$totalMFV = $totalFV - $totalRefund;
 							if($totalMFV < 0) $totalMFV = 0;
-							$MF = $this->my_lib->computeMF($totalMFV, $percentMF, '', false);
+							$MF = $this->my_lib->computeMF($totalMFV, ($PA_MerchantFee * 100), '', false);
 							
 							/*BUILD PA DETAIL INFO*/		 	 		
 							$where_paD['PA_ID'] =  $insert_detail['PA_ID'] = $PA_ID;	
@@ -532,8 +537,8 @@ class OfflineProcess extends MX_Controller {
 								$insert_detail['NET_DUE'] = 0;
 							}else{
 								$insert_detail['MARKETING_FEE'] = $MF; 
-								$insert_detail['VAT'] = $this->my_lib->computeVAT($totalMFV, $percentMF, $VAT, FALSE); 
-								$insert_detail['NET_DUE'] = $this->my_lib->computeNETDUE($totalMFV, $percentMF, $VAT, FALSE);
+								$insert_detail['VAT'] = $this->my_lib->computeVAT($totalMFV, ($PA_MerchantFee * 100), $VAT, FALSE); 
+								$insert_detail['NET_DUE'] = $this->my_lib->computeNETDUE($totalMFV, ($PA_MerchantFee * 100), $VAT, FALSE);
 							}
 															
 							$checkPAD = $this->Sys_model->v_paD($where_paD, true);									
@@ -646,7 +651,8 @@ class OfflineProcess extends MX_Controller {
 					if(!empty($PA_ID)){		
 						$PA_ARR[] = $PA_ID;
 						foreach ($v as $row) {		
-							$show = $whereAFFCODE = $u_paH = $insert_detail =  $where_paD = '';						
+							$show = '';
+							$whereAFFCODE = $u_paH = $insert_detail = $where_paD = [];
 							/*
 							** fields available for process table **
 								recon.RECON_ID,
@@ -695,7 +701,7 @@ class OfflineProcess extends MX_Controller {
 							
 							$totalMFV = $totalFV - $totalRefund;
 							if($totalMFV < 0) $totalMFV = 0;
-							$MF = $this->my_lib->computeMF($totalMFV, $percentMF, '', false);
+							$MF = $this->my_lib->computeMF($totalMFV, ($PA_MerchantFee * 100), '', false);
 							
 							/*BUILD PA DETAIL INFO*/		 	 		
 							$where_paD['PA_ID'] = $insert_detail['PA_ID'] = $PA_ID;
@@ -713,8 +719,8 @@ class OfflineProcess extends MX_Controller {
 								$insert_detail['NET_DUE'] = 0;
 							}else{
 								$insert_detail['MARKETING_FEE'] = $MF; 
-								$insert_detail['VAT'] = $this->my_lib->computeVAT($totalMFV, $percentMF, $VAT, FALSE); 
-								$insert_detail['NET_DUE'] = $this->my_lib->computeNETDUE($totalMFV, $percentMF, $VAT, FALSE);
+								$insert_detail['VAT'] = $this->my_lib->computeVAT($totalMFV, ($PA_MerchantFee * 100), $VAT, FALSE); 
+								$insert_detail['NET_DUE'] = $this->my_lib->computeNETDUE($totalMFV, ($PA_MerchantFee * 100), $VAT, FALSE);
 							}
 															
 							$checkPAD = $this->Sys_model->v_paD($where_paD, true);									
@@ -764,7 +770,8 @@ class OfflineProcess extends MX_Controller {
 			foreach($AFFCODE_row as $k => $v){
 				if(!empty($PA_ID)){		
 					foreach ($v as $row) {		
-						$show = $whereAFFCODE = $u_paH = $insert_detail =  $where_paD = '';											
+						$show = '';
+						$whereAFFCODE = $u_paH = $insert_detail = $where_paD = [];
 			
 						/**
 						* IF branch - AFFILIATIONCODE is not null then get data from cp_agreement
@@ -788,32 +795,32 @@ class OfflineProcess extends MX_Controller {
 							}
 						}	
 						
-						$VAT = $this->my_lib->checkVAT($PA_VAT);								
+						$VAT = $this->my_lib->checkVAT($PA_VAT);
 						$totalFV = $row['totalAmount'];
 						$percentMF = $this->my_lib->convertMFRATE($PA_MerchantFee, true);
-						$totalRefund = ($row['refundPostAmount'] == NULL ? 0 : $row['refundPostAmount']); //total amount of refund 																		
-						
+						$totalRefund = ($row['refundPostAmount'] == NULL ? 0 : $row['refundPostAmount']); //total amount of refund
+
 						$totalMFV = $totalFV - $totalRefund;
 						if($totalMFV < 0) $totalMFV = 0;
-						$MF = $this->my_lib->computeMF($totalMFV, $percentMF, '', false);
-						
-						/*BUILD PA DETAIL INFO*/		 	 		
-						$where_paD['PA_ID'] =  $insert_detail['PA_ID'] = $PA_ID;	
+						$MF = $this->my_lib->computeMF($totalMFV, ($PA_MerchantFee * 100), '', false);
+
+						/*BUILD PA DETAIL INFO*/
+						$where_paD['PA_ID'] =  $insert_detail['PA_ID'] = $PA_ID;
 						$where_paD['BRANCH_ID'] = $insert_detail['BRANCH_ID'] = $row['BRANCH_ID'];
 						$insert_detail['RATE'] = $percentMF;
 						$insert_detail['NUM_PASSES'] = $row['totalPasses'];
 						$insert_detail['TOTAL_FV'] = $totalFV;
 						$insert_detail['TOTAL_REFUND'] = $totalRefund;
 						$insert_detail['DATE_CREATED'] = $this->my_lib->current_date();
-						
-						if($totalMFV == 0){										
-							$insert_detail['MARKETING_FEE'] = 0; 
-							$insert_detail['VAT'] = 0; 
+
+						if($totalMFV == 0){
+							$insert_detail['MARKETING_FEE'] = 0;
+							$insert_detail['VAT'] = 0;
 							$insert_detail['NET_DUE'] = 0;
 						}else{
-							$insert_detail['MARKETING_FEE'] = $MF; 
-							$insert_detail['VAT'] = $this->my_lib->computeVAT($totalMFV, $percentMF, $VAT, FALSE); 
-							$insert_detail['NET_DUE'] = $this->my_lib->computeNETDUE($totalMFV, $percentMF, $VAT, FALSE);
+							$insert_detail['MARKETING_FEE'] = $MF;
+							$insert_detail['VAT'] = $this->my_lib->computeVAT($totalMFV, ($PA_MerchantFee * 100), $VAT, FALSE);
+							$insert_detail['NET_DUE'] = $this->my_lib->computeNETDUE($totalMFV, ($PA_MerchantFee * 100), $VAT, FALSE);
 						}
 						
 						$checkPAD = $this->Sys_model->v_paD($where_paD, false);									
@@ -852,7 +859,7 @@ class OfflineProcess extends MX_Controller {
 			$tblArr = array();
 			foreach($AFFCODE_row as $k => $v){
 				foreach ($v as $row) {	
-					$whereAFFCODE = $update_detail = $where_paD = '';
+					$whereAFFCODE = $update_detail = $where_paD = [];
 					
 					$PA_MerchantFee = $row['MerchantFee'];
 					$PA_PayeeDayType = $row['PayeeDayType'];
@@ -875,7 +882,7 @@ class OfflineProcess extends MX_Controller {
 					$VAT = $this->my_lib->checkVAT($PA_VAT);								
 					$totalFV = $row['totalAmount'];
 					$percentMF = $this->my_lib->convertMFRATE($PA_MerchantFee, true);
-					$MF = $this->my_lib->computeMF($totalFV, $percentMF);
+					$MF = $this->my_lib->computeMF($totalFV, ($PA_MerchantFee * 100));
 					
 					/*BUILD PA DETAIL INFO*/		 			
 					$where_paD['PA_ID'] = $PA_ID;	
@@ -892,15 +899,15 @@ class OfflineProcess extends MX_Controller {
 								$update_detail['NUM_PASSES'] = $row['totalPasses'];
 								$update_detail['TOTAL_FV'] = $totalFV;
 								$update_detail['MARKETING_FEE'] = $MF; 
-								$update_detail['VAT'] = $this->my_lib->computeVAT($totalFV, $percentMF, $VAT);
-								$update_detail['NET_DUE'] = $this->my_lib->computeNETDUE($totalFV, $percentMF, $VAT);
+								$update_detail['VAT'] = $this->my_lib->computeVAT($totalFV, ($PA_MerchantFee * 100), $VAT);
+								$update_detail['NET_DUE'] = $this->my_lib->computeNETDUE($totalFV, ($PA_MerchantFee * 100), $VAT);
 								$update_detail['DATE_CREATED'] = $rowPAD->DATE_CREATED;
 							
 							$this->Sys_model->u_paD($whereUpdate, $update_detail);						
 							echo '<pre> 1 UPDATE RECORD : PA_DID '.$rowPAD->PA_DID.' Branch:'.$rowPAD->BRANCH_ID.'<br />'; print_r($update_detail); echo '</pre>';
 							
 						}else if($rowPAD->NET_DUE == 99999.99999 && $rowPAD->TOTAL_FV == $totalFV){							
-							$update_detail['NET_DUE'] = $this->my_lib->computeNETDUE($totalFV, $percentMF, $VAT);							
+							$update_detail['NET_DUE'] = $this->my_lib->computeNETDUE($totalFV, ($PA_MerchantFee * 100), $VAT);							
 							
 							 $this->Sys_model->u_paD($whereUpdate, $update_detail);	 					
 							echo '<pre> 2 UPDATE RECORD NET_DUE : PA_DID '.$rowPAD->PA_DID.' Branch:'.$rowPAD->BRANCH_ID.'<br />'; print_r($update_detail); echo '</pre>';

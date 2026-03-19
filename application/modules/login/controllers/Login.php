@@ -14,11 +14,11 @@ class Login extends MX_Controller {
 		
 		$config['useragent'] = 'PHPMailer'; // Mail engine switcher: 'CodeIgniter' or 'PHPMailer'
 		$config['mailpath']         = '/usr/sbin/sendmail';
-		$config['protocol'] = getenv('MAIL_DRIVER');
-		$config['smtp_host'] = getenv('MAIL_HOST');
-		$config['smtp_port'] = getenv('MAIL_PORT'); 
-		$config['smtp_user'] = getenv('MAIL_USERNAME');
-		$config['smtp_pass'] = getenv('MAIL_PASSWORD'); 
+		$config['protocol'] = getenv('MAIL_DRIVER') ? getenv('MAIL_DRIVER') : 'smtp';
+		$config['smtp_host'] = getenv('MAIL_HOST') ? getenv('MAIL_HOST') : 'smtp.sendgrid.net';
+		$config['smtp_port'] = getenv('MAIL_PORT') ? getenv('MAIL_PORT') : '587';
+		$config['smtp_user'] = getenv('MAIL_USERNAME') ? getenv('MAIL_USERNAME') : 'apikey';
+		$config['smtp_pass'] = getenv('MAIL_PASSWORD') ? getenv('MAIL_PASSWORD') : getenv('SENDGRID_API_KEY');
 		$config['smtp_timeout']     = 5;                        // (in seconds)
 		$config['wordwrap']         = true;
 		$config['wrapchars']        = 76;
@@ -57,7 +57,7 @@ class Login extends MX_Controller {
 		if(!$this->uri->segment(3)) redirect('login');	
 		$where['activation_code'] = $this->uri->segment(3);
 		$checkCode = $this->User_model->user_info($where, '', 'status');
-		if(count($checkCode) != 0){
+		if($checkCode->num_rows() != 0){
 			$stat = $checkCode->row('status');
 			if($stat == 0){
 				$this->activate_stat = true;
@@ -92,11 +92,11 @@ class Login extends MX_Controller {
 			$data['erros_msg'] = '<span class="error">Please select company</span>';	
 			$this->my_layout->layout('login/index', $data);
 		}else{	
-			$str = $this->db->escape_str($this->input->post('username', true));
+			$str = $this->input->post('username', true);
 			if(empty(valid_email($str))) $where['user_name'] = $str;	
 			else $where['email'] = $str;	
 			
-			$where['password'] = $this->db->escape_str($this->auth->encrypt_encode($this->input->post('password', true), true));
+			$where['password'] = $this->auth->encrypt_encode($this->input->post('password', true), true);
 			$row = $this->User_model->user_info($where);
 			$u_id = $row->row('user_id');
 				
@@ -150,11 +150,11 @@ class Login extends MX_Controller {
 	public function account_check($str){ 
 		$pass = $this->input->post('password', true);
 		
-		if(empty(valid_email($str))) $arr['user.user_name'] = $this->db->escape_str($str);	
-		else $arr['user.email'] = $this->db->escape_str($str);	
+		if(empty(valid_email($str))) $arr['user_name'] = $str;
+		else $arr['email'] = $str;
 		
-		$arr['user.password'] = $this->auth->encrypt_encode($this->db->escape_str($pass), true);
-		if($this->activate_stat == false) $arr['user.status'] = 1;
+		$arr['password'] = $this->auth->encrypt_encode($pass, true);
+		if($this->activate_stat == false) $arr['status'] = 1;
 		
 		if($this->User_model->check_user($arr, true) == 0){
 			$this->form_validation->set_message('account_check', 'Invalid username or password!');
@@ -178,7 +178,7 @@ class Login extends MX_Controller {
 		if ($this->form_validation->run() !== FALSE){
 			$where['email'] = $this->input->post('email', true);
 			$row = $this->User_model->user_info($where);
-			if(count($row) != 0 ){			
+			if($row->num_rows() != 0 ){
 				$toEmail = $row->row('email');
 				$toName = (empty($row->row('full_name')) ? $row->row('user_name') : $row->row('full_name'));
 				$email = $this->sdx_email->reset_password($toEmail, $toName); 

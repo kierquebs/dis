@@ -126,7 +126,7 @@ class My_lib extends MX_Controller{
 	 * @param boolean $dateOnly
 	 * @return datetime
 	 */
-	public function setDate($date = null, $dateOnly = false, $completeDate = false) {
+	public function setDate(?string $date = null, bool $dateOnly = false, bool $completeDate = false): string {
 		$time = now();	
 		if($completeDate == true) $format = ('%Y-%m-%d %H:%i:%s %A');	
 		else  $format = ('%Y-%m-%d %H:%i:%s');	
@@ -137,7 +137,7 @@ class My_lib extends MX_Controller{
 	}
 	
 	public function convertDate($orgDate, $format = 'mm/dd/YYYY') {
-		if(empty($date)) return '';
+		if(empty($orgDate)) return '';
 		
 		return date($format, strtotime($orgDate));
 	}
@@ -203,7 +203,7 @@ class My_lib extends MX_Controller{
 		$timestamp = strtotime('next Sunday');
 		$days = array();
 		for ($i = 0; $i < 7; $i++) {
-			$days[] = strftime('%A', $timestamp);
+			$days[] = date('l', $timestamp);
 			$timestamp = strtotime('+1 day', $timestamp);
 		}
 		return $days;
@@ -280,10 +280,9 @@ class My_lib extends MX_Controller{
 	*/	
 	public function computeVAT($totalFV, $MF, $vatCond = 0.12, $ROUND = TRUE){
 		$mfRATE = $this->computeMF($totalFV, $MF, '', FALSE);
-		$total = ($mfRATE * $vatCond); 
-		if($ROUND == false) return $total; 
-		else return round($total, 2); 
-		return $total;
+		$total = ($mfRATE * $vatCond);
+		if($ROUND == false) return $total;
+		else return round($total, 2);
 	}
 	public function checkVAT($vatCond){
 		if ($vatCond == 'Taxable') return 0.12;
@@ -320,18 +319,18 @@ class My_lib extends MX_Controller{
 	* FORMULA FOR PA NUMBER
 	*/	
 	public function paNumber($PAID, $decode = false){
-		$prefix = 'Z';		 
+		$prefix = 'Z';
 		$minimum = 6;
-		$str = str_repeat(0, $minimum);
-		$PAID_Num = strlen($PAID);
-		
+		$str = str_repeat('0', $minimum);
+		$PAID_Num = strlen((string)$PAID);
+
 		if($PAID_Num < $minimum){
-			if($decode == true) $sub_str = ltrim($PAID, 0);
-			else $sub_str = substr_replace($str, $PAID,($minimum - $PAID_Num), $PAID_Num);
+			if($decode == true) $sub_str = ltrim((string)$PAID, '0');
+			else $sub_str = substr_replace($str, (string)$PAID, ($minimum - $PAID_Num), $PAID_Num);
 		}else  $sub_str = $PAID;
 
-		if($decode == true) return ltrim(strtoupper($sub_str), $prefix);
-		else return $prefix.$sub_str; 
+		if($decode == true) return ltrim(strtoupper((string)$sub_str), $prefix);
+		else return $prefix.$sub_str;
 	}
 
 	/**
@@ -355,9 +354,9 @@ class My_lib extends MX_Controller{
 		 */
 		$str = explode(',', trim($panum));
 		if(count($str) !=0){
-			$arr = array(); 
-			for($x=0; $x < count($str); $x++){ 
-				if($not_pa <> false) $arr[] = str_replace('+','',urlencode($str[$x])); 
+			$arr = array();
+			for($x=0; $x < count($str); $x++){
+				if($not_pa != false) $arr[] = str_replace('+','',urlencode($str[$x]));
 				else $arr[] = $this->paNumber(str_replace('+','',urlencode($str[$x])), true);
 			}	
 			$str = implode(',', $arr);
@@ -407,7 +406,7 @@ class My_lib extends MX_Controller{
 	 * convert TIN number format
 	 */
 	 public function setTin($TIN){
-		$count = STRLEN($TIN);
+		$count = strlen($TIN);
 		if($count == 12 || $count == 14){
 			$TIN = trim(str_replace('-', '', $TIN));
 			//add "-" every 3 numbers
@@ -448,7 +447,7 @@ class My_lib extends MX_Controller{
 	/**
 	 * validation for Face Value Name
 	 */
-	public function validateAM_Billable($AM = '', $BillableName){
+	public function validateAM_Billable($AM = '', $BillableName = ''){
 		$houseArr = array();
 		$houseArr[] ='SPI House Account';
 		$houseArr[] ='SM House Account';
@@ -464,7 +463,7 @@ class My_lib extends MX_Controller{
 	 */
 	public function read_barcode($BARCODE, $lookFor = ''){
 		//CHECK LENGTH OF BARCODE = must be 20 CHAR
-		if(empty($BARCODE) || strlen($BARCODE) <> 20) return false;
+		if(empty($BARCODE) || strlen($BARCODE) != 20) return false;
 
 		$BARCODE = trim($BARCODE);
 		$return['VID_EXT'] = substr($BARCODE,0,4);

@@ -3,7 +3,7 @@
 	<div class="search-txt-div">
 		<input type="text" name="search" class="form-search form-control" style="width:300px" placeholder="Merchant ID or NAME" />
 		<input type="text" name="branch" class="form-search form-control" style="width:300px" placeholder="Branch ID or NAME" />
-		<input type="text" name="panumber" class="form-search form-control" style="width:150px" placeholder="PA NUMBER" <?php if(!empty($PA_NUMBER)) echo 'value='.$PA_NUMBER;?> />
+		<input type="text" name="panumber" class="form-search form-control" style="width:150px" placeholder="PA NUMBER" <?php if(!empty($PA_NUMBER)) echo 'value="'.htmlspecialchars($PA_NUMBER, ENT_QUOTES, 'UTF-8').'"';?> />
 		<input type="text" name="voucher" class="form-search form-control" style="width:500px" placeholder="VOUCHER CODE" />
 		<br />
 		<select class="form-control" name="stat">

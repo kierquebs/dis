@@ -337,7 +337,7 @@ class Sys_model extends CI_Model{
 			
 			$result = $query1->result();
 		// Access the first result object and retrieve the value of the column
-			return $result[0]->id;
+			return !empty($result) ? $result[0]->id : '';
 		}
 		/* original code below
 		$this->db->insert('redemption',$arr);		
@@ -349,7 +349,8 @@ class Sys_model extends CI_Model{
 		$this->db->update('redemption',$update);
 	}
 
-	public function getTransaction($where = '', $count = false, $page = '', $GROUP_BY = 'redeem.REDEEM_ID, redeem.PROD_ID'){
+	public function getTransaction($where = '', $count = false, $page = '', $GROUP_BY = ''){
+		if(empty($GROUP_BY)) $GROUP_BY = 'redeem.REDEEM_ID, redeem.PROD_ID';
 		/*
 		** RAW SQL
 		//amount, recon_status, settlement_status, 		
@@ -550,11 +551,11 @@ class Sys_model extends CI_Model{
 	/*
 	** QUERY ACTION FOR TBL cp_product
 	*/
-	public function v_product($where = null, $count = false, $select = null){
-		$this->db->from('cp_product');	
-		if(!empty($where)) $this->db->where($where);	
-		
-		if($select <> null) $this->db->select($select);
+	public function v_product(mixed $where = null, bool $count = false, mixed $select = null){
+		$this->db->from('cp_product');
+		if(!empty($where)) $this->db->where($where);
+
+		if($select !== null) $this->db->select($select);
 		if($count == true){
 			$this->db->select('SERVICE_ID');
 			$result =  $this->db->count_all_results();
@@ -681,13 +682,13 @@ class Sys_model extends CI_Model{
 		return $result;
 	}
 
-	public function v_paH_new($where = null, $count = false, $select = null, $userIds){
+	public function v_paH_new($where = null, $count = false, $select = null, $userIds = null){
 		
 
 		$this->db->from('pa_header');	
 		if(!empty($where)){
 			$this->db->where($where);	
-			$this->db->where_in('USER_ID', $userIds);
+			$this->db->where_in('USER_ID', explode(',', $userIds));
 		} 
 		
 		if($select <> null) $this->db->select($select);
@@ -813,7 +814,7 @@ class Sys_model extends CI_Model{
 		
 		
 		$dormancyWhere = '';
-		if($dormancy <> false){
+		if($dormancy != false){
 			$dormancyWhere = " AND mer.MerchantType = 'Merchant Dormancy' ";
 		} 
 
@@ -862,7 +863,7 @@ class Sys_model extends CI_Model{
 		}
 		
 		$dormancyWhere = '';
-		if($dormancy <> false){
+		if($dormancy != false){
 			$dormancyWhere = " AND mer.MerchantType = 'Merchant Dormancy' ";
 		} 
 
@@ -1008,7 +1009,7 @@ class Sys_model extends CI_Model{
 		
 		
 		$dormancyWhere = '';
-		if($dormancy <> false){
+		if($dormancy != false){
 			$dormancyWhere = " AND mer.MerchantType = 'Merchant Dormancy' ";
 		} 
 
@@ -1057,7 +1058,7 @@ class Sys_model extends CI_Model{
 		}
 		
 		$dormancyWhere = '';
-		if($dormancy <> false){
+		if($dormancy != false){
 			$dormancyWhere = " AND mer.MerchantType = 'Merchant Dormancy' ";
 		} 
 
@@ -1794,8 +1795,7 @@ class Sys_model extends CI_Model{
 				SUM(paD.NUM_PASSES) NUM_PASSES,
 				SUM(paD.TOTAL_FV) TOTAL_FV,
 				SUM(paD.VAT) VAT,
-				SUM(paD.NET_DUE) NET_DUE,				
-				SUM(paD.TOTAL_REFUND) TOTAL_REFUND';
+				SUM(paD.NET_DUE) NET_DUE';
 		}else $select = 'paD.BRANCH_ID';
 
 		/* remove -- 
@@ -1815,7 +1815,7 @@ class Sys_model extends CI_Model{
 				and br.MERCHANT_ID = paH.MERCHANT_ID
 			".$where."
 			GROUP BY paD.BRANCH_ID, paH.MERCHANT_ID, paH.PA_ID
-			ORDER BY paD.DATE_CREATED asc
+			ORDER BY paH.PA_ID asc
 			".$limit."
 			");
 			/* OLD -- GROUP BY paD.RECON_ID, paD.BRANCH_ID, paH.MERCHANT_ID */
@@ -2979,9 +2979,8 @@ public function bulk_RECONCILED(){
 			SET 
 			T3.REDEEM_TBL_ID = T2.ID, 
 			T3.STAGE = T2.STAGE
-			WHERE 
+			WHERE
 			T2.PROD_ID = T3.PROD_ID
-			AND T2.VOUCHER_CODE = T3.VOUCHER_CODE
 			AND T2.TRANSACTION_VALUE = T3.TRANSACTION_VALUE
 			AND T3.REDEEM_TBL_ID = 0
 			AND T3.PA_ID = 0 	
@@ -3145,12 +3144,12 @@ public function bulk_RECONCILED(){
 
 	function getLastPaDate() {
 		$query = $this->db->query("
-			select DATE(DATE_CREATED) as `date`
+			select DATE(REIMBURSEMENT_DATE) as `date`
 			from pa_header
 			where GENERATED = 1
-			ORDER BY DATE_CREATED DESC
+			ORDER BY REIMBURSEMENT_DATE DESC
 			limit 1
-			"); 
+			");
 
 		return $query->result();
 	}
@@ -3158,10 +3157,10 @@ public function bulk_RECONCILED(){
 	function getPaIdFromLastPaDate($date){
 		$query = $this->db->query("
 				select PA_ID from pa_header
-				where DATE_CREATED
-				like '%" . $date . "%'
+				where DATE(REIMBURSEMENT_DATE)
+				= '" . $date . "'
 				and GENERATED = 1
-			"); 
+			");
 
 		return $query->result();
 	}

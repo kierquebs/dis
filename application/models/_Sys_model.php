@@ -191,7 +191,8 @@ class Sys_model extends CI_Model{
 			$this->db->insert('redemption',$arr);
 		return $this->db->insert_id();
 	}	
-	public function getTransaction($where = '', $count = false, $page = '', $GROUP_BY = 'redeem.REDEEM_ID, redeem.PROD_ID'){
+	public function getTransaction($where = '', $count = false, $page = '', $GROUP_BY = ''){
+		if(empty($GROUP_BY)) $GROUP_BY = 'redeem.REDEEM_ID, redeem.PROD_ID';
 		/*
 		** RAW SQL
 		//amount, recon_status, settlement_status, 		

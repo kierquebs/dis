@@ -31,7 +31,7 @@ class Redeem extends MX_Controller {
 	public function upload_redeem(){
 		$map = directory_map('./to_upload/redemption/', FALSE, TRUE);
 		
-		if(count($map) == 0){
+		if(!is_array($map) || count($map) == 0){
 			log_message('info', 'REDEEM:: EMPTY FOLDER');
 			echo 'EMPTY FOLDER'; exit();
 		}
@@ -52,7 +52,8 @@ class Redeem extends MX_Controller {
 		
 				echo "Do not close this window - ONGOING PROCESSING <br /> <pre>";
 				for($i=0;$i<count($result_data);$i++){
-					$recordID = $DigitalSettlementType = $u_refundWhere = $whereRefund = $where = '';
+					$recordID = $DigitalSettlementType = '';
+				$u_refundWhere = $whereRefund = $where = array();
 
 					//CHECK PAYMENT_CUTOFF DigitalSettlementType
 					$check_pcf = $this->Sys_model->v_cutoff(array('MERCHANT_ID'=>$result_data[$i]['MERCHANT_ID']), false, 'MERCHANT_ID, DigitalSettlementType', 'MERCHANT_ID');

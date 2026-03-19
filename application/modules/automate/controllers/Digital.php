@@ -42,9 +42,9 @@ class Digital extends MX_Controller {
 		/**
 		   date coverage -> all transaction of previous day
 		*/		
-	   $date = new DateTime(); 
-	   $previousDate = $date->modify("-1 days")->format('m/d/yy'); 
-		   if(isset($_GET['date'])) $previousDate = $_GET['date']; 
+	   $date = new DateTime();
+	   $previousDate = $date->modify("-1 days")->format('m/d/Y');
+		   if(isset($_GET['date'])) $previousDate = $_GET['date'];
 	   $where = " AND TO_CHAR(cs.START_DATE, 'mm/dd/yyyy') ='".$previousDate."'";
 		   if(isset($_GET['month'])){
 			   $previousDate = $_GET['month'];  
@@ -53,10 +53,10 @@ class Digital extends MX_Controller {
 	   
 	   $result =  $this->Corepass_model->getDigitalSOAOrder($where);
 	   
-	   if($result->num_rows() != 0 ){
+	   if($result && $result->num_rows() != 0 ){
 		   $arr = $this->_interface_si_result($result); 		
 		   
-		   $module['filename'] = 'SI_'.date('mdY',now()).'_001'; //CIC_SOA_MMDDYYYY_01.csv 
+		   $module['filename'] = 'SI_'.date('mdY',time()).'_001'; //CIC_SOA_MMDDYYYY_01.csv 
 		   return $this->download_file->_cic_si_remittance($module, $arr, $serverDl);
 	   }
 	} 
@@ -67,7 +67,7 @@ class Digital extends MX_Controller {
 			$newRow = new stdClass();
 			$newRow->RECORD_TYPE = 'H';
 			$newRow->SOA = 'SI';
-			$newRow->TIN = $this->my_lib->setTin($temp_row->TIN);
+			$newRow->TIN = $this->my_lib->setTin($temp_row->TIN) ?: $temp_row->TIN;
 			$newRow->LegalName = $temp_row->LEGALNAME;
 			$newRow->SOA_NUMBER = $temp_row->SOA_NUMBER;
 			$newRow->ORDER_ID = $this->my_lib->paNumber($temp_row->ORDER_ID, false, ''); 
@@ -97,15 +97,15 @@ class Digital extends MX_Controller {
 			$newRow->nav_detail = array();
 			if($return_detail){
 				//log_message('error', 'With SI ' . $newRow->ORDER_ID);
-				$newRow->nav_detail = $return_detail['nav_detail'];
+				$newRow->nav_detail = $return_detail['nav_detail'] ?? [];
 				/*
 				* get computation from the _detail_result
 				* NET_BILLABLE sumOfBillablItem  = without tax
 				  * GROSS_BILLABLE sumOfBillablItem = with tax 
 				*/	
 				$newRow->DISCOUNT = $return_detail['TOTAL_DISCOUNT']; //DISCOUNT CALCULATION  -- change to total amount of rebate billable item
-				$newRow->AMOUNT =  ($newRow->DISCOUNT <> 0 ? $return_detail['X_GROSS_BILLABLE'] : $return_detail['GROSS_BILLABLE']); //TOTAL PAYMENT (SUM of base amount per billable ITEM less Discount Billable)
-				$newRow->TOTAL_AMOUNT = ($newRow->DISCOUNT <> 0 ? $return_detail['X_NET_BILLABLE'] : $return_detail['NET_BILLABLE']); //NET AMOUNT CALCULATION
+				$newRow->AMOUNT =  ($newRow->DISCOUNT != 0 ? $return_detail['X_GROSS_BILLABLE'] : $return_detail['GROSS_BILLABLE']); //TOTAL PAYMENT (SUM of base amount per billable ITEM less Discount Billable)
+				$newRow->TOTAL_AMOUNT = ($newRow->DISCOUNT != 0 ? $return_detail['X_NET_BILLABLE'] : $return_detail['NET_BILLABLE']); //NET AMOUNT CALCULATION
 			}else{
 				//log_message('error', 'WITHOUT SI ' . $newRow->ORDER_ID . ' <<<<');
 			}
@@ -125,11 +125,14 @@ class Digital extends MX_Controller {
 	 
 	 private function _interface_client($serverDl = true){
 		$date = new DateTime();
-		$previousDate = $date->modify("-1 days")->format('m/d/yy');
+		$previousDate = $date->modify("-1 days")->format('m/d/Y');
 			if(isset($_GET['date'])) $previousDate = $_GET['date'];
 			
 			if(isset($_GET['cpid'])) $where = " AND EC.COMPANY_ID = '".$_GET['cpid']."'";
-			else if(isset($_GET['grpcpid'])) $where = " AND EC.COMPANY_ID IN (".getenv('dm_groupid').")"; 
+			else if(isset($_GET['grpcpid'])) {
+				$dm_groupid = getenv('dm_groupid') !== false ? getenv('dm_groupid') : '';
+				$where = " AND EC.COMPANY_ID IN (".$dm_groupid.")";
+			}
 			else $where = " AND TO_CHAR(ECGD.CREATION_DATE, 'mm/dd/yyyy') = '".$previousDate."'";
 			
 			if(isset($_GET['month'])){
@@ -140,7 +143,7 @@ class Digital extends MX_Controller {
 		$result =  $this->Corepass_model->getQueryDigitalClients($where);	
 		if($result->num_rows() != 0 ){
 			$arr = $this->_interface_client_result($result);			
-			$module['filename'] = 'DC_'.date('mdY',now()).'_01'; //CIC_CLIENT_MMDDYYYY_01.csv
+			$module['filename'] = 'DC_'.date('mdY',time()).'_01'; //CIC_CLIENT_MMDDYYYY_01.csv
 			return $this->download_file->_cic_client($module, $arr, $serverDl);
 		}
 	 }
@@ -153,7 +156,7 @@ class Digital extends MX_Controller {
 			foreach($temp_transac->result() as $data){
 				$newRow = new stdClass();
 				foreach ($fields as $field){
-					if($field <> 'AGREEMENT_ID'){
+					if($field != 'AGREEMENT_ID'){
 						if($field == 'CP_ID' && $data->$field != '') $newRow->$field =  $this->my_lib->digitalID($data->$field);
 						else if(($field == 'TIN' || $field == 'GROUPTIN') && $data->$field != '') $newRow->$field = $this->my_lib->setTin($data->$field);
 						else $newRow->$field =  $data->$field;	
@@ -165,7 +168,7 @@ class Digital extends MX_Controller {
 				$ContactNumber = 'ContactNumber';
 				$InsertType = 'InsertType';
 				$contact = $this->Corepass_model->getQueryAgreementDigitalRole($AGREEMENT_ID); //Digital POC
-				if($contact->num_rows() <> 0){
+				if($contact->num_rows() != 0){
 					$contact = $contact->result();
 					$newRow->$ContactPerson = $contact[0]->FULLNAME;
 					$newRow->$ContactNumber = $contact[0]->CONTACT;
@@ -189,7 +192,7 @@ class Digital extends MX_Controller {
 			date coverage -> all transaction of previous day
 		 */		
 		$date = new DateTime(); 
-		$previousDate = $date->modify("-1 days")->format('m/d/yy'); 
+		$previousDate = $date->modify("-1 days")->format('m/d/Y'); 
 			if(isset($_GET['date'])) $previousDate = $_GET['date']; 
 		$where = " AND TO_CHAR(cs.START_DATE, 'mm/dd/yyyy') ='".$previousDate."'";
 			if(isset($_GET['month'])){
@@ -205,12 +208,12 @@ class Digital extends MX_Controller {
 		
 		// return true;
 		
-		if($result->num_rows() != 0 ){
-			$arr = $this->_interface_soa_result($result); 
-			
-			// log_message('error', json_encode($arr, JSON_PRETTY_PRINT));		
-			
-			$module['filename'] = 'DO_'.date('mdY',now()).'_001'; //CIC_SOA_MMDDYYYY_01.csv 
+		if($result && $result->num_rows() != 0 ){
+			$arr = $this->_interface_soa_result($result);
+
+			// log_message('error', json_encode($arr, JSON_PRETTY_PRINT));
+
+			$module['filename'] = 'DO_'.date('mdY',time()).'_001'; //CIC_SOA_MMDDYYYY_01.csv
 			//echo '<pre>';print_r($arr); echo '</pre>';die();
 			return $this->download_file->_cic_soa_remittance($module, $arr, $serverDl);
 		}
@@ -221,7 +224,7 @@ class Digital extends MX_Controller {
 			$newRow = new stdClass();
 			$newRow->RECORD_TYPE = 'H';
 			$newRow->SOA = 'SOA';
-			$newRow->TIN = $this->my_lib->setTin($temp_row->TIN);
+			$newRow->TIN = $this->my_lib->setTin($temp_row->TIN) ?: $temp_row->TIN;
 			$newRow->LegalName = $temp_row->LEGALNAME;
 			$newRow->SOA_NUMBER = $temp_row->SOA_NUMBER;
 			$newRow->ORDER_ID = $this->my_lib->paNumber($temp_row->ORDER_ID, false, ''); 
@@ -237,21 +240,21 @@ class Digital extends MX_Controller {
 			$whereD = 'AND ECD.N_ACCOUNTINGDOCUMENT = '.$temp_row->SOA_NUMBER.' AND TCO.N_CREDITORDER = '.$temp_row->ORDER_ID.' AND EA.SERVICE_ID = '.$temp_row->SERVICE_ID;	
 			$resultDetail = $this->Corepass_model->getDigitalSOAOrderBillable($whereD);				
 			$return_detail = $this->_detail_result($resultDetail, $temp_row->SERVICE_ID,  $temp_row->ACCOUNT_MANAGER, $newRow->DELIVERED_DATE);	
-			$newRow->nav_detail = $return_detail['nav_detail'];
+			$newRow->nav_detail = $return_detail['nav_detail'] ?? [];
 			/*
 			* get computation from the _detail_result
 			* NET_BILLABLE sumOfBillablItem  = without tax
-			* GROSS_BILLABLE sumOfBillablItem = with tax 
-			*/	
-			$newRow->DISCOUNT = $return_detail['TOTAL_DISCOUNT']; //DISCOUNT CALCULATION  -- change to total amount of rebate billable item
-			$newRow->AMOUNT =  ($newRow->DISCOUNT <> 0 ? $return_detail['X_GROSS_BILLABLE'] : $return_detail['GROSS_BILLABLE']); //TOTAL PAYMENT (SUM of base amount per billable ITEM less Discount Billable)
-			$newRow->TOTAL_AMOUNT = ($newRow->DISCOUNT <> 0 ? $return_detail['X_NET_BILLABLE'] : $return_detail['NET_BILLABLE']); //NET AMOUNT CALCULATION
-			$arr[] = $newRow; 
+			* GROSS_BILLABLE sumOfBillablItem = with tax
+			*/
+			$newRow->DISCOUNT = $return_detail['TOTAL_DISCOUNT'] ?? 0; //DISCOUNT CALCULATION  -- change to total amount of rebate billable item
+			$newRow->AMOUNT =  ($newRow->DISCOUNT != 0 ? ($return_detail['X_GROSS_BILLABLE'] ?? 0) : ($return_detail['GROSS_BILLABLE'] ?? 0)); //TOTAL PAYMENT (SUM of base amount per billable ITEM less Discount Billable)
+			$newRow->TOTAL_AMOUNT = ($newRow->DISCOUNT != 0 ? ($return_detail['X_NET_BILLABLE'] ?? 0) : ($return_detail['NET_BILLABLE'] ?? 0)); //NET AMOUNT CALCULATION
+			$arr[] = $newRow;
 		}
 		return $arr;
 	}
 			private function _detail_result($result, $SERVICE_ID, $ACCOUNT_MANAGER, $DELIVERED_DATE){
-				if($result->num_rows() == 0) return "";				
+				if(!$result || $result->num_rows() == 0) return [];				
 				
 				$GROSS_BILLABLE = $NET_BILLABLE = $TOTAL_DISCOUNT = 0;
 				$X_GROSS_BILLABLE = $X_NET_BILLABLE = 0;
@@ -271,19 +274,19 @@ class Digital extends MX_Controller {
 						
 						$newRow->ISSUANCE_DATE = $newRow->VAT_COND =  $newRow->VAT_OUTPUT = '';					
 						
-						if($temp_row->B_FACEVALUE <> 'T'){
+						if($temp_row->B_FACEVALUE != 'T'){
 							$newRow->BILLABLE_ITEM = $temp_row->BILLABLE_CATEG_NAME;//.'_'.$temp_row->BILLABLE_CATEG_ID;
 							
 							$BILLABLE_AMOUNT = $temp_row->BILLABLE_AMOUNT;
 							if($temp_row->B_CREDIT == 'T'){ //DISCOUNT BILLABLES
-								$newRow->CREDIT_VALUE = intval('-'.$BILLABLE_AMOUNT);
+								$newRow->CREDIT_VALUE = -1 * (float)$BILLABLE_AMOUNT;
 								$GROSS_BILLABLE -= $BILLABLE_AMOUNT;
 								$NET_BILLABLE -= $BILLABLE_AMOUNT;		
 								$X_GROSS_BILLABLE -= $BILLABLE_AMOUNT;	
 								$X_NET_BILLABLE -= $BILLABLE_AMOUNT;									
 							}else{							
 								$newRow->VAT_COND = $temp_row->VATCON_TYPENAME;
-								$newRow->VAT_OUTPUT = $this->my_lib->computeBillVAT($BILLABLE_AMOUNT, $temp_row->VAT_PERCENT); 						
+								$newRow->VAT_OUTPUT = $this->my_lib->computeBillVAT($BILLABLE_AMOUNT, $temp_row->VAT_PERCENT ?? 0); 						
 								$newRow->CREDIT_VALUE = $this->my_lib->computeBillIncVAT($BILLABLE_AMOUNT, $newRow->VAT_OUTPUT);
 								
 								$GROSS_BILLABLE += $newRow->CREDIT_VALUE;
@@ -342,7 +345,7 @@ class Digital extends MX_Controller {
 		$where = "AND ECG.COMPANYGROUPTYPE_ID = 308 AND ECG.COMPANYGROUP_ID = 1262"; //PROD 
 		
 		$date = new DateTime();
-		$previousDate = $date->modify("-1 days")->format('m/d/yy');
+		$previousDate = $date->modify("-1 days")->format('m/d/Y');
 			if(isset($_GET['date'])) $previousDate = $_GET['date'];
 		$where .= " AND to_char(ECGD.CREATION_DATE, 'mm/dd/yyyy') ='".$previousDate."'";	 
 		//$where .= " AND to_char(ECGD.CREATION_DATE, 'mm/dd/yyyy') >= '09/14/2020' AND to_char(ECGD.CREATION_DATE, 'mm/dd/yyyy') <= '09/16/2020'";
@@ -350,7 +353,7 @@ class Digital extends MX_Controller {
 		
 		if($result->num_rows() != 0 ){
 			$arr = $this->_interface_merchant_result($result);			
-			$module['filename'] = 'CM_'.date('mdY',now()).'_01'; //DM_MMDDYYYY_01.csv
+			$module['filename'] = 'CM_'.date('mdY',time()).'_01'; //DM_MMDDYYYY_01.csv
 			//echo '<pre>'; print_r($arr); echo '</pre>'; die();
 			return $this->download_file->_cic_merchant($module, $arr, $serverDl);
 		}
@@ -375,7 +378,7 @@ class Digital extends MX_Controller {
 						$fields2 = $getAgreement->list_fields(); 							
 						foreach($getAgreement->result() as $data2){
 							foreach ($fields2 as $field2){
-								if($field2 <> 'AGREEMENT_ID'){
+								if($field2 != 'AGREEMENT_ID'){
 									if($field2 == 'ADDRESS'){
 										$address = $this->Corepass_model->getQueryAddress($data2->$field2)->result();
 										$arrMerchantData->$field2 = $address[0]->ADDRESS;
@@ -386,7 +389,7 @@ class Digital extends MX_Controller {
 							}						
 						}	
 						$contact = $this->Corepass_model->getQueryAgreementRole($AGREEMENT_ID);
-						if($contact->num_rows() <> 0){
+						if($contact->num_rows() != 0){
 							$ContactPerson = 'ContactPerson';
 							$ContactNumber = 'ContactNumber';
 							$contact = $contact->result();
@@ -416,14 +419,14 @@ class Digital extends MX_Controller {
 		*/
 	   
 	   $date = new DateTime();
-	   $previousDate = $date->modify("-1 days")->format('m/d/yy');
+	   $previousDate = $date->modify("-1 days")->format('m/d/Y');
 			if(isset($_GET['date'])) $previousDate = $_GET['date'];
 	   $where = "to_char(remrhph.d_expected, 'mm/dd/yyyy') ='".$previousDate."'";  
 	   //$where = "to_char(remrhph.d_expected, 'mm/dd/yyyy') >= '09/14/2020' AND to_char(remrhph.d_expected, 'mm/dd/yyyy') <= '09/16/2020'";
 	   $result =  $this->Corepass_model->getQueryMerRemittance($where);	
 	   if($result->num_rows() != 0 ){
 		   $arr = $this->_interface_remittance_result($result); 
-		   $module['filename'] = 'CI_'.date('mdY',now()).'_01'; //DR_MMDDYYYY_01.csv 
+		   $module['filename'] = 'CI_'.date('mdY',time()).'_01'; //DR_MMDDYYYY_01.csv 
 		//echo '<pre>';print_r($arr); echo '</pre>';die();
 		   return $this->download_file->_cic_mer_remittance($module, $arr, $serverDl);
 	   }
@@ -435,7 +438,7 @@ class Digital extends MX_Controller {
 			$newRow = new stdClass();
 			$newRow->RECORD_TYPE = 'H';
 			$newRow->CI = 'CI';
-			$newRow->TIN = $this->my_lib->setTin($temp_row->TIN);
+			$newRow->TIN = $this->my_lib->setTin($temp_row->TIN) ?: $temp_row->TIN;
 			$newRow->LegalName = $temp_row->LEGALNAME;
 			$newRow->REMITTANCE_ID = $temp_row->REMITTANCE_ID;
 			$newRow->RS_NUMBER = $temp_row->RS_NUMBER; 
@@ -451,24 +454,24 @@ class Digital extends MX_Controller {
 			$whereD = 'AND RT.n_remittancerequest = '.$temp_row->REMITTANCE_ID.' AND EA.SERVICE_ID = '.$temp_row->SERVICE_ID;	
 			$resultDetail = $this->Corepass_model->getDigitalRemittanceBillable($whereD);				
 			$return_detail = $this->_remittance_detail_result($resultDetail, $newRow->SERVICE_ID,  $temp_row->ACCOUNT_MANAGER, $newRow->CREDITED_DATE);	
-			$newRow->nav_detail = $return_detail['nav_detail'];
+			$newRow->nav_detail = $return_detail['nav_detail'] ?? [];
 			
 			/*
 			* get computation from the _detail_result
 			* NET_BILLABLE sumOfBillablItem  = without tax
 			* GROSS_BILLABLE sumOfBillablItem = with tax
 			*/	
-			$newRow->DISCOUNT = $return_detail['TOTAL_DISCOUNT']; //DISCOUNT CALCULATION
-			$newRow->AMOUNT = $return_detail['GROSS_BILLABLE']; //TOTAL PAYMENT (SUM of base amount per billable ITEM less Discount Billable)
-			$newRow->TOTAL_AMOUNT = $return_detail['NET_BILLABLE']; //NET AMOUNT CALCULATION
+			$newRow->DISCOUNT     = $return_detail['TOTAL_DISCOUNT'] ?? 0; //DISCOUNT CALCULATION
+			$newRow->AMOUNT       = $return_detail['GROSS_BILLABLE'] ?? 0; //TOTAL PAYMENT (SUM of base amount per billable ITEM less Discount Billable)
+			$newRow->TOTAL_AMOUNT = $return_detail['NET_BILLABLE']   ?? 0; //NET AMOUNT CALCULATION
 			$arr[] = $newRow; 
 		}
 		return $arr;
 	}
 
 	private function _remittance_detail_result($result, $SERVICE_ID, $ACCOUNT_MANAGER, $DELIVERED_DATE){
-		if($result->num_rows() == 0) return "";				
-		
+		if(!$result || $result->num_rows() == 0) return [];
+
 		/*
 		Record Type
 		Service ID
@@ -489,7 +492,7 @@ class Digital extends MX_Controller {
 			
 			$newRow->ISSUANCE_DATE = $newRow->VAT_COND =  $newRow->VAT_OUTPUT = '';					
 			
-			if($temp_row->B_FACEVALUE <> 'T'){
+			if($temp_row->B_FACEVALUE != 'T'){
 				$newRow->BILLABLE_ITEM = str_replace('(remittance)','',$temp_row->BILLABLE_CATEG_NAME);  //$temp_row->BILLABLE_CATEG_NAME;
 				
 				$BILLABLE_AMOUNT = $temp_row->BILLABLE_AMOUNT;
@@ -498,7 +501,7 @@ class Digital extends MX_Controller {
 					$TOTAL_DISCOUNT += $BILLABLE_AMOUNT;
 				}else{							
 					$newRow->VAT_COND = $temp_row->VATCON_TYPENAME;
-					$newRow->VAT_OUTPUT = $this->my_lib->computeBillVAT($BILLABLE_AMOUNT, $temp_row->VAT_PERCENT); 						
+					$newRow->VAT_OUTPUT = $this->my_lib->computeBillVAT($BILLABLE_AMOUNT, $temp_row->VAT_PERCENT ?? 0); 						
 					$newRow->CREDIT_VALUE = $this->my_lib->computeBillIncVAT($BILLABLE_AMOUNT, $newRow->VAT_OUTPUT);							
 					$GROSS_BILLABLE += $newRow->CREDIT_VALUE;
 					$NET_BILLABLE += $BILLABLE_AMOUNT;

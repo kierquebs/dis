@@ -1,11 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$config['protocol'] = getenv('MAIL_DRIVER');
-$config['smtp_host'] = 'avm414.sgvps.net'; //getenv('MAIL_HOST');
-$config['smtp_port'] = getenv('MAIL_PORT'); 
-$config['smtp_user'] = getenv('MAIL_USERNAME');
-$config['smtp_pass'] = getenv('MAIL_PASSWORD'); 
+$config['protocol'] = getenv('MAIL_DRIVER') ? getenv('MAIL_DRIVER') : 'smtp';
+$config['smtp_host'] = getenv('MAIL_HOST') ? getenv('MAIL_HOST') : 'avm414.sgvps.net';
+$config['smtp_port'] = getenv('MAIL_PORT') ? getenv('MAIL_PORT') : '587';
+$config['smtp_user'] = getenv('MAIL_USERNAME') ? getenv('MAIL_USERNAME') : 'apikey';
+$config['smtp_pass'] = getenv('MAIL_PASSWORD') ? getenv('MAIL_PASSWORD') : '';
 
 /*
 $config['smtp_crypto'] = getenv('MAIL_ENCRYPTION'); //tls or ssl

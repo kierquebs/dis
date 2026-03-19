@@ -16,7 +16,7 @@ class Wrecon extends MX_Controller {
 		$this->form_validation->run($this);
 		if($this->auth->role_all($this->MODULE_ID) == false) redirect('404_override');
 		
-		$this->checkUpload = getenv('checkUpload'); //UPLOADS
+		$this->checkUpload = getenv('checkUpload') !== false ? getenv('checkUpload') : 1; //UPLOADS
 	}
 	
 	public function index(){ 
@@ -48,10 +48,10 @@ class Wrecon extends MX_Controller {
 	public function get_item(){
 		if(!$this->input->is_ajax_request()) exit('No direct script access allowed');
 		
-		$dateWhere = $data['result'] = ''; 
+		$dateWhere = $data['result'] = '';
 		$DateToday = $this->my_layout->setDate('', true);
-		//*FILTER SEARCH		
-		$pcfWHere = $data['day'] = $data['date'] =  $data['terms'] = $where = ''; 
+		//*FILTER SEARCH
+		$pcfWHere = $data['day'] = $data['date'] =  $data['terms'] = $where = $where_date = '';
 
 		$data['date_coverage'] = $data['date_today'] = $data['where'] = $data['per_page'] = $data['offset'] = $data['total'] =  $data['result'] = '';				
 				
@@ -78,7 +78,7 @@ class Wrecon extends MX_Controller {
 						$data['date'] =  $date = htmlentities($this->input->get('date', true));
 						$dateWhere = $this->my_lib->setCFDate($date);
 						if(strlen ($date) <= 1){
-							$SPECIFIC_DATE = " AND TRIM( BOTH '}' FROM (TRIM(BOTH '{' FROM pcf.SPECIFIC_DATE))) in (".$date.") "; 
+							$SPECIFIC_DATE = " AND REPLACE(REPLACE(pcf.SPECIFIC_DATE, '{', ''), '}', '') in (".$date.") ";
 						}else {
 							$SPECIFIC_DATE =  ' AND pcf.SPECIFIC_DATE like "%'.$date.'%"'; 
 						}
@@ -105,7 +105,7 @@ class Wrecon extends MX_Controller {
 		exit();
 	}
 	
-		private function arr_result($temp_transac, $export = false, $where_date, $dateWhere){
+		private function arr_result($temp_transac, $export, $where_date, $dateWhere){
 			$arr = array();
 			foreach($temp_transac as $temp_row){ 
 				$newRow = new stdClass(); 						
@@ -165,9 +165,9 @@ class Wrecon extends MX_Controller {
 			if(isset($_POST['date'])  && $_POST['date'] != '' ){
 				$date = htmlentities($this->input->post('date', true));
 				if(strlen ($date) <= 1){						
-					$where .= " AND TRIM( BOTH '}' FROM (TRIM(BOTH '{' FROM pcf.SPECIFIC_DATE))) in (".$date.") "; 
+					$where .= " AND REPLACE(REPLACE(pcf.SPECIFIC_DATE, '{', ''), '}', '') in (".$date.") ";
 				}else{
-					$where .= ' AND pcf.SPECIFIC_DATE like "%'.$date.'%"'; 
+					$where .= ' AND pcf.SPECIFIC_DATE like "%'.$date.'%"';
 				}
 				$where .= $where_date = ' AND DATE_FORMAT(recon.RECON_DATE_TIME, "%Y-%m-%d") <= "'.$this->my_lib->setCFDate($date).'"'; //$this->my_lib->current_date()
 			}	
@@ -234,8 +234,8 @@ class Wrecon extends MX_Controller {
 				if(isset($_POST['date'])  && $_POST['date'] != '' ){
 					$date = htmlentities($this->input->post('date', true));
 					if(strlen ($date) <= 1){
-						$where .= " AND TRIM( BOTH '}' FROM (TRIM(BOTH '{' FROM pcf.SPECIFIC_DATE))) in (".$date.") "; 
-						$whereRefund .= " AND TRIM( BOTH '}' FROM (TRIM(BOTH '{' FROM pcf.SPECIFIC_DATE))) in (".$date.") "; 
+						$where .= " AND REPLACE(REPLACE(pcf.SPECIFIC_DATE, '{', ''), '}', '') in (".$date.") ";
+						$whereRefund .= " AND REPLACE(REPLACE(pcf.SPECIFIC_DATE, '{', ''), '}', '') in (".$date.") ";
 					}else{
 						$where .= ' AND pcf.SPECIFIC_DATE like "%'.$date.'%"'; 
 						$whereRefund .= ' AND pcf.SPECIFIC_DATE like "%'.$date.'%"'; 
@@ -249,7 +249,7 @@ class Wrecon extends MX_Controller {
 			$this->load->helper('my_helper');
 			
 			$PA_ARR = array(); $whereMerchant = $PA_ID = '';
-			for($i=0; $i<=$countProcess; $i++){
+			for($i=0; $i<$countProcess; $i++){
 				if(!empty($toProcess[$i])){
 					/*CREATE PA HEADER*/
 					$whereMerchant = ' AND br.MERCHANT_ID = "'.$toProcess[$i].'"'; 					
@@ -275,7 +275,8 @@ class Wrecon extends MX_Controller {
 							if(!empty($PA_ID)){		
 								$PA_ARR[] = $PA_ID;
 								foreach ($v as $row) {		
-									$show = $whereAFFCODE = $u_paH = $insert_detail =  $where_paD = '';						
+									$show = $whereAFFCODE = '';
+									$u_paH = $insert_detail = $where_paD = [];
 									/*
 									** fields available for process table **
 										recon.RECON_ID,
@@ -306,7 +307,7 @@ class Wrecon extends MX_Controller {
 									
 									if($row['merAFFCODE'] <> $row['brAFFCODE']){
 										$whereAFFCODE['CP_ID'] =  $row['CPID'];
-										$whereAFFCODE['AffiliateGroupCode'] = trim($row['brAFFCODE']);
+										$whereAFFCODE['AffiliateGroupCode'] = trim((string)$row['brAFFCODE']);
 										$getAFFCODE =  $this->Sys_model->v_agreement($whereAFFCODE, false);	
 										if($getAFFCODE->num_rows() <> 0){
 											$rowAFFCODE = $getAFFCODE->row();													
@@ -320,17 +321,18 @@ class Wrecon extends MX_Controller {
 									$VAT = $this->my_lib->checkVAT($PA_VAT);								
 									$totalFV = $row['totalAmount'];
 									$percentMF = $this->my_lib->convertMFRATE($PA_MerchantFee, true);
+									$numericMF = (float)($PA_MerchantFee * 100); // numeric % for calculation functions (e.g. 2.0 for a 2% fee)
 									$totalRefund = ($row['refundPostAmount'] == NULL ? 0 : $row['refundPostAmount']); //total amount of refund 																		
 									
 									$totalMFV = $totalFV - $totalRefund;
 									if($totalMFV < 0) $totalMFV = 0;
-									$MF = $this->my_lib->computeMF($totalMFV, $percentMF, '', false);
+									$MF = $this->my_lib->computeMF($totalMFV, $numericMF, '', false);
 									
 									/*BUILD PA DETAIL INFO*/		 	 		
 									$where_paD['PA_ID'] = $insert_detail['PA_ID'] = $PA_ID;
 									$where_paD['RECON_ID'] = $insert_detail['RECON_ID'] = $row['RECON_ID'];		
 									$where_paD['BRANCH_ID'] = $insert_detail['BRANCH_ID'] = $row['BRANCH_ID'];
-									$insert_detail['RATE'] = $percentMF;
+									$insert_detail['RATE'] = $PA_MerchantFee; // store decimal rate (e.g. 0.02), not '2%' string
 									$insert_detail['NUM_PASSES'] = $row['totalPasses'];
 									$insert_detail['TOTAL_FV'] = $totalFV;
 									$insert_detail['TOTAL_REFUND'] = $totalRefund;
@@ -342,8 +344,8 @@ class Wrecon extends MX_Controller {
 										$insert_detail['NET_DUE'] = 0;
 									}else{
 										$insert_detail['MARKETING_FEE'] = $MF; 
-										$insert_detail['VAT'] = $this->my_lib->computeVAT($totalMFV, $percentMF, $VAT, FALSE); 
-										$insert_detail['NET_DUE'] = $this->my_lib->computeNETDUE($totalMFV, $percentMF, $VAT, FALSE);
+										$insert_detail['VAT'] = $this->my_lib->computeVAT($totalMFV, $numericMF, $VAT, FALSE); 
+										$insert_detail['NET_DUE'] = $this->my_lib->computeNETDUE($totalMFV, $numericMF, $VAT, FALSE);
 									}
 																	
 									$checkPAD = $this->Sys_model->v_paD($where_paD, true);									

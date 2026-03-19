@@ -7,7 +7,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class SysPA extends MX_Controller {
+class Syspa extends MX_Controller {
 	public function	__construct(){
 
 	parent::__construct();	

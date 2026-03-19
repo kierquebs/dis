@@ -1,36 +1,36 @@
-<?php 
+<?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Auth extends MX_Controller{
 	private $CI;
 	public $REDIRECT_URL;
-	
+
 	function __construct(){
 		$this->CI = &get_instance();
 		$this->CI->load->config('config');
 		$this->CI->load->library('session');
 		$this->REDIRECT_URL = $this->CI->config->item('base_url');
 	}
-	function default_pass($textonly = false){	
+	function default_pass($textonly = false){
 		$defTxt = 'p@55123';
 		//$defTxt = 12345;
-		
+
 		if($textonly != false) return $defTxt;
-		else return $this->encrypt_encode($defTxt, true); 
+		else return $this->encrypt_encode($defTxt, true);
 	}
 	function encrypt_encode($msg, $sha1 = false){
 			if(empty($msg)) return false;
 		if($sha1 == true) return sha1($msg);
-		else return $this->encrypt->encode($msg);
+		else return $this->encryption->encrypt($msg);
 	}
 	function ecrypt_decode($msg){
 			if(empty($msg)) return false;
-		$encrypted_string = $this->encrypt->decode($msg);
+		$encrypted_string = $this->encryption->decrypt($msg);
 		return $encrypted_string;
 	}
 	/**
      * Session Checking
-	 * @param session_userdata 
+	 * @param session_userdata
 	 * @return session status
      */
 	public function check_session(){
@@ -42,18 +42,18 @@ class Auth extends MX_Controller{
 		if($this->get_usertype() != 1){
 			if($redirect == true )redirect('login');
 			else return false;
-		}	
+		}
 		return true;
 	}
 	public function role_all($moduleID){
 		$all_access = $this->user_allaccess();
-			if(empty($all_access)) $all_access = array();	
+			if(empty($all_access)) $all_access = array();
 		if(in_array($moduleID, $all_access)) return true;
 		else return false;
 	}
 	/**
      * Create Session
-	 * @param $user_info 
+	 * @param $user_info
 	 * @return set session
      */
 	public function set_session($user_info){
@@ -72,7 +72,7 @@ class Auth extends MX_Controller{
 		$session[$dataName] = $newVal;
 		$this->CI->session->set_userdata($session);
 	}
-	
+
 	public function unset_userdata($dataName){
 		$unset_array[$dataName] = '';
 		$this->CI->session->unset_userdata($unset_array);
@@ -96,7 +96,7 @@ class Auth extends MX_Controller{
 	}
 	/**
      * GET SESSION USERNAME
-	 * @return username 
+	 * @return username
      */
 	function get_usertype(){
 		return $this->CI->session->userdata('dis_usertype');

@@ -249,7 +249,7 @@ class PHPExcel_Shared_Font
      * @param     PHPExcel_Style_Font|NULL    $defaultFont    Font object
      * @return     integer        Column width
      */
-    public static function calculateColumnWidth(PHPExcel_Style_Font $font, $cellText = '', $rotation = 0, PHPExcel_Style_Font $defaultFont = null)
+    public static function calculateColumnWidth(PHPExcel_Style_Font $font, $cellText = '', $rotation = 0, ?PHPExcel_Style_Font $defaultFont = null)
     {
         // If it is rich text, use plain text
         if ($cellText instanceof PHPExcel_RichText) {
@@ -287,7 +287,7 @@ class PHPExcel_Shared_Font
         }
 
         // Convert from pixel width to column width
-        $columnWidth = PHPExcel_Shared_Drawing::pixelsToCellDimension($columnWidth, $defaultFont);
+        $columnWidth = PHPExcel_Shared_Drawing::pixelsToCellDimension($defaultFont, $columnWidth);
 
         // Return
         return round($columnWidth, 6);
@@ -337,7 +337,7 @@ class PHPExcel_Shared_Font
      * @param int $rotation
      * @return int Text width in pixels (no padding added)
      */
-    public static function getTextWidthPixelsApprox($columnText, PHPExcel_Style_Font $font = null, $rotation = 0)
+    public static function getTextWidthPixelsApprox($columnText, ?PHPExcel_Style_Font $font = null, $rotation = 0)
     {
         $fontName = $font->getName();
         $fontSize = $font->getSize();
