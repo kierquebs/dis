@@ -2070,7 +2070,7 @@ class PHPExcel_Calculation
     );
 
 
-    public function __construct(??PHPExcel $workbook = null)
+    public function __construct(?PHPExcel $workbook = null)
     {
         $this->delta = 1 * pow(10, 0 - ini_get('precision'));
 
