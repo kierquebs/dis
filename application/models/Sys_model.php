@@ -814,7 +814,7 @@ class Sys_model extends CI_Model{
 		
 		
 		$dormancyWhere = '';
-		if($dormancy <> false){
+		if($dormancy != false){
 			$dormancyWhere = " AND mer.MerchantType = 'Merchant Dormancy' ";
 		} 
 
@@ -863,7 +863,7 @@ class Sys_model extends CI_Model{
 		}
 		
 		$dormancyWhere = '';
-		if($dormancy <> false){
+		if($dormancy != false){
 			$dormancyWhere = " AND mer.MerchantType = 'Merchant Dormancy' ";
 		} 
 
@@ -1009,7 +1009,7 @@ class Sys_model extends CI_Model{
 		
 		
 		$dormancyWhere = '';
-		if($dormancy <> false){
+		if($dormancy != false){
 			$dormancyWhere = " AND mer.MerchantType = 'Merchant Dormancy' ";
 		} 
 
@@ -1058,7 +1058,7 @@ class Sys_model extends CI_Model{
 		}
 		
 		$dormancyWhere = '';
-		if($dormancy <> false){
+		if($dormancy != false){
 			$dormancyWhere = " AND mer.MerchantType = 'Merchant Dormancy' ";
 		} 
 
