@@ -1,0 +1,2054 @@
+
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: 8192</p>
+<p>Message:  Optional parameter $sheetIndex declared before required parameter $rangeBounds is implicitly treated as a required parameter</p>
+<p>Filename: Excel5/Workbook.php</p>
+<p>Line Number: 833</p>
+
+
+	<p>Backtrace:</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Autoloader.php<br />
+			Line: 79<br />
+			Function: _error_handler			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Autoloader.php<br />
+			Line: 79<br />
+			Function: require			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 126<br />
+			Function: load			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 95<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 257<br />
+			Function: _callDownload			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\modules\summary\controllers\Summary.php<br />
+			Line: 89<br />
+			Function: summary_report			</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\index.php<br />
+			Line: 327<br />
+			Function: require_once			</p>
+
+
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Warning</p>
+<p>Message:  "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"?</p>
+<p>Filename: Shared/OLE.php</p>
+<p>Line Number: 288</p>
+
+
+	<p>Backtrace:</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Autoloader.php<br />
+			Line: 79<br />
+			Function: _error_handler			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Autoloader.php<br />
+			Line: 79<br />
+			Function: require			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 169<br />
+			Function: load			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 95<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 257<br />
+			Function: _callDownload			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\modules\summary\controllers\Summary.php<br />
+			Line: 89<br />
+			Function: summary_report			</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\index.php<br />
+			Line: 327<br />
+			Function: require_once			</p>
+
+
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: 8192</p>
+<p>Message:  Optional parameter $pValue declared before required parameter $pDefaultFont is implicitly treated as a required parameter</p>
+<p>Filename: Shared/Drawing.php</p>
+<p>Line Number: 73</p>
+
+
+	<p>Backtrace:</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Autoloader.php<br />
+			Line: 79<br />
+			Function: _error_handler			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Autoloader.php<br />
+			Line: 79<br />
+			Function: require			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\Font.php<br />
+			Line: 290<br />
+			Function: load			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Worksheet.php<br />
+			Line: 747<br />
+			Function: calculateColumnWidth			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5\Worksheet.php<br />
+			Line: 288<br />
+			Function: calculateColumnWidths			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 175<br />
+			Function: close			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 95<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 257<br />
+			Function: _callDownload			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\modules\summary\controllers\Summary.php<br />
+			Line: 89<br />
+			Function: summary_report			</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\index.php<br />
+			Line: 327<br />
+			Function: require_once			</p>
+
+
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: 8192</p>
+<p>Message:  Optional parameter $pValue declared before required parameter $pDefaultFont is implicitly treated as a required parameter</p>
+<p>Filename: Shared/Drawing.php</p>
+<p>Line Number: 98</p>
+
+
+	<p>Backtrace:</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Autoloader.php<br />
+			Line: 79<br />
+			Function: _error_handler			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Autoloader.php<br />
+			Line: 79<br />
+			Function: require			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\Font.php<br />
+			Line: 290<br />
+			Function: load			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Worksheet.php<br />
+			Line: 747<br />
+			Function: calculateColumnWidth			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5\Worksheet.php<br />
+			Line: 288<br />
+			Function: calculateColumnWidths			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 175<br />
+			Function: close			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 95<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 257<br />
+			Function: _callDownload			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\modules\summary\controllers\Summary.php<br />
+			Line: 89<br />
+			Function: summary_report			</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\index.php<br />
+			Line: 327<br />
+			Function: require_once			</p>
+
+
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: 8192</p>
+<p>Message:  Implicit conversion from float 40095.7890625 to int loses precision</p>
+<p>Filename: Shared/OLE.php</p>
+<p>Line Number: 484</p>
+
+
+	<p>Backtrace:</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE.php<br />
+			Line: 484<br />
+			Function: _error_handler			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 829<br />
+			Function: LocalDate2OLE			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 194<br />
+			Function: writeSummaryInformation			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 95<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 257<br />
+			Function: _callDownload			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\modules\summary\controllers\Summary.php<br />
+			Line: 89<br />
+			Function: summary_report			</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\index.php<br />
+			Line: 327<br />
+			Function: require_once			</p>
+
+
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: 8192</p>
+<p>Message:  Implicit conversion from float 156.62417602539062 to int loses precision</p>
+<p>Filename: Shared/OLE.php</p>
+<p>Line Number: 484</p>
+
+
+	<p>Backtrace:</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE.php<br />
+			Line: 484<br />
+			Function: _error_handler			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 829<br />
+			Function: LocalDate2OLE			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 194<br />
+			Function: writeSummaryInformation			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 95<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 257<br />
+			Function: _callDownload			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\modules\summary\controllers\Summary.php<br />
+			Line: 89<br />
+			Function: summary_report			</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\index.php<br />
+			Line: 327<br />
+			Function: require_once			</p>
+
+
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: 8192</p>
+<p>Message:  Implicit conversion from float 122039.58203125 to int loses precision</p>
+<p>Filename: Shared/OLE.php</p>
+<p>Line Number: 489</p>
+
+
+	<p>Backtrace:</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE.php<br />
+			Line: 489<br />
+			Function: _error_handler			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 829<br />
+			Function: LocalDate2OLE			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 194<br />
+			Function: writeSummaryInformation			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 95<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 257<br />
+			Function: _callDownload			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\modules\summary\controllers\Summary.php<br />
+			Line: 89<br />
+			Function: summary_report			</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\index.php<br />
+			Line: 327<br />
+			Function: require_once			</p>
+
+
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: 8192</p>
+<p>Message:  Implicit conversion from float 476.7171173095703 to int loses precision</p>
+<p>Filename: Shared/OLE.php</p>
+<p>Line Number: 489</p>
+
+
+	<p>Backtrace:</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE.php<br />
+			Line: 489<br />
+			Function: _error_handler			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 829<br />
+			Function: LocalDate2OLE			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 194<br />
+			Function: writeSummaryInformation			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 95<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 257<br />
+			Function: _callDownload			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\modules\summary\controllers\Summary.php<br />
+			Line: 89<br />
+			Function: summary_report			</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\index.php<br />
+			Line: 327<br />
+			Function: require_once			</p>
+
+
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: 8192</p>
+<p>Message:  Implicit conversion from float 1.862176239490509 to int loses precision</p>
+<p>Filename: Shared/OLE.php</p>
+<p>Line Number: 489</p>
+
+
+	<p>Backtrace:</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE.php<br />
+			Line: 489<br />
+			Function: _error_handler			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 829<br />
+			Function: LocalDate2OLE			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 194<br />
+			Function: writeSummaryInformation			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 95<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 257<br />
+			Function: _callDownload			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\modules\summary\controllers\Summary.php<br />
+			Line: 89<br />
+			Function: summary_report			</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\index.php<br />
+			Line: 327<br />
+			Function: require_once			</p>
+
+
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: 8192</p>
+<p>Message:  Implicit conversion from float 40095.7890625 to int loses precision</p>
+<p>Filename: Shared/OLE.php</p>
+<p>Line Number: 484</p>
+
+
+	<p>Backtrace:</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE.php<br />
+			Line: 484<br />
+			Function: _error_handler			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 838<br />
+			Function: LocalDate2OLE			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 194<br />
+			Function: writeSummaryInformation			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 95<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 257<br />
+			Function: _callDownload			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\modules\summary\controllers\Summary.php<br />
+			Line: 89<br />
+			Function: summary_report			</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\index.php<br />
+			Line: 327<br />
+			Function: require_once			</p>
+
+
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: 8192</p>
+<p>Message:  Implicit conversion from float 156.62417602539062 to int loses precision</p>
+<p>Filename: Shared/OLE.php</p>
+<p>Line Number: 484</p>
+
+
+	<p>Backtrace:</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE.php<br />
+			Line: 484<br />
+			Function: _error_handler			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 838<br />
+			Function: LocalDate2OLE			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 194<br />
+			Function: writeSummaryInformation			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 95<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 257<br />
+			Function: _callDownload			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\modules\summary\controllers\Summary.php<br />
+			Line: 89<br />
+			Function: summary_report			</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\index.php<br />
+			Line: 327<br />
+			Function: require_once			</p>
+
+
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: 8192</p>
+<p>Message:  Implicit conversion from float 122039.58203125 to int loses precision</p>
+<p>Filename: Shared/OLE.php</p>
+<p>Line Number: 489</p>
+
+
+	<p>Backtrace:</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE.php<br />
+			Line: 489<br />
+			Function: _error_handler			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 838<br />
+			Function: LocalDate2OLE			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 194<br />
+			Function: writeSummaryInformation			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 95<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 257<br />
+			Function: _callDownload			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\modules\summary\controllers\Summary.php<br />
+			Line: 89<br />
+			Function: summary_report			</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\index.php<br />
+			Line: 327<br />
+			Function: require_once			</p>
+
+
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: 8192</p>
+<p>Message:  Implicit conversion from float 476.7171173095703 to int loses precision</p>
+<p>Filename: Shared/OLE.php</p>
+<p>Line Number: 489</p>
+
+
+	<p>Backtrace:</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE.php<br />
+			Line: 489<br />
+			Function: _error_handler			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 838<br />
+			Function: LocalDate2OLE			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 194<br />
+			Function: writeSummaryInformation			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 95<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 257<br />
+			Function: _callDownload			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\modules\summary\controllers\Summary.php<br />
+			Line: 89<br />
+			Function: summary_report			</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\index.php<br />
+			Line: 327<br />
+			Function: require_once			</p>
+
+
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: 8192</p>
+<p>Message:  Implicit conversion from float 1.862176239490509 to int loses precision</p>
+<p>Filename: Shared/OLE.php</p>
+<p>Line Number: 489</p>
+
+
+	<p>Backtrace:</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE.php<br />
+			Line: 489<br />
+			Function: _error_handler			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 838<br />
+			Function: LocalDate2OLE			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 194<br />
+			Function: writeSummaryInformation			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 95<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 257<br />
+			Function: _callDownload			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\modules\summary\controllers\Summary.php<br />
+			Line: 89<br />
+			Function: summary_report			</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\index.php<br />
+			Line: 327<br />
+			Function: require_once			</p>
+
+
+
+
+</div>��ࡱ�                ;  ��	                                ����       ������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������         ����            	   
+         
+                                                   ����       !   ����������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������                      �����Oh�� +'��0   �         @      H      \      t      �   
+   �      �      �        PA SUMMARY        Unknown Creator       Unknown Creator @    ʟ����@    ʟ����                                           	   �
+��    B  �=      �%r8      X"    1  �    �      C a l i b r i 1  �    �      C a l i b r i �      ��   �        	�      ��   �        	�      ��   �        	�      ��   �        	�      ��   �        	�      ��   �        	�      ��   �        	�      ��   �        	�      ��   �        	�      ��   �        	�      ��   �        	�      ��   �        	�      ��   �        	�      ��   �        	�      ��   �        	�          �        	�       (  �        	�      (  �        	�  � �� � 8     ��� �    �    � ��  � �  �� �    �    � ��  � �  �� ��� ��� ��� �3f ��� ��� f f ���  f� ���   � � � ��   �� � � �    ��   �  �� ��� ��� ��� ��� ��� ̙� �̙ 3f� 3�� ��  ��  ��  �f  ff� ���  3f 3�f  3  33  �3  �3f 33� 333 �  m    	W o r k s h e e t � �  g� �           � 	   	    P A Y M E N T   A D V I C E   I D  M E R C H A N T   I D 
+ M E R C H A N T   N A M E  T O T A L   A M O U N T  P A Y M E N T   D U E   D A T E  Z 0 0 0 0 1 0  S a m p l e   M e r c h a n t   6 7 7   I n c 	 2 8 , 1 2 7 . 4 3 
+ 2 0 2 6 - 0 3 - 1 8 
+   	   �
+��    *    +    �   �          �  �        �    �    &  ffffff�?'  ffffff�?(        �?)        �?� "  d     XX333333�?333333�? U   }      #     }    �
+     }    "     }    H     }    $	                        �       � 
+          � 
+        � 
+        � 
+        � 
+        � 
+                 (�@� 
+       � 
+       � 
+       > �    @     d     � �          d              g g           �����  
+      ��                      ��՜.�� +,��0   �         H      P      X      `      h      p   
+   x      �      �                                         
+   Worksheet            Feuilles de calcul                                                                                                                                                                                                                                                                                                                                                                                                                              
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: 8192</p>
+<p>Message:  Implicit conversion from float 40095.7890625 to int loses precision</p>
+<p>Filename: Shared/OLE.php</p>
+<p>Line Number: 484</p>
+
+
+	<p>Backtrace:</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE.php<br />
+			Line: 484<br />
+			Function: _error_handler			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE\PPS.php<br />
+			Line: 185<br />
+			Function: LocalDate2OLE			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE\PPS\Root.php<br />
+			Line: 364<br />
+			Function: _getPpsWk			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE\PPS\Root.php<br />
+			Line: 104<br />
+			Function: _savePps			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 214<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 95<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 257<br />
+			Function: _callDownload			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\modules\summary\controllers\Summary.php<br />
+			Line: 89<br />
+			Function: summary_report			</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\index.php<br />
+			Line: 327<br />
+			Function: require_once			</p>
+
+
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: 8192</p>
+<p>Message:  Implicit conversion from float 156.62417602539062 to int loses precision</p>
+<p>Filename: Shared/OLE.php</p>
+<p>Line Number: 484</p>
+
+
+	<p>Backtrace:</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE.php<br />
+			Line: 484<br />
+			Function: _error_handler			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE\PPS.php<br />
+			Line: 185<br />
+			Function: LocalDate2OLE			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE\PPS\Root.php<br />
+			Line: 364<br />
+			Function: _getPpsWk			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE\PPS\Root.php<br />
+			Line: 104<br />
+			Function: _savePps			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 214<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 95<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 257<br />
+			Function: _callDownload			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\modules\summary\controllers\Summary.php<br />
+			Line: 89<br />
+			Function: summary_report			</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\index.php<br />
+			Line: 327<br />
+			Function: require_once			</p>
+
+
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: 8192</p>
+<p>Message:  Implicit conversion from float 122039.58203125 to int loses precision</p>
+<p>Filename: Shared/OLE.php</p>
+<p>Line Number: 489</p>
+
+
+	<p>Backtrace:</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE.php<br />
+			Line: 489<br />
+			Function: _error_handler			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE\PPS.php<br />
+			Line: 185<br />
+			Function: LocalDate2OLE			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE\PPS\Root.php<br />
+			Line: 364<br />
+			Function: _getPpsWk			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE\PPS\Root.php<br />
+			Line: 104<br />
+			Function: _savePps			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 214<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 95<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 257<br />
+			Function: _callDownload			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\modules\summary\controllers\Summary.php<br />
+			Line: 89<br />
+			Function: summary_report			</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\index.php<br />
+			Line: 327<br />
+			Function: require_once			</p>
+
+
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: 8192</p>
+<p>Message:  Implicit conversion from float 476.7171173095703 to int loses precision</p>
+<p>Filename: Shared/OLE.php</p>
+<p>Line Number: 489</p>
+
+
+	<p>Backtrace:</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE.php<br />
+			Line: 489<br />
+			Function: _error_handler			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE\PPS.php<br />
+			Line: 185<br />
+			Function: LocalDate2OLE			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE\PPS\Root.php<br />
+			Line: 364<br />
+			Function: _getPpsWk			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE\PPS\Root.php<br />
+			Line: 104<br />
+			Function: _savePps			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 214<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 95<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 257<br />
+			Function: _callDownload			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\modules\summary\controllers\Summary.php<br />
+			Line: 89<br />
+			Function: summary_report			</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\index.php<br />
+			Line: 327<br />
+			Function: require_once			</p>
+
+
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: 8192</p>
+<p>Message:  Implicit conversion from float 1.862176239490509 to int loses precision</p>
+<p>Filename: Shared/OLE.php</p>
+<p>Line Number: 489</p>
+
+
+	<p>Backtrace:</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE.php<br />
+			Line: 489<br />
+			Function: _error_handler			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE\PPS.php<br />
+			Line: 185<br />
+			Function: LocalDate2OLE			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE\PPS\Root.php<br />
+			Line: 364<br />
+			Function: _getPpsWk			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE\PPS\Root.php<br />
+			Line: 104<br />
+			Function: _savePps			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 214<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 95<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 257<br />
+			Function: _callDownload			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\modules\summary\controllers\Summary.php<br />
+			Line: 89<br />
+			Function: summary_report			</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\index.php<br />
+			Line: 327<br />
+			Function: require_once			</p>
+
+
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: 8192</p>
+<p>Message:  Implicit conversion from float 40095.7890625 to int loses precision</p>
+<p>Filename: Shared/OLE.php</p>
+<p>Line Number: 484</p>
+
+
+	<p>Backtrace:</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE.php<br />
+			Line: 484<br />
+			Function: _error_handler			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE\PPS.php<br />
+			Line: 186<br />
+			Function: LocalDate2OLE			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE\PPS\Root.php<br />
+			Line: 364<br />
+			Function: _getPpsWk			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE\PPS\Root.php<br />
+			Line: 104<br />
+			Function: _savePps			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 214<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 95<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 257<br />
+			Function: _callDownload			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\modules\summary\controllers\Summary.php<br />
+			Line: 89<br />
+			Function: summary_report			</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\index.php<br />
+			Line: 327<br />
+			Function: require_once			</p>
+
+
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: 8192</p>
+<p>Message:  Implicit conversion from float 156.62417602539062 to int loses precision</p>
+<p>Filename: Shared/OLE.php</p>
+<p>Line Number: 484</p>
+
+
+	<p>Backtrace:</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE.php<br />
+			Line: 484<br />
+			Function: _error_handler			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE\PPS.php<br />
+			Line: 186<br />
+			Function: LocalDate2OLE			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE\PPS\Root.php<br />
+			Line: 364<br />
+			Function: _getPpsWk			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE\PPS\Root.php<br />
+			Line: 104<br />
+			Function: _savePps			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 214<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 95<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 257<br />
+			Function: _callDownload			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\modules\summary\controllers\Summary.php<br />
+			Line: 89<br />
+			Function: summary_report			</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\index.php<br />
+			Line: 327<br />
+			Function: require_once			</p>
+
+
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: 8192</p>
+<p>Message:  Implicit conversion from float 122039.58203125 to int loses precision</p>
+<p>Filename: Shared/OLE.php</p>
+<p>Line Number: 489</p>
+
+
+	<p>Backtrace:</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE.php<br />
+			Line: 489<br />
+			Function: _error_handler			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE\PPS.php<br />
+			Line: 186<br />
+			Function: LocalDate2OLE			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE\PPS\Root.php<br />
+			Line: 364<br />
+			Function: _getPpsWk			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE\PPS\Root.php<br />
+			Line: 104<br />
+			Function: _savePps			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 214<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 95<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 257<br />
+			Function: _callDownload			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\modules\summary\controllers\Summary.php<br />
+			Line: 89<br />
+			Function: summary_report			</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\index.php<br />
+			Line: 327<br />
+			Function: require_once			</p>
+
+
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: 8192</p>
+<p>Message:  Implicit conversion from float 476.7171173095703 to int loses precision</p>
+<p>Filename: Shared/OLE.php</p>
+<p>Line Number: 489</p>
+
+
+	<p>Backtrace:</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE.php<br />
+			Line: 489<br />
+			Function: _error_handler			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE\PPS.php<br />
+			Line: 186<br />
+			Function: LocalDate2OLE			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE\PPS\Root.php<br />
+			Line: 364<br />
+			Function: _getPpsWk			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE\PPS\Root.php<br />
+			Line: 104<br />
+			Function: _savePps			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 214<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 95<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 257<br />
+			Function: _callDownload			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\modules\summary\controllers\Summary.php<br />
+			Line: 89<br />
+			Function: summary_report			</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\index.php<br />
+			Line: 327<br />
+			Function: require_once			</p>
+
+
+
+
+</div>
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: 8192</p>
+<p>Message:  Implicit conversion from float 1.862176239490509 to int loses precision</p>
+<p>Filename: Shared/OLE.php</p>
+<p>Line Number: 489</p>
+
+
+	<p>Backtrace:</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE.php<br />
+			Line: 489<br />
+			Function: _error_handler			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE\PPS.php<br />
+			Line: 186<br />
+			Function: LocalDate2OLE			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE\PPS\Root.php<br />
+			Line: 364<br />
+			Function: _getPpsWk			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Shared\OLE\PPS\Root.php<br />
+			Line: 104<br />
+			Function: _savePps			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\classes\PHPExcel\Writer\Excel5.php<br />
+			Line: 214<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 95<br />
+			Function: save			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\libraries\Download_file.php<br />
+			Line: 257<br />
+			Function: _callDownload			</p>
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\application\modules\summary\controllers\Summary.php<br />
+			Line: 89<br />
+			Function: summary_report			</p>
+
+
+
+
+
+
+			<p style="margin-left:10px">
+			File: C:\xampp\htdocs\mp_dis\index.php<br />
+			Line: 327<br />
+			Function: require_once			</p>
+
+
+
+
+</div>R o o t   E n t r y                                               ��������    	     �      F     ʟ���� ʟ����   �       S u m m a r y I n f o r m a t i o n                           (        ���� 	     �      F                        �       W o r k b o o k                                                   ������������ 	     �      F                       }       D o c u m e n t S u m m a r y I n f o r m a t i o n           8  ������������ 	     �      F                       �       ����            ������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������
