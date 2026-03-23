@@ -14,12 +14,11 @@ class Login extends MX_Controller {
 		
 		$config['useragent'] = 'PHPMailer'; // Mail engine switcher: 'CodeIgniter' or 'PHPMailer'
 		$config['mailpath']         = '/usr/sbin/sendmail';
-		$config['protocol']    = (getenv('MAIL_DRIVER')    ?: 'smtp');
-		$config['smtp_host']   = (getenv('MAIL_HOST')      ?: 'smtp.gmail.com');
-		$config['smtp_port']   = (getenv('MAIL_PORT')      ?: '587');
-		$config['smtp_crypto'] = (getenv('MAIL_ENCRYPTION') ?: 'tls');
-		$config['smtp_user']   = (getenv('MAIL_USERNAME')  ?: '');
-		$config['smtp_pass']   = (getenv('MAIL_PASSWORD')  ?: '');
+		$config['protocol']  = (getenv('MAIL_DRIVER')   ?: 'smtp');
+		$config['smtp_host'] = (getenv('MAIL_HOST')     ?: 'smtp.sendgrid.net');
+		$config['smtp_port'] = (getenv('MAIL_PORT')     ?: '587');
+		$config['smtp_user'] = (getenv('MAIL_USERNAME') ?: 'apikey');
+		$config['smtp_pass'] = (getenv('MAIL_PASSWORD') ?: getenv('SENDGRID_API_KEY'));
 		$config['smtp_timeout']     = 5;                        // (in seconds)
 		$config['wordwrap']         = true;
 		$config['wrapchars']        = 76;
