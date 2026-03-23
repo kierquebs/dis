@@ -14,11 +14,11 @@ class Login extends MX_Controller {
 		
 		$config['useragent'] = 'PHPMailer'; // Mail engine switcher: 'CodeIgniter' or 'PHPMailer'
 		$config['mailpath']         = '/usr/sbin/sendmail';
-		$config['protocol'] = getenv('MAIL_DRIVER') ? getenv('MAIL_DRIVER') : 'smtp';
-		$config['smtp_host'] = getenv('MAIL_HOST') ? getenv('MAIL_HOST') : 'smtp.sendgrid.net';
-		$config['smtp_port'] = getenv('MAIL_PORT') ? getenv('MAIL_PORT') : '587';
-		$config['smtp_user'] = getenv('MAIL_USERNAME') ? getenv('MAIL_USERNAME') : 'apikey';
-		$config['smtp_pass'] = getenv('MAIL_PASSWORD') ? getenv('MAIL_PASSWORD') : getenv('SENDGRID_API_KEY');
+		$config['protocol'] = (getenv('MAIL_DRIVER') ?: 'smtp');
+		$config['smtp_host'] = (getenv('MAIL_HOST') ?: 'smtp.sendgrid.net');
+		$config['smtp_port'] = (getenv('MAIL_PORT') ?: '587');
+		$config['smtp_user'] = (getenv('MAIL_USERNAME') ?: 'apikey');
+		$config['smtp_pass'] = (getenv('MAIL_PASSWORD') ?: getenv('SENDGRID_API_KEY'));
 		$config['smtp_timeout']     = 5;                        // (in seconds)
 		$config['wordwrap']         = true;
 		$config['wrapchars']        = 76;
@@ -182,7 +182,7 @@ class Login extends MX_Controller {
 				$toEmail = $row->row('email');
 				$toName = (empty($row->row('full_name')) ? $row->row('user_name') : $row->row('full_name'));
 				$email = $this->sdx_email->reset_password($toEmail, $toName); 
-				if($email != true)$this->my_layout->alertMsg(3, 'Email not sent!', true);
+				if($email !== true)$this->my_layout->alertMsg(3, 'Email not sent!', true);
 				else{	
 					$this->Action_model->reset_pass($row->row('user_id'));				
 					$data['alert'] = $this->my_layout->alertMsg(6, 'Email already sent!', true);
@@ -198,7 +198,11 @@ class Login extends MX_Controller {
      * @param  var  $str = email
      * @return form validation
      */
-	public function email_check($str){ 	
+	public function email_check($str){
+		if ($str === null || $str === '') {
+			$this->form_validation->set_message('email_check', 'Invalid Email');
+			return FALSE;
+		}
 		if(empty(valid_email($str))){
 			$this->form_validation->set_message('email_check', 'Invalid Email');
 			return FALSE;
