@@ -7,7 +7,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Offlineprocess extends MX_Controller {
+class offlineprocess extends MX_Controller {
 	private $get_userid;
 	
 	public function	__construct(){
