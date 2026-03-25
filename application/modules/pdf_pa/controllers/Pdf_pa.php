@@ -41,7 +41,7 @@ class Pdf_pa extends MX_Controller {
 		,4329,4328,4327,4326,4325,4324,4337,4336,4362,4361,4360,4359,4358,4357,4356,4355,4354,4353
 		,4352,4351,4350,4349,4348,4347,4346,4345,4344,4343,4342,4374,4373,4372,4371,4370,4369,4368
 		,4367,4365,4364,4377,4376,4382,4381,4380,4379,4386,4384,4389,4388);	
-		for($x = 0; $x <= count($group_pa); $x++){	
+		for($x = 0; $x < count($group_pa); $x++){
 			$this->generate($group_pa[$x], '', false, true, true);
 			echo $group_pa[$x].'<br />';
 		}
@@ -186,7 +186,7 @@ class Pdf_pa extends MX_Controller {
 				$this->generate($newPAID, '', true, true, false, false);
 			}else{
 				$return = array(); 		
-				for($x = 0; $x <= $countProcess; $x++){		
+				for($x = 0; $x < $countProcess; $x++){
 					$newPAID = $this->my_lib->paNumber($toProcess[$x], true);
 					$returnGen = $this->generate($newPAID, '', true, false, false, true);
 					$return[$returnGen['filename']] = $returnGen['filedata'];	
@@ -268,18 +268,18 @@ class Pdf_pa extends MX_Controller {
 					$result_servicesREF =  ($norecon <> "" ? $this->Sys_model->servicesREFNrecon($where, false) : $this->Sys_model->servicesREF($where, false));
 				$data['serviceREF'] = $this->arr_result($result_servicesREF);		
 			}
-			// Pre-compute service summary to avoid library calls in view (DOMPDF captures PHP errors)
-			$sumFV = $sumMF = $sumVAT = $sumND = $sumREFV = 0;
+			// Pre-compute service summary (per-service breakdown from reconciliation/redemption)
 			$serviceSummary = array();
 			$prod_arr = array();
 			foreach($data['serviceLi'] as $sr_row){
-				$totalFV      = $sr_row->TOTAL_FV;
-				$TOTAL_REFUND = $sr_row->TOTAL_REFUND;
+				$totalFV      = (float)($sr_row->TOTAL_FV ?? 0);
+				$TOTAL_REFUND = (float)($sr_row->TOTAL_REFUND ?? 0);
 				$totalMFV     = $totalFV - $TOTAL_REFUND;
-				$vatcond   = $this->my_lib->checkVAT($sr_row->vatcond);
-				$MF        = $this->my_lib->computeMF($totalMFV, $sr_row->MerchantFee, '', FALSE);
-				$VAT       = $this->my_lib->computeVAT($totalMFV, $sr_row->MerchantFee, $vatcond, FALSE);
-				$NET_DUE   = $this->my_lib->computeNETDUE($totalMFV, $sr_row->MerchantFee, $vatcond, FALSE);
+				$vatcond            = $this->my_lib->checkVAT($sr_row->vatcond);
+				$merchantFeePercent = (float)($sr_row->MerchantFee ?? 0) * 100;
+				$MF        = $this->my_lib->computeMF($totalMFV, $merchantFeePercent, '', FALSE);
+				$VAT       = $this->my_lib->computeVAT($totalMFV, $merchantFeePercent, $vatcond, FALSE);
+				$NET_DUE   = $this->my_lib->computeNETDUE($totalMFV, $merchantFeePercent, $vatcond, FALSE);
 				$serviceSummary[] = array(
 					'SERVICE_NAME' => $sr_row->SERVICE_NAME,
 					'TOTAL_FV'     => number_format($totalFV, 2),
@@ -289,13 +289,17 @@ class Pdf_pa extends MX_Controller {
 					'NET_DUE'      => number_format($NET_DUE, 2),
 				);
 				$prod_arr[] = array('name' => $sr_row->SERVICE_NAME, 'fv' => number_format($totalFV, 2));
-				$sumFV  += $totalFV;
-				$sumMF  += $MF;
-				$sumVAT += $VAT;
-				$sumND  += $NET_DUE;
 			}
-			foreach($data['refundLi'] as $ref_row){
-				$sumREFV += $ref_row->TOTALREF_FV;
+			// Compute grand totals from branch data (pa_detail) to align with the branch table
+			$sumFV = $sumMF = $sumVAT = $sumND = $sumREFV = 0;
+			foreach($branchPG as $page){
+				foreach($page as $br_row){
+					$sumFV   += (float)($br_row->TOTAL_FV ?? 0);
+					$sumMF   += (float)($br_row->MARKETING_FEE ?? 0);
+					$sumVAT  += (float)($br_row->VAT ?? 0);
+					$sumND   += (float)($br_row->NET_DUE ?? 0);
+					$sumREFV += (float)($br_row->TOTAL_REFUND ?? 0);
+				}
 			}
 			$data['serviceSummary'] = $serviceSummary;
 			$data['prod_arr']       = $prod_arr;
