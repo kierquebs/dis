@@ -68,9 +68,6 @@ class Account extends MX_Controller {
 		$this->form_validation->set_rules('passnew', 'Password', 'callback_password_check');
 		$this->form_validation->set_error_delimiters('<span class="error">', '</span>');
 		
-				if( $newPass && $rule_two_counter < 3 ){
-			$data['alert'] = $this->lib_order->alertMsg(3, 'Password must contain a minimum of three out of the four character types: 1 letter, 1 uppercase letter, 1 numberic character and 1 special character.', true);
-		}
 		
 		$data['input_passold'] = array(
 			'name' => 'passold',
@@ -139,9 +136,10 @@ class Account extends MX_Controller {
 					return FALSE;		
 				} elseif($this->hasConsecutiveCharacters($str)){
 					$this->form_validation->set_message('password_check', 'Password must be free of consecutive identical, all-numeric or all-alphabetic characters');
-				}else {
+					return FALSE;
+				} else {
 					return TRUE;
-					}
+				}
 		}
 
 
