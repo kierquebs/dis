@@ -43,8 +43,7 @@ class Sdx_email extends MX_Controller{
 		//$this->email->bcc('arced.remollo@sodexo.com');
 		$this->email->subject('Pluxee Account Information - Digital Interface Service (DIS)');
 		$this->email->message($message);		
-		$this->email->send();	
-		echo $this->email->print_debugger();
+		$this->email->send();
 		return true;
 	}
 	function email_account($toEmail, $toName, $activation, $passWORD = ''){	
@@ -71,8 +70,7 @@ class Sdx_email extends MX_Controller{
 		//$this->email->from($this->FR_EMAIL, $this->FR_NAME);
 		$this->email->subject('Pluxee Account Information - Digital Interface Service (DIS)');
 		$this->email->message($message);		
-		$this->email->send();	
-		echo $this->email->print_debugger(); die(); 
+		$this->email->send();
 		return true;
 	}
 	
