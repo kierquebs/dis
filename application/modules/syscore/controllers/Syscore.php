@@ -142,20 +142,23 @@ class Syscore extends MX_Controller {
 		
 		//get corepass mobilepass agreement
 		$getAgreement = $this->Corepass_model->getQueryAgreements($where);
-		if( $getAgreement->num_rows() != 0){			
-			$fields = $getAgreement->list_fields(); 
+		if($getAgreement === null) return;
+		if( $getAgreement->num_rows() != 0){
+			$fields = $getAgreement->list_fields();
 			foreach($getAgreement->result() as $data){
 				$arrMerchantData = array();
 				foreach ($fields as $field){
 					if($field == 'ADDRESS'){
-						$address = $this->Corepass_model->getQueryAddress($data->$field)->result();
-						$arrMerchantData[$field] = $address[0]->ADDRESS;
+						$addressResult = $this->Corepass_model->getQueryAddress($data->$field);
+						$arrMerchantData[$field] = ($addressResult !== null && $addressResult->num_rows() > 0)
+							? $addressResult->result()[0]->ADDRESS
+							: '';
 					}else if($field == 'VATCOND'){
 						$arrMerchantData[$field] = ($data->$field == 2 ? 'Exempt' : 'Taxable');
 					}else $arrMerchantData[$field] = $data->$field;				
 				}
 				$contact = $this->Corepass_model->getQueryAgreementRole($arrMerchantData['AGREEMENT_ID']); 
-				if($contact->num_rows() <> 0){
+				if($contact !== null && $contact->num_rows() <> 0){
 					$contact = $contact->result();
 					$arrMerchantData['ContactPerson'] = $contact[0]->FULLNAME;
 					$arrMerchantData['ContactNumber'] = $contact[0]->CONTACT;
@@ -590,7 +593,12 @@ class Syscore extends MX_Controller {
 		*/
 		
 		//get corepass data merchant
-		$getMerchant = $this->Corepass_model->getQueryClientV2($where);			
+		$getMerchant = $this->Corepass_model->getQueryClientV2($where);
+		if($getMerchant === null){
+			log_message('error', 'get_corepass_account_v2: Oracle DB unavailable.');
+			echo 'ERROR: Unable to connect to Corepass database.';
+			exit();
+		}
 		if( $getMerchant->num_rows() != 0){
 			$arrMerchant = array();
 			$fields = $getMerchant->list_fields(); 
@@ -599,15 +607,17 @@ class Syscore extends MX_Controller {
 				foreach ($fields as $field){
 					if($field <> 'AGREEMENT_ID'){
 						if($field == 'ADDRESS'){
-							$address = $this->Corepass_model->getQueryAddress($data->$field)->result();
-							$arrMerchantData[$field] = $address[0]->ADDRESS;
+							$addressResult = $this->Corepass_model->getQueryAddress($data->$field);
+							$arrMerchantData[$field] = ($addressResult !== null && $addressResult->num_rows() > 0)
+								? $addressResult->result()[0]->ADDRESS
+								: '';
 						}else if($field == 'VATCOND'){
 							$arrMerchantData[$field] = ($data->$field == 2 ? 'Exempt' : 'Taxable');
 						}else $arrMerchantData[$field] = $data->$field;	
 					}else $AGREEMENT_ID = $data->$field;				
 				}
 				$contact = $this->Corepass_model->getQueryAgreementRole($AGREEMENT_ID);
-				if($contact->num_rows() <> 0){
+				if($contact !== null && $contact->num_rows() <> 0){
 					$contact = $contact->result();
 					$arrMerchantData['ContactPerson'] = $contact[0]->FULLNAME;
 					$arrMerchantData['ContactNumber'] = $contact[0]->CONTACT;
