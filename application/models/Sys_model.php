@@ -3146,7 +3146,7 @@ public function bulk_RECONCILED(){
 		$query = $this->db->query("
 			select DATE(REIMBURSEMENT_DATE) as `date`
 			from pa_header
-			where GENERATED = 1
+			where `GENERATED` = 1
 			ORDER BY REIMBURSEMENT_DATE DESC
 			limit 1
 			");
@@ -3159,7 +3159,7 @@ public function bulk_RECONCILED(){
 				select PA_ID from pa_header
 				where DATE(REIMBURSEMENT_DATE)
 				= '" . $date . "'
-				and GENERATED = 1
+				and `GENERATED` = 1
 			");
 
 		return $query->result();
