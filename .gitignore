@@ -62,6 +62,7 @@ Desktop.ini
 
 # PHPUnit
 .phpunit.result.cache
+.phpunit.result.cache.xml
 
 to_upload/
 to_archive/
