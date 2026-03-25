@@ -206,7 +206,12 @@ class Syscore extends MX_Controller {
 		$where = "AND ECG.COMPANYGROUPTYPE_ID = 308 AND ECG.COMPANYGROUP_ID = 1262";  //PROD 
 
 		//get corepass data merchant
-		$getMerchant = $this->Corepass_model->getQueryMerchantConv($where);			
+		$getMerchant = $this->Corepass_model->getQueryMerchantConv($where);
+		if ($getMerchant === null) {
+			log_message('error', 'PROVISION MERCHANT CONVERSION:: Oracle unavailable.');
+			echo 'DONE - ' . $DATA_CP;
+			exit();
+		}
 		if( $getMerchant->num_rows() != 0){
 			$arrMerchant = array();
 			$fields = $getMerchant->list_fields(); 
@@ -220,14 +225,16 @@ class Syscore extends MX_Controller {
 						/** GET AGREEMENT **/
 						$whereArg = 'AND EA.COMPANY_ID = '.$CP_ID;
 						$getAgreement = $this->Corepass_model->getQueryMerConvAgr($whereArg);
-						if($getAgreement->num_rows() != 0){
+						if($getAgreement !== null && $getAgreement->num_rows() != 0){
 							$fields2 = $getAgreement->list_fields(); 							
 							foreach($getAgreement->result() as $data2){
 								foreach ($fields2 as $field2){
 									if($field2 <> 'AGREEMENT_ID'){
 										if($field2 == 'ADDRESS'){
-											$address = $this->Corepass_model->getQueryAddress($data2->$field2)->result();
-											$arrMerchantData[$field2] = $address[0]->ADDRESS;
+											$addressResult = $this->Corepass_model->getQueryAddress($data2->$field2);
+											$arrMerchantData[$field2] = ($addressResult !== null && $addressResult->num_rows() > 0)
+												? $addressResult->result()[0]->ADDRESS
+												: '';
 										}else if($field2 == 'VATCOND'){
 											$arrMerchantData[$field2] = ($data2->$field2 == 2 ? 'Exempt' : 'Taxable');
 										}else{
@@ -237,7 +244,7 @@ class Syscore extends MX_Controller {
 								}						
 							}	
 							$contact = $this->Corepass_model->getQueryAgreementRole($AGREEMENT_ID);
-							if($contact->num_rows() <> 0){
+							if($contact !== null && $contact->num_rows() <> 0){
 								$contact = $contact->result();
 								$arrMerchantData['ContactPerson'] = $contact[0]->FULLNAME;
 								$arrMerchantData['ContactNumber'] = $contact[0]->CONTACT;
