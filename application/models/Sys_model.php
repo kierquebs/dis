@@ -1786,14 +1786,15 @@ class Sys_model extends CI_Model{
 		if($count == false){
 			/* remove -- recon.ID, paD.RECON_ID,*/
 			$select = '
-				br.BRANCH_NAME,				
+				br.BRANCH_NAME,
 				paH.PA_ID,
 				paH.MERCHANT_ID,
 				paD.BRANCH_ID,
-				paD.RATE,
+				MIN(paD.RATE) RATE,
 				SUM(paD.MARKETING_FEE) MARKETING_FEE,
 				SUM(paD.NUM_PASSES) NUM_PASSES,
 				SUM(paD.TOTAL_FV) TOTAL_FV,
+				SUM(paD.TOTAL_REFUND) TOTAL_REFUND,
 				SUM(paD.VAT) VAT,
 				SUM(paD.NET_DUE) NET_DUE';
 		}else $select = 'paD.BRANCH_ID';
@@ -1888,17 +1889,17 @@ class Sys_model extends CI_Model{
 		}else $select = 'recon.PROD_ID';
 
 		$result = $this->db->query("
-			select 
+			select
 				".$select."
 			from
 				reconcilation recon
-				INNER JOIN cp_product prod ON recon.PROD_ID = prod.SERVICE_ID		
-				INNER JOIN pa_header paH ON recon.PA_ID = paH.PA_ID	
-			where 
+				INNER JOIN cp_product prod ON recon.PROD_ID = prod.SERVICE_ID
+				INNER JOIN pa_header paH ON recon.PA_ID = paH.PA_ID
+			where
 				paH.PA_ID = recon.PA_ID
-				and recon.PROD_ID = prod.SERVICE_ID				
+				and recon.PROD_ID = prod.SERVICE_ID
 			".$where."
-			GROUP BY recon.PROD_ID
+			GROUP BY recon.PROD_ID, paH.PA_ID, paH.MERCHANT_FEE, paH.vatcond
 			ORDER BY recon.PROD_ID asc
 			");
 		return $result;
@@ -1931,22 +1932,22 @@ class Sys_model extends CI_Model{
 		}else $select = 'redeem2.PROD_ID';
 
 		$result = $this->db->query("
-			select 
+			select
 				".$select."
 			from
 				redemption redeem
-				INNER JOIN cp_product prod ON redeem.PROD_ID = prod.SERVICE_ID		
-				INNER JOIN pa_header paH ON redeem.PA_ID = paH.PA_ID	
-			where 
+				INNER JOIN cp_product prod ON redeem.PROD_ID = prod.SERVICE_ID
+				INNER JOIN pa_header paH ON redeem.PA_ID = paH.PA_ID
+			where
 				paH.PA_ID = redeem.PA_ID
-				and redeem.PROD_ID = prod.SERVICE_ID				
+				and redeem.PROD_ID = prod.SERVICE_ID
 			".$where."
-			GROUP BY redeem.PROD_ID
+			GROUP BY redeem.PROD_ID, paH.PA_ID, paH.MERCHANT_FEE, paH.vatcond
 			ORDER BY redeem.PROD_ID asc
 			");
 		return $result;
 	}
-	
+
 	/*
 	** QUERY ACTION FOR TBL conversion
 	*/
