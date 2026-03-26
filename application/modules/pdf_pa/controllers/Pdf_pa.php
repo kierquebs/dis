@@ -174,29 +174,56 @@ class Pdf_pa extends MX_Controller {
 	}		
 
 	public function print_copy(){
-		if(!isset($_POST['process'])) redirect('summary');		
+		if(!isset($_POST['process'])) redirect('summary');
 		/*
 		* GET ALL CHECK ITEMS
 		*/
 		$toProcess = $_POST['process'];
 		$countProcess = count($toProcess);
+
 		if($countProcess <> 0){
-			if($countProcess == 1){
-				$newPAID = $this->my_lib->paNumber($toProcess[0], true);		
-				$this->generate($newPAID, '', true, true, false, false);
-			}else{
-				$return = array(); 		
-				for($x = 0; $x < $countProcess; $x++){
-					$newPAID = $this->my_lib->paNumber($toProcess[$x], true);
-					$returnGen = $this->generate($newPAID, '', true, false, false, true);
-					$return[$returnGen['filename']] = $returnGen['filedata'];	
+			try {
+				if($countProcess == 1){
+					$newPAID = $this->my_lib->paNumber($toProcess[0], true);
+					log_message('error', '[print_copy] Generating single PA: ' . $newPAID);
+					$result = $this->generate($newPAID, '', true, true, false, false);
+					if($result === false){
+						log_message('error', '[print_copy] generate() returned false for PA: ' . $newPAID);
+					}
+				}else{
+					$return  = array();
+					$PA_IDs  = array();
+					for($x = 0; $x < $countProcess; $x++){
+						$newPAID = $this->my_lib->paNumber($toProcess[$x], true);
+						log_message('error', '[print_copy] Generating PA (' . ($x+1) . '/' . $countProcess . '): ' . $newPAID);
+						$returnGen = $this->generate($newPAID, '', true, false, false, true);
+						if($returnGen === false || empty($returnGen)){
+							log_message('error', '[print_copy] generate() returned empty for PA: ' . $newPAID);
+							continue;
+						}
+						$return[$returnGen['filename']] = $returnGen['filedata'];
+						$PA_IDs[] = $newPAID;
+					}
+					if(!empty($return)){
+						/**
+						 * GENERATE ZIP FILE FOR MULTIPLE DOWNLOAD
+						 */
+						$this->zip->add_data($return);
+						$this->zip->download($this->zipName);
+						$this->Action_model->audit_save(7, array('PA_ID' => implode(',', $PA_IDs)));
+					} else {
+						log_message('error', '[print_copy] No PDFs were generated for batch request.');
+						redirect('summary');
+					}
 				}
-				/**
-				 * GENERATE ZIP FILE FOR MULTIPLE DOWNLOAD
-				 */		
-				$this->zip->add_data($return);
-				$this->zip->download($this->zipName); 					
-				$this->Action_model->audit_save(7, array('PA_ID'=>$PA_ID));//AUDIT TRAIL HERE	
+			} catch (Exception $e) {
+				log_message('error', '[print_copy] Exception caught: ' . $e->getMessage());
+				log_message('error', '[print_copy] Stack trace: ' . $e->getTraceAsString());
+				redirect('summary');
+			} catch (Error $e) {
+				log_message('error', '[print_copy] Fatal error caught: ' . $e->getMessage());
+				log_message('error', '[print_copy] Stack trace: ' . $e->getTraceAsString());
+				redirect('summary');
 			}
 		}
 		redirect('summary');
@@ -210,12 +237,17 @@ class Pdf_pa extends MX_Controller {
 	}
 	
 	public function generate($pa_id, $filename = 'PA_', $copy = false, $download = false, $serverDL = false, $zip = false){
-		if(empty($pa_id)) return false;
-		
-		$where = 'paH.PA_ID in ('.$pa_id.')'; 	
-		$selectMerchant = 'mer.*, br.AFFILIATEGROUPCODE brAffCode, br.BRANCH_NAME, paH.*, u.*';		
+		if(empty($pa_id)){
+			log_message('error', '[generate] Called with empty pa_id; aborting.');
+			return false;
+		}
+
+		log_message('error', '[generate] Starting for PA_ID: ' . $pa_id);
+
+		$where = 'paH.PA_ID in ('.$pa_id.')';
+		$selectMerchant = 'mer.*, br.AFFILIATEGROUPCODE brAffCode, br.BRANCH_NAME, paH.*, u.*';
 		$result_merchantPA =  $this->Sys_model->merchantPA($where, false, $selectMerchant);
-			$whereBranchRow = $where;//.' AND paD.TOTAL_REFUND = 0';		
+			$whereBranchRow = $where;
 		$branchesPAROW =  $this->Sys_model->branchesPA($whereBranchRow, true);
 
 		$row_merchantPA = $result_merchantPA->row();
@@ -232,7 +264,10 @@ class Pdf_pa extends MX_Controller {
 		*/
 		$merchantPAROW = $result_merchantPA->num_rows();
 
-		if($branchesPAROW != 0 && $merchantPAROW != 0){	
+		log_message('error', '[generate] merchantPAROW=' . $merchantPAROW . ' branchesPAROW=' . $branchesPAROW . ' for PA_ID: ' . $pa_id);
+
+		if($branchesPAROW != 0 && $merchantPAROW != 0){
+
 			$data['merchantInfo'] =  $result_merchantPA->result();
 			
 			$totalPage = $branchesPAROW;
@@ -335,55 +370,117 @@ class Pdf_pa extends MX_Controller {
 	}
 	
 	private function loadPDF($html, $filename = 'PA_', $copy = false, $download = false, $serverDL = false, $zip = false){
-		if(empty($html)) return false;
+		if(empty($html)){
+			log_message('error', '[loadPDF] Received empty HTML; aborting PDF generation.');
+			return false;
+		}
 
-		// instantiate and use the dompdf class
-		$options = new Options(); 
-		$options->set('isPhpEnabled', 'true'); 
+		try {
+			log_message('error', '[loadPDF] Initialising Dompdf for: ' . $filename);
 
-        $dompdf = new Dompdf($options); 		
-        // Load HTML content
-        $dompdf->loadHtml($html);    
-		// (Optional) Setup the paper size and orientation 
-		$dompdf->setPaper('A4', 'portrait'); 		 
-		// Render the HTML as PDF 
-		$dompdf->render(); 
-		 
-		/*if($copy == true){
-			// Instantiate canvas instance 
-			$canvas = $dompdf->getCanvas(); 	
-			// Instantiate font metrics class 
-			$fontMetrics = new FontMetrics($canvas, $options); 			 
-			// Get height and width of page 
-			$w = $canvas->get_width(); //595.28
-			$h = $canvas->get_height(); //841.89			 
-			// Get font family file 
-			$font = $fontMetrics->getFont('times'); 			 
-			// Specify watermark text 
-			$text = "COPY"; 			 
-			// Get height and width of text 
-			$txtHeight = $fontMetrics->getFontHeight($font, 100); 
-			$textWidth = $fontMetrics->getTextWidth($text, $font, 100); 
+			// Verify required PHP extensions are available
+			foreach(array('dom', 'mbstring', 'gd') as $ext){
+				if(!extension_loaded($ext)){
+					log_message('error', '[loadPDF] Required PHP extension not loaded: ' . $ext);
+				}
+			}
 
-			// Set text opacity 
-			$canvas->set_opacity(.2); 			 
-			// Specify horizontal and vertical position 
-			$x = (($w-$textWidth)/2); 
-			$y = (($h-$txtHeight)/2); 			 
-			// Writes text at the specified x and y coordinates 
-			$canvas->text($x, $y, $text, $font, 100); 
-		}*/
-        
-		// Output the generated PDF (1 = download and 0 = preview)
-		if($serverDL == true){
-			$filename = $this->my_lib->makeDIR($this->zipLocation, date("Ymd")).$filename;
-			return file_put_contents($filename.".pdf", $dompdf->output()); 
-		}else if($zip == true){
-			$output = $dompdf->output();
-			unset($dompdf);		
-			return array('filename'=>$filename.".pdf", 'filedata'=>$output);
-		}else{	
-			return $dompdf->stream($filename.".pdf", array("Attachment" => ($download == true ? 1 : 0) )); 
+			// Instantiate and configure Dompdf
+			$options = new Options();
+			$options->set('isPhpEnabled', true);
+			// Allow access to local files (images, fonts, CSS on the server)
+			$options->set('isRemoteEnabled', true);
+			// Use the HTML5 parser for more reliable rendering
+			$options->set('isHtml5ParserEnabled', true);
+			// Set chroot to FCPATH so Dompdf can reach assets under the webroot
+			$options->set('chroot', FCPATH);
+			// Point to a writable font cache directory
+			$fontCacheDir = APPPATH . 'cache/dompdf/';
+			if(!is_dir($fontCacheDir)){
+				if(!@mkdir($fontCacheDir, 0755, true)){
+					log_message('error', '[loadPDF] Could not create font cache directory: ' . $fontCacheDir);
+				}
+			}
+			if(is_writable($fontCacheDir)){
+				$options->set('fontDir',   $fontCacheDir);
+				$options->set('fontCache', $fontCacheDir);
+			} else {
+				log_message('error', '[loadPDF] Font cache directory is not writable: ' . $fontCacheDir);
+			}
+
+			$dompdf = new Dompdf($options);
+
+			// Load HTML content
+			$dompdf->loadHtml($html, 'UTF-8');
+
+			// Set paper size and orientation
+			$dompdf->setPaper('A4', 'portrait');
+
+			// Render HTML to PDF
+			$dompdf->render();
+			log_message('error', '[loadPDF] Dompdf render complete for: ' . $filename);
+
+			/*if($copy == true){
+				// Instantiate canvas instance
+				$canvas = $dompdf->getCanvas();
+				// Instantiate font metrics class
+				$fontMetrics = new FontMetrics($canvas, $options);
+				// Get height and width of page
+				$w = $canvas->get_width(); //595.28
+				$h = $canvas->get_height(); //841.89
+				// Get font family file
+				$font = $fontMetrics->getFont('times');
+				// Specify watermark text
+				$text = "COPY";
+				// Get height and width of text
+				$txtHeight = $fontMetrics->getFontHeight($font, 100);
+				$textWidth  = $fontMetrics->getTextWidth($text, $font, 100);
+				// Set text opacity
+				$canvas->set_opacity(.2);
+				// Specify horizontal and vertical position
+				$x = (($w - $textWidth) / 2);
+				$y = (($h - $txtHeight) / 2);
+				// Writes text at the specified x and y coordinates
+				$canvas->text($x, $y, $text, $font, 100);
+			}*/
+
+			// Output the generated PDF (Attachment:1 = force download, 0 = inline preview)
+			if($serverDL == true){
+				$savePath = $this->my_lib->makeDIR($this->zipLocation, date('Ymd')) . $filename . '.pdf';
+				log_message('error', '[loadPDF] Saving PDF to disk: ' . $savePath);
+				if(!is_writable(dirname($savePath))){
+					log_message('error', '[loadPDF] Target directory is not writable: ' . dirname($savePath));
+					return false;
+				}
+				$bytes = file_put_contents($savePath, $dompdf->output());
+				if($bytes === false){
+					log_message('error', '[loadPDF] file_put_contents failed for: ' . $savePath);
+					return false;
+				}
+				log_message('error', '[loadPDF] PDF saved (' . $bytes . ' bytes): ' . $savePath);
+				return $bytes;
+
+			}elseif($zip == true){
+				$output = $dompdf->output();
+				unset($dompdf);
+				return array('filename' => $filename . '.pdf', 'filedata' => $output);
+
+			}else{
+				// Clear any prior output that would corrupt the PDF stream
+				if(ob_get_level()){
+					ob_end_clean();
+				}
+				return $dompdf->stream($filename . '.pdf', array('Attachment' => ($download == true ? 1 : 0)));
+			}
+
+		} catch (Exception $e) {
+			log_message('error', '[loadPDF] Exception: ' . $e->getMessage());
+			log_message('error', '[loadPDF] Stack trace: '  . $e->getTraceAsString());
+			return false;
+		} catch (Error $e) {
+			log_message('error', '[loadPDF] Fatal error: ' . $e->getMessage());
+			log_message('error', '[loadPDF] Stack trace: '  . $e->getTraceAsString());
+			return false;
 		}
 	}
 }
