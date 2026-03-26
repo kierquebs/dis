@@ -118,8 +118,8 @@ class Sys_model extends CI_Model{
 				, "'.$arr['PAYEEDAYTYPE'].'"
 				, "'.$arr['PAYEECOMMENTS'].'"
 				, "'.$arr['AFFILIATEGROUPCODE'].'"
-				, "'.$arr['MerchantType'].'"	
-				, "'.$arr['DigitalSettlementType'].'"			
+				, "'.($arr['MerchantType'] ?? '').'"	
+				, "'.($arr['DigitalSettlementType'] ?? '').'"
 				)
 				ON DUPLICATE KEY UPDATE CP_ID = VALUES(CP_ID)');
 			return true;
