@@ -392,10 +392,11 @@ class Pdf_pa extends MX_Controller {
 			$options->set('isRemoteEnabled', true);
 			// Use the HTML5 parser for more reliable rendering
 			$options->set('isHtml5ParserEnabled', true);
-			// Set chroot to FCPATH so Dompdf can reach assets under the webroot
-			$options->set('chroot', FCPATH);
-			// Point to a writable font cache directory
-			$fontCacheDir = APPPATH . 'cache/dompdf/';
+			// Set chroot to FCPATH so Dompdf can reach assets under the webroot.
+			// realpath() normalises the separator (/ vs \) on both Linux and Windows.
+			$options->set('chroot', realpath(FCPATH));
+			// Point to a writable font cache directory (cross-platform path separators)
+			$fontCacheDir = APPPATH . 'cache' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR;
 			if(!is_dir($fontCacheDir)){
 				if(!@mkdir($fontCacheDir, 0755, true)){
 					log_message('error', '[loadPDF] Could not create font cache directory: ' . $fontCacheDir);
