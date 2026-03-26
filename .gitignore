@@ -68,3 +68,5 @@ to_upload/
 to_archive/
 # Ignore files with spaces or commas (optional)
 # If you have problematic file names, you can explicitly exclude or handle them
+assets/images/sdx-video.mp4
+*.mp4
